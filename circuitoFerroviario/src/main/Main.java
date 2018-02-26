@@ -1,13 +1,27 @@
 package main;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Main {
 	private static final String estacionA = "Estacion A";
 	private static final String estacionB = "Estacion B";
 	private static final String estacionC = "Estacion C";
 	private static final String estacionD = "Estacion D";
+	
+	private static final String matrizIMas = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMas.html";
+	private static final String matrizIMenos = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMenos.html";
 
 	public static void main(String[] args) {
-		Monitor monitor = new Monitor(30, 20);
+		ArrayList<ArrayList<Integer>> matrizMas = parseIncidenceMatrix(matrizIMas);
+		ArrayList<ArrayList<Integer>> matrizMenos = parseIncidenceMatrix(matrizIMenos);
+		
+		ArrayList<HashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
+		
+		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos);
 
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);
@@ -18,5 +32,151 @@ public class Main {
 		subirPasajerosC.start();
 		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD);
 		subirPasajerosD.start();
+	}
+	
+	static private ArrayList<ArrayList<Integer>> parseIncidenceMatrix(String pathName) {
+		ArrayList<ArrayList<Integer>> matrizPlus = new ArrayList<>();
+		
+		FileReader matrizIPlus;
+		try {
+			matrizIPlus = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizIPlus);
+			System.out.println(scanFile.hasNext());
+			
+			if(!scanFile.nextLine().contains("<table")) {
+				scanFile.close();
+				return null;
+			}
+			String tempString = scanFile.nextLine();
+			while(!tempString.contains("</table")) {
+				//System.out.println(tempString);
+				if(!tempString.contains("<tr")) {
+					tempString = scanFile.nextLine();
+					continue;
+				}
+				tempString = scanFile.nextLine();
+				ArrayList<Integer> filaPlaza = new ArrayList<>();
+				while(!tempString.contains("</tr")) {
+					if(!tempString.contains("<td")) {
+						tempString = scanFile.nextLine();
+						continue;
+					}
+					while(!tempString.contains("</td")) {
+						if(tempString.contains("<td class=\"cell\">")) {
+							tempString = scanFile.nextLine();
+							System.out.print(" "+tempString.trim());
+							filaPlaza.add(Integer.valueOf(tempString.trim()));
+						} else {
+							tempString = scanFile.nextLine();
+						}
+					}
+					
+				}
+				matrizPlus.add(filaPlaza);
+				System.out.println(" ");
+				
+			}
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return matrizPlus;
+	}
+	
+	static private ArrayList<HashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
+		ArrayList<HashMap<String, Integer>> secuenciaDisparo = new ArrayList<>();
+		
+		FileReader matrizIPlus;
+		try {
+			matrizIPlus = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizIPlus);
+			System.out.println(scanFile.hasNext());
+			
+			ArrayList<String> filaPlaza = new ArrayList<>();
+			
+			if(!scanFile.nextLine().contains("<table")) {
+				scanFile.close();
+				return null;
+			}
+			String tempString = scanFile.nextLine();
+			while(!tempString.contains("</table")) {
+				//System.out.println(tempString);
+				if(!tempString.contains("<tr")) {
+					tempString = scanFile.nextLine();
+					continue;
+				}
+				tempString = scanFile.nextLine();
+				while(!tempString.contains("</tr")) {
+					if(!tempString.contains("<td")) {
+						tempString = scanFile.nextLine();
+						continue;
+					}
+					while(!tempString.contains("</td")) {
+						if(tempString.contains("<td class=\"colhead\">")) {
+							tempString = scanFile.nextLine();
+							System.out.print(" "+tempString.trim());
+							filaPlaza.add(tempString.trim());
+						} else {
+							tempString = scanFile.nextLine();
+						}
+					}
+				}
+				break;
+			}
+			
+			for(String transicion: secuenciaTransiciones) {
+				HashMap<String, Integer> disparo = new HashMap<>();
+				for (String columna: filaPlaza) {
+					if(transicion.equals(columna)) {
+						disparo.put(columna, 1);
+						System.out.print(" "+1);
+					} else {
+						disparo.put(columna, 0);
+						System.out.print(" "+0);
+					}
+				}
+				secuenciaDisparo.add(disparo);
+				System.out.println("");
+			}
+			
+
+			System.out.println("");
+			System.out.println(filaPlaza.size());
+			System.out.println(filaPlaza.get(0));
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private static ArrayList<String> secuenciaTransiciones(){
+		ArrayList<String> secuenciaTransiciones = new ArrayList<>();
+		secuenciaTransiciones.add("BAr");
+		secuenciaTransiciones.add("BW");
+		secuenciaTransiciones.add("BDe");
+		secuenciaTransiciones.add("CAr");
+		secuenciaTransiciones.add("CW");
+		secuenciaTransiciones.add("CDe");
+		secuenciaTransiciones.add("PNCDMW");
+		secuenciaTransiciones.add("PNCDMR");
+		secuenciaTransiciones.add("PNCDVW");
+		secuenciaTransiciones.add("PNCDVR");
+		secuenciaTransiciones.add("RCD");
+		secuenciaTransiciones.add("DAr");
+		secuenciaTransiciones.add("DW");
+		secuenciaTransiciones.add("DDe");
+		secuenciaTransiciones.add("PNABMW");
+		secuenciaTransiciones.add("PNABMR");
+		secuenciaTransiciones.add("PNABVW");
+		secuenciaTransiciones.add("PNABVR");
+		secuenciaTransiciones.add("RAB");
+		secuenciaTransiciones.add("AAr");
+		secuenciaTransiciones.add("AW");
+		secuenciaTransiciones.add("ADe");
+		
+		return secuenciaTransiciones;
 	}
 }

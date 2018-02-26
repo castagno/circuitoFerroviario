@@ -26,9 +26,18 @@ public class SubirPasajeros extends Thread  {
 			e.printStackTrace();
 		}
 	}
-	
-	public Date getSleepTimeStamp() {
-		return sleepTimeStamp;
-	}
 
+	public int getPasajerosEsperando() {
+		Date actual = new Date();
+		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
+		int pasajeros = 0;
+		int tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+		while(tiempoDormido > tiempoEsperado) {
+			tiempoDormido = tiempoDormido - tiempoEsperado;
+			tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+			pasajeros = pasajeros + 1;
+		}
+		
+		return pasajeros;
+	}
 }
