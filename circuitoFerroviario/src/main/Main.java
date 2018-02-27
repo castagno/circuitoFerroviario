@@ -103,12 +103,12 @@ public class Main {
 			String tempString = scanFile.nextLine();
 			int i = 0;
 			int j = 0;
-			for (i = 1; !tempString.contains("</table"); i++) {
-				if(tempString.contains("<tr")) {
+			for (i = 0; !tempString.contains("</table"); i++) {
+				while(!tempString.contains("<tr")) {
 					tempString = scanFile.nextLine();
 				}
-				for (j = 1; !tempString.contains("</tr"); j++) {
-					if(tempString.contains("<td")) {
+				for (j = 0; !tempString.contains("</tr"); j++) {
+					while(!tempString.contains("<td")) {
 						tempString = scanFile.nextLine();
 					}
 					
@@ -121,7 +121,10 @@ public class Main {
 							tempString = scanFile.nextLine();
 						}
 					}
+					tempString = scanFile.nextLine();
 				}
+				System.out.println(" ");
+				tempString = scanFile.nextLine();
 			}
 
 			System.out.println("i: "+i+ " - j:"+j);

@@ -17,27 +17,12 @@ public class Tren extends Thread  {
 	@Override
 	public void run() {
 		try {
-			int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-			System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
-			sleep(tiempo);
+			System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): ");
 			sleepTimeStamp = new Date();
-			monitorTren.abordarTren();
+			sleep(10000);
+//			monitorTren.abordarTren();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public int getPasajerosEsperando() {
-		Date actual = new Date();
-		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
-		int pasajeros = 0;
-		int tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-		while(tiempoDormido > tiempoEsperado) {
-			tiempoDormido = tiempoDormido - tiempoEsperado;
-			tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-			pasajeros = pasajeros + 1;
-		}
-		
-		return pasajeros;
 	}
 }
