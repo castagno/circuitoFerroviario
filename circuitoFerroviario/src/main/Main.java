@@ -16,10 +16,16 @@ public class Main {
 	private static final String matrizIMenos = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMenos.html";
 
 	public static void main(String[] args) {
-		ArrayList<ArrayList<Integer>> matrizMas = parseIncidenceMatrix(matrizIMas);
-		ArrayList<ArrayList<Integer>> matrizMenos = parseIncidenceMatrix(matrizIMenos);
+		
+//		ArrayList<ArrayList<Integer>> matrizMas = parseIncidenceMatrix(matrizIMas);
+//		ArrayList<ArrayList<Integer>> matrizMenos = parseIncidenceMatrix(matrizIMenos);
+		
+		int[][] matrizMas = getIncidenceMatrix(matrizIMas);
+		int[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
+
 		
 		ArrayList<HashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
+		
 		
 		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos);
 
@@ -82,6 +88,57 @@ public class Main {
 		}
 		
 		return matrizPlus;
+	}
+	
+	static private int[][] getIncidenceMatrix(String pathName) {
+		int[][] matriz = new int[100][100];
+		int[][] matrizIncidencia = null;
+		
+		FileReader matrizIPlus;
+		try {
+			matrizIPlus = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizIPlus);
+			System.out.println(scanFile.hasNext());
+			
+			String tempString = scanFile.nextLine();
+			int i = 0;
+			int j = 0;
+			for (i = 1; !tempString.contains("</table"); i++) {
+				if(tempString.contains("<tr")) {
+					tempString = scanFile.nextLine();
+				}
+				for (j = 1; !tempString.contains("</tr"); j++) {
+					if(tempString.contains("<td")) {
+						tempString = scanFile.nextLine();
+					}
+					
+					while(!tempString.contains("</td")) {
+						if(tempString.contains("<td class=\"cell\">")) {
+							tempString = scanFile.nextLine();
+							matriz[i][j] = Integer.valueOf(tempString.trim());
+							System.out.print(" "+tempString.trim());
+						} else {
+							tempString = scanFile.nextLine();
+						}
+					}
+				}
+			}
+
+			System.out.println("i: "+i+ " - j:"+j);
+			matrizIncidencia = new int[(i+1)][(j+1)];
+			
+			for(int n = 0; n < i; n++) {
+				for(int m = 0; m < i; m++) {
+					matrizIncidencia[n][m] = matriz[n][m];
+				}
+			}
+			
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return matrizIncidencia;
 	}
 	
 	static private ArrayList<HashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {

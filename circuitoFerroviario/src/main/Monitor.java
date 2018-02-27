@@ -7,8 +7,8 @@ public class Monitor {
 	private Integer lugaresMaquina;
 	private Integer lugaresVagon;
 	
-	private ArrayList<ArrayList<Integer>> matrizMas;
-	private ArrayList<ArrayList<Integer>> matrizMenos;
+	private int[][] matrizMas;
+	private int[][] matrizMenos;
 	
 	
 	private final ReentrantLockModified lock = new ReentrantLockModified();
@@ -32,7 +32,7 @@ public class Monitor {
 	private final Condition bajadaEstacionD = lock.newCondition();
 
 	
-	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, ArrayList<ArrayList<Integer>> matrizMas, ArrayList<ArrayList<Integer>> matrizMenos) {
+	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, int[][] matrizMas, int[][] matrizMenos) {
 		this.matrizMas = matrizMas;
 		this.matrizMenos = matrizMas;
 		this.lugaresMaquina = lugaresMaquina;
