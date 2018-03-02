@@ -103,7 +103,9 @@ public class Monitor {
 		}
 	}
 	
-	
+	private boolean dispararRed(int[] vectorDisparo) {
+		return false;
+	}
 	
 	private Integer getPasajeros(Long tiempo) {
 		

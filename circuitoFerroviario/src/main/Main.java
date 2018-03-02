@@ -12,6 +12,7 @@ public class Main {
 	private static final String estacionC = "Estacion C";
 	private static final String estacionD = "Estacion D";
 	
+	private static final String marcadoInicial = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MarcadoInicial.html";
 	private static final String matrizIMas = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMas.html";
 	private static final String matrizIMenos = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMenos.html";
 
@@ -23,8 +24,9 @@ public class Main {
 		int[][] matrizMas = getIncidenceMatrix(matrizIMas);
 		int[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
 
-		
 		ArrayList<HashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
+		
+		HashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
 		
 		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos);
@@ -40,6 +42,7 @@ public class Main {
 		subirPasajerosD.start();
 	}
 	
+	/*
 	static private ArrayList<ArrayList<Integer>> parseIncidenceMatrix(String pathName) {
 		ArrayList<ArrayList<Integer>> matrizPlus = new ArrayList<>();
 		
@@ -89,6 +92,7 @@ public class Main {
 		
 		return matrizPlus;
 	}
+	*/
 	
 	static private int[][] getIncidenceMatrix(String pathName) {
 		int[][] matriz = new int[100][100];
@@ -127,11 +131,11 @@ public class Main {
 				tempString = scanFile.nextLine();
 			}
 
-			System.out.println("i: "+i+ " - j:"+j);
-			matrizIncidencia = new int[(i+1)][(j+1)];
+			System.out.println("i: "+(i-1)+ " - j:"+(j-1));
+			matrizIncidencia = new int[(i-1)][(j-1)];
 			
-			for(int n = 0; n < i; n++) {
-				for(int m = 0; m < i; m++) {
+			for(int n = 0; n < (i-1); n++) {
+				for(int m = 0; m < (j-1); m++) {
 					matrizIncidencia[n][m] = matriz[n][m];
 				}
 			}
@@ -142,6 +146,80 @@ public class Main {
 		}
 		
 		return matrizIncidencia;
+	}
+	
+	static private HashMap<String, Integer> marcadoInicial(String pathName) {
+		HashMap<String, Integer> marcadoInicial = new HashMap<>();
+		
+		FileReader matrizIPlus;
+		try {
+			matrizIPlus = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizIPlus);
+			System.out.println(scanFile.hasNext());
+			
+			if(!scanFile.nextLine().contains("<table")) {
+				scanFile.close();
+				return null;
+			}
+			String tempString = scanFile.nextLine();
+			while(!tempString.contains("</table")) {
+				//System.out.println(tempString);
+				if(!tempString.contains("<tr")) {
+					tempString = scanFile.nextLine();
+					continue;
+				}
+				tempString = scanFile.nextLine();
+				while(!tempString.contains("</tr")) {
+					if(!tempString.contains("<td")) {
+						tempString = scanFile.nextLine();
+						continue;
+					}
+					int index = 0;
+					while(!tempString.contains("</td")) {
+						if(tempString.contains("<td class=\"colhead\">")) {
+							tempString = scanFile.nextLine();
+							System.out.print(" "+tempString.trim());
+							marcadoInicial.put(tempString.trim(), null);
+							index = index + 1;
+						} else if(tempString.contains("<td class=\"cell\">")) {
+							tempString = scanFile.nextLine();
+							System.out.print(" "+tempString.trim());
+							marcadoInicial.put((String)marcadoInicial.keySet().toArray()[index], Integer.valueOf(tempString.trim()));
+							index = index + 1;
+						} else {
+							tempString = scanFile.nextLine();
+						}
+					}
+				}
+				System.out.println(" ");
+//				break;
+			}
+			
+//			for(String transicion: secuenciaTransiciones) {
+//				HashMap<String, Integer> disparo = new HashMap<>();
+//				for (String columna: filaPlaza) {
+//					if(transicion.equals(columna)) {
+//						disparo.put(columna, 1);
+//						System.out.print(" "+1);
+//					} else {
+//						disparo.put(columna, 0);
+//						System.out.print(" "+0);
+//					}
+//				}
+//				secuenciaDisparo.add(disparo);
+//				System.out.println("");
+//			}
+			
+
+			System.out.println("");
+			System.out.println(marcadoInicial.size());
+			System.out.println(marcadoInicial.get(marcadoInicial.get(marcadoInicial.keySet().toArray()[0])));
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return marcadoInicial;
 	}
 	
 	static private ArrayList<HashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
@@ -209,7 +287,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return secuenciaDisparo;
 	}
 	
 	private static ArrayList<String> secuenciaTransiciones(){
