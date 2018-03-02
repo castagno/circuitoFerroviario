@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +12,7 @@ public class Main {
 	private static final String estacionB = "Estacion B";
 	private static final String estacionC = "Estacion C";
 	private static final String estacionD = "Estacion D";
+	private static final String tren = "Tren";
 	
 	private static final String marcadoInicial = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MarcadoInicial.html";
 	private static final String matrizIMas = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMas.html";
@@ -21,15 +23,15 @@ public class Main {
 //		ArrayList<ArrayList<Integer>> matrizMas = parseIncidenceMatrix(matrizIMas);
 //		ArrayList<ArrayList<Integer>> matrizMenos = parseIncidenceMatrix(matrizIMenos);
 		
-		int[][] matrizMas = getIncidenceMatrix(matrizIMas);
-		int[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
+		Integer[][] matrizMas = getIncidenceMatrix(matrizIMas);
+		Integer[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
 
-		ArrayList<HashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
+		ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
 		
-		HashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
+		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
 		
-		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos);
+		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos, marcadoInicial);
 
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);
@@ -40,6 +42,9 @@ public class Main {
 		subirPasajerosC.start();
 		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD);
 		subirPasajerosD.start();
+		
+		Tren tren = new Tren(monitor, matrizSecuencia, Main.tren);
+		tren.start();
 	}
 	
 	/*
@@ -94,9 +99,9 @@ public class Main {
 	}
 	*/
 	
-	static private int[][] getIncidenceMatrix(String pathName) {
-		int[][] matriz = new int[100][100];
-		int[][] matrizIncidencia = null;
+	static private Integer[][] getIncidenceMatrix(String pathName) {
+		Integer[][] matriz = new Integer[100][100];
+		Integer[][] matrizIncidencia = null;
 		
 		FileReader matrizIPlus;
 		try {
@@ -132,7 +137,7 @@ public class Main {
 			}
 
 			System.out.println("i: "+(i-1)+ " - j:"+(j-1));
-			matrizIncidencia = new int[(i-1)][(j-1)];
+			matrizIncidencia = new Integer[(i-1)][(j-1)];
 			
 			for(int n = 0; n < (i-1); n++) {
 				for(int m = 0; m < (j-1); m++) {
@@ -148,14 +153,16 @@ public class Main {
 		return matrizIncidencia;
 	}
 	
-	static private HashMap<String, Integer> marcadoInicial(String pathName) {
-		HashMap<String, Integer> marcadoInicial = new HashMap<>();
+	static private LinkedHashMap<String, Integer> marcadoInicial(String pathName) {
+		LinkedHashMap<String, Integer> marcadoInicial = new LinkedHashMap<>();
 		
 		FileReader matrizIPlus;
 		try {
 			matrizIPlus = new FileReader(pathName);
 			Scanner scanFile = new Scanner(matrizIPlus);
 			System.out.println(scanFile.hasNext());
+			
+//			ArrayList<String> keySet = new ArrayList<>();
 			
 			if(!scanFile.nextLine().contains("<table")) {
 				scanFile.close();
@@ -169,17 +176,18 @@ public class Main {
 					continue;
 				}
 				tempString = scanFile.nextLine();
+				int index = 0;
 				while(!tempString.contains("</tr")) {
 					if(!tempString.contains("<td")) {
 						tempString = scanFile.nextLine();
 						continue;
 					}
-					int index = 0;
 					while(!tempString.contains("</td")) {
 						if(tempString.contains("<td class=\"colhead\">")) {
 							tempString = scanFile.nextLine();
 							System.out.print(" "+tempString.trim());
 							marcadoInicial.put(tempString.trim(), null);
+//							keySet.add(tempString.trim());
 							index = index + 1;
 						} else if(tempString.contains("<td class=\"cell\">")) {
 							tempString = scanFile.nextLine();
@@ -195,25 +203,9 @@ public class Main {
 //				break;
 			}
 			
-//			for(String transicion: secuenciaTransiciones) {
-//				HashMap<String, Integer> disparo = new HashMap<>();
-//				for (String columna: filaPlaza) {
-//					if(transicion.equals(columna)) {
-//						disparo.put(columna, 1);
-//						System.out.print(" "+1);
-//					} else {
-//						disparo.put(columna, 0);
-//						System.out.print(" "+0);
-//					}
-//				}
-//				secuenciaDisparo.add(disparo);
-//				System.out.println("");
-//			}
-			
-
 			System.out.println("");
 			System.out.println(marcadoInicial.size());
-			System.out.println(marcadoInicial.get(marcadoInicial.get(marcadoInicial.keySet().toArray()[0])));
+			System.out.println(marcadoInicial.get(marcadoInicial.keySet().toArray()[0]));
 			scanFile.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -222,8 +214,8 @@ public class Main {
 		return marcadoInicial;
 	}
 	
-	static private ArrayList<HashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
-		ArrayList<HashMap<String, Integer>> secuenciaDisparo = new ArrayList<>();
+	static private ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
+		ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo = new ArrayList<>();
 		
 		FileReader matrizIPlus;
 		try {
@@ -264,7 +256,7 @@ public class Main {
 			}
 			
 			for(String transicion: secuenciaTransiciones) {
-				HashMap<String, Integer> disparo = new HashMap<>();
+				LinkedHashMap<String, Integer> disparo = new LinkedHashMap<>();
 				for (String columna: filaPlaza) {
 					if(transicion.equals(columna)) {
 						disparo.put(columna, 1);

@@ -1,14 +1,16 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Condition;
 
 public class Monitor {
 	private Integer lugaresMaquina;
 	private Integer lugaresVagon;
 	
-	private int[][] matrizMas;
-	private int[][] matrizMenos;
+	private Integer[][] matrizMas;
+	private Integer[][] matrizMenos;
+	private Integer[] marcado;
 	
 	
 	private final ReentrantLockModified lock = new ReentrantLockModified();
@@ -32,7 +34,13 @@ public class Monitor {
 	private final Condition bajadaEstacionD = lock.newCondition();
 
 	
-	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, int[][] matrizMas, int[][] matrizMenos) {
+	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado) {
+		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
+		for(int i = 0; i < this.marcado.length; i++) {
+			System.out.print(" "+this.marcado[i]);
+		}
+		System.out.println(" ");
+		
 		this.matrizMas = matrizMas;
 		this.matrizMenos = matrizMas;
 		this.lugaresMaquina = lugaresMaquina;
@@ -104,6 +112,8 @@ public class Monitor {
 	}
 	
 	private boolean dispararRed(int[] vectorDisparo) {
+		
+		
 		return false;
 	}
 	
