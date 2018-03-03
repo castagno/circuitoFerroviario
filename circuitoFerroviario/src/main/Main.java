@@ -11,7 +11,6 @@ public class Main {
 	private static final String estacionB = "Estacion B";
 	private static final String estacionC = "Estacion C";
 	private static final String estacionD = "Estacion D";
-	private static final String tren = "Tren";
 	
 	private static final String marcadoInicial = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MarcadoInicial.html";
 	private static final String matrizIMas = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMas.html";
@@ -39,7 +38,8 @@ public class Main {
 		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD);
 		subirPasajerosD.start();
 		
-		Tren tren = new Tren(monitor, matrizSecuencia, Main.tren);
+		
+		Tren tren = new Tren(monitor, matrizSecuencia);
 		tren.start();
 	}
 	
@@ -121,14 +121,14 @@ public class Main {
 						if(tempString.contains("<td class=\"cell\">")) {
 							tempString = scanFile.nextLine();
 							matriz[i][j] = Integer.valueOf(tempString.trim());
-							System.out.print(" "+tempString.trim());
+//							System.out.print(" "+tempString.trim());
 						} else {
 							tempString = scanFile.nextLine();
 						}
 					}
 					tempString = scanFile.nextLine();
 				}
-				System.out.println(" ");
+//				System.out.println(" ");
 				tempString = scanFile.nextLine();
 			}
 
@@ -137,8 +137,10 @@ public class Main {
 			
 			for(int n = 0; n < (i-1); n++) {
 				for(int m = 0; m < (j-1); m++) {
-					matrizIncidencia[n][m] = matriz[n][m];
+					matrizIncidencia[n][m] = matriz[n+1][m+1];
+					System.out.print(" "+matrizIncidencia[n][m]);
 				}
+				System.out.println(" ");
 			}
 			
 			scanFile.close();
@@ -252,6 +254,8 @@ public class Main {
 			}
 			
 			for(String transicion: secuenciaTransiciones) {
+				System.out.println("");
+
 				LinkedHashMap<String, Integer> disparo = new LinkedHashMap<>();
 				for (String columna: filaPlaza) {
 					if(transicion.equals(columna)) {
@@ -263,7 +267,6 @@ public class Main {
 					}
 				}
 				secuenciaDisparo.add(disparo);
-				System.out.println("");
 			}
 			
 
@@ -294,14 +297,14 @@ public class Main {
 		secuenciaTransiciones.add("DAr");
 		secuenciaTransiciones.add("DW");
 		secuenciaTransiciones.add("DDe");
+		secuenciaTransiciones.add("AAr");
+		secuenciaTransiciones.add("AW");
+		secuenciaTransiciones.add("ADe");
 		secuenciaTransiciones.add("PNABMW");
 		secuenciaTransiciones.add("PNABMR");
 		secuenciaTransiciones.add("PNABVW");
 		secuenciaTransiciones.add("PNABVR");
 		secuenciaTransiciones.add("RAB");
-		secuenciaTransiciones.add("AAr");
-		secuenciaTransiciones.add("AW");
-		secuenciaTransiciones.add("ADe");
 		
 		return secuenciaTransiciones;
 	}
