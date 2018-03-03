@@ -1,6 +1,6 @@
 package main;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Condition;
 
@@ -11,7 +11,7 @@ public class Monitor {
 	private Integer[][] matrizMas;
 	private Integer[][] matrizMenos;
 	private Integer[] marcado;
-	
+	private LinkedHashMap<String, Integer> marcadoInicial;
 	
 	private final ReentrantLockModified lock = new ReentrantLockModified();
 	
@@ -24,6 +24,8 @@ public class Monitor {
 	private final Condition notEmpty = lock.newCondition();
 	*/
 	
+	private final Condition fullTrenOrEmptyEstacion = lock.newCondition();
+
 	private final Condition subidaEstacionA = lock.newCondition();
 	private final Condition bajadaEstacionA = lock.newCondition();
 	private final Condition subidaEstacionB = lock.newCondition();
@@ -35,6 +37,7 @@ public class Monitor {
 
 	
 	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado) {
+		this.marcadoInicial = marcado;
 		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
 		for(int i = 0; i < this.marcado.length; i++) {
 			System.out.print(" "+this.marcado[i]);
@@ -89,7 +92,7 @@ public class Monitor {
 			lock.unlock();
 		}
 	}
-	
+
 	public void descenderTren() throws InterruptedException {
 		lock.lock();
 		
@@ -110,15 +113,40 @@ public class Monitor {
 			lock.unlock();
 		}
 	}
-	
-	private boolean dispararRed(int[] vectorDisparo) {
+
+	public void continuarRecorridoTren(Integer[] vectorDisparo) throws InterruptedException {
+		lock.lock();
 		
-		
-		return false;
+		try {
+			while(!dispararRed(vectorDisparo)) {
+				fullTrenOrEmptyEstacion.await();
+			}
+			if(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf("")] != 1) {
+				
+			}
+		} finally {
+			lock.unlock();
+		}
 	}
 	
-	private Integer getPasajeros(Long tiempo) {
+	private boolean dispararRed(Integer[] vectorDisparo) {
+		Integer sumatoriaDisparo = 0;
+		for(Integer disparo: vectorDisparo) {
+			sumatoriaDisparo += disparo;
+		}
+		if(!sumatoriaDisparo.equals(1)) {
+			return false;
+		}
 		
-		return 0;
+		Integer[] preMarcado = new Integer[marcado.length];
+		for(int i = 0; i< matrizMenos.length; i++) {
+			preMarcado[i] = new Integer(marcado[i]);
+			for (int j = 0; j < matrizMenos[i].length; j++) {
+				preMarcado[i] = preMarcado[i] - matrizMenos[i][j] * vectorDisparo[j];
+			}
+			System.out.print(" "+preMarcado[i]);
+		}
+		
+		return true;
 	}
 }

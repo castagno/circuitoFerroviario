@@ -3,7 +3,6 @@ package main;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -19,9 +18,6 @@ public class Main {
 	private static final String matrizIMenos = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMenos.html";
 
 	public static void main(String[] args) {
-		
-//		ArrayList<ArrayList<Integer>> matrizMas = parseIncidenceMatrix(matrizIMas);
-//		ArrayList<ArrayList<Integer>> matrizMenos = parseIncidenceMatrix(matrizIMenos);
 		
 		Integer[][] matrizMas = getIncidenceMatrix(matrizIMas);
 		Integer[][] matrizMenos = getIncidenceMatrix(matrizIMenos);

@@ -2,7 +2,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Tren extends Thread  {
