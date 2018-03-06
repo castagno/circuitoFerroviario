@@ -8,12 +8,12 @@ public class Tren extends Thread  {
 	
 	private Monitor monitorTren;
 	private int currentIndex;
-	private ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia;
+//	private ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia;
 	private Date sleepTimeStamp;
 	private String tren = "Tren";
 	
-	public Tren(Monitor monitor, ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia) {
-		this.matrizSecuencia = matrizSecuencia;
+	public Tren(Monitor monitor) {
+//		this.matrizSecuencia = matrizSecuencia;
 		currentIndex = 0;
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
@@ -25,13 +25,21 @@ public class Tren extends Thread  {
 		try {
 			while(true) {
 //				System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): ");
-				sleepTimeStamp = new Date();
 				sleep(1000);
-				monitorTren.continuarRecorridoTren(matrizSecuencia.get(currentIndex).values().toArray(new Integer[matrizSecuencia.get(currentIndex).values().size()]));
-				currentIndex = (currentIndex + 1) % matrizSecuencia.size();
+//				monitorTren.continuarRecorridoTren(matrizSecuencia.get(currentIndex).values().toArray(new Integer[matrizSecuencia.get(currentIndex).values().size()]));
+//				currentIndex = (currentIndex + 1) % matrizSecuencia.size();
+				monitorTren.continuarRecorridoTren();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Date getTimeStamp() {
+		return (sleepTimeStamp!=null? sleepTimeStamp : new Date());
+	}
+	
+	public void setTimeStamp(Date time) {
+		this.sleepTimeStamp = time;
 	}
 }

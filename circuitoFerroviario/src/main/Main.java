@@ -3,6 +3,7 @@ package main;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -20,13 +21,13 @@ public class Main {
 		
 		Integer[][] matrizMas = getIncidenceMatrix(matrizIMas);
 		Integer[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
-
-		ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia = secuenciaDisparo(secuenciaTransiciones(), matrizIMas);
+		
+		ArrayList<String> transiciones = getTransiciones(matrizIMas);
 		
 		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
 		
-		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos, marcadoInicial);
+		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos, marcadoInicial, transiciones);
 
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);
@@ -39,7 +40,7 @@ public class Main {
 		subirPasajerosD.start();
 		
 		
-		Tren tren = new Tren(monitor, matrizSecuencia);
+		Tren tren = new Tren(monitor);
 		tren.start();
 	}
 	
@@ -212,6 +213,60 @@ public class Main {
 		return marcadoInicial;
 	}
 	
+	static private ArrayList<String> getTransiciones(String pathName) {
+		ArrayList<String> transiciones = new ArrayList<>();
+		
+		FileReader matrizIPlus;
+		try {
+			matrizIPlus = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizIPlus);
+			System.out.println(scanFile.hasNext());
+			
+			if(!scanFile.nextLine().contains("<table")) {
+				scanFile.close();
+				return null;
+			}
+			String tempString = scanFile.nextLine();
+			while(!tempString.contains("</table")) {
+				//System.out.println(tempString);
+				if(!tempString.contains("<tr")) {
+					tempString = scanFile.nextLine();
+					continue;
+				}
+				tempString = scanFile.nextLine();
+				while(!tempString.contains("</tr")) {
+					if(!tempString.contains("<td")) {
+						tempString = scanFile.nextLine();
+						continue;
+					}
+					while(!tempString.contains("</td")) {
+						if(tempString.contains("<td class=\"colhead\">")) {
+							tempString = scanFile.nextLine();
+							System.out.print(" "+tempString.trim());
+							transiciones.add(tempString.trim());
+						} else {
+							tempString = scanFile.nextLine();
+						}
+					}
+				}
+				break;
+			}
+			
+
+			System.out.println("");
+			System.out.println(transiciones.size());
+			System.out.println(transiciones.get(0));
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return transiciones;
+	}
+	
+	/*
+
+	
 	static private ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
 		ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo = new ArrayList<>();
 		
@@ -308,4 +363,5 @@ public class Main {
 		
 		return secuenciaTransiciones;
 	}
+	*/
 }
