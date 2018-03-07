@@ -337,29 +337,41 @@ public class Monitor {
 
 			Integer[] vectorDisparo = Collections.nCopies(transiciones.size(), 0).toArray(new Integer[0]);
 			
-			LinkedHashMap<String, Boolean> sensibilizadas = getSensibilizadas();
+			LinkedHashMap<String, Boolean> preInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+
+//			LinkedHashMap<String, Boolean> sensibilizadas = getSensibilizadas();
 			for(String transicion: transiciones) {
-				if(recorridoTren.contains(transicion) && sensibilizadas.get(transicion)) {
+				if(recorridoTren.contains(transicion) && preInterseccion.get(transicion)) {
 					vectorDisparo[this.transiciones.indexOf(transicion)] = 1;
 				}
 			}
 			
 			System.out.println(" ");
-			for (Integer integer : vectorDisparo) {
-				System.out.print(" "+integer);
+			Integer sensibilizada = 0;
+			for (int i = 0; i < vectorDisparo.length; i++) {
+				if(vectorDisparo[i] != 0) {
+					sensibilizada = i;
+				}
+				System.out.print(" "+vectorDisparo[i]);
 			}
 			System.out.println(" ");
 			
+			System.out.println("Disparo: "+transiciones.get(sensibilizada));
+			
 
-			LinkedHashMap<String, Boolean> preInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
 			
 
 			String[] prioritariasPrevias = politicas.values().toArray(new String[0]);
 			for(String transicion: prioritariasPrevias) {
-				if(preInterseccion.get(transicion)) {
+				if(vectorDisparo[transiciones.indexOf(transicion)] != 0) {
 					dispararRed(transicion);
 					break;
-				}
+				} 
+				
+//				if(preInterseccion.get(transicion)) {
+//					dispararRed(transicion);
+//					break;
+//				}
 			}
 			
 			ArrayList<String> transicionesRemanentes = new ArrayList<String>(this.transiciones);
