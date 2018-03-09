@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,8 +13,10 @@ public class Monitor {
 	
 	private Integer[][] matrizMas;
 	private Integer[][] matrizMenos;
+	
 	private Integer[] marcado;
 	private LinkedHashMap<String, Integer> marcadoInicial;
+	
 	private ArrayList<String> transiciones;
 	private ArrayList<String> recorridoTren;
 	private HashMap<String, Condition> colaCondicion;
@@ -241,6 +244,79 @@ public class Monitor {
 
 	}
 	
+	public void continuarRecorridoTren() throws InterruptedException {
+		lock.lock();
+		
+		try {
+			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAEspera)] == 1 || 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBEspera)] == 1 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCEspera)] == 1 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDEspera)] == 1)&&
+					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
+					) {
+				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
+			}
+			
+			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionA) != 0 || 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionB) != 0 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionC) != 0 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionD) != 0) && 
+					(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] != 0 || marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] != 0)
+					) {
+				fullTrenOrEmptyEstacion.await();
+			}
+			
+			if(		marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAArribo)] == 1 || 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBArribo)] == 1 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCArribo)] == 1 ||
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDArribo)] == 1) {
+				((Tren)Thread.currentThread()).setTimeStamp(new Date());
+			}
+			
+			Boolean disparoRealizado = false;
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
+			
+			LinkedHashMap<String, Boolean> preSensibilizadas = getSensibilizadas();
+			for(String transicion: prioritarias) {
+				if(preSensibilizadas.get(transicion) && recorridoTren.contains(transicion)) {
+					disparoRealizado = dispararRed(transicion);
+					break;
+				} 
+			}
+			
+			if(!disparoRealizado) {
+				for(String transicion: transiciones) {
+					if(preSensibilizadas.get(transicion) && (!prioritarias.contains(transicion))) {
+						dispararRed(transicion);
+						break;
+					}
+				}
+			}
+			
+			
+			/* PostDisparo se busca en las colas de condicion el siguiente hilo a despertar */
+			
+			
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).notify();
+					return;
+				}
+			}
+			
+			for(String transicion: transiciones) {
+				if(vectorInterseccion.get(transicion) && (!prioritarias.contains(transicion))) {
+					dispararRed(transicion);
+					return;
+				}
+			}
+			
+		} finally {
+			lock.unlock();
+		}
+	}
+	
 	public void abordarTren() throws InterruptedException {
 		lock.lock();
 		
@@ -263,6 +339,7 @@ public class Monitor {
 //			}
 			
 			int pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajerosEsperando();
+			System.out.println(pasajeros);
 			
 			
 			
@@ -305,150 +382,6 @@ public class Monitor {
 		}
 	}
 
-	public void continuarRecorridoTren() throws InterruptedException {
-		lock.lock();
-		
-		try {
-			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAEspera)] == 1 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBEspera)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCEspera)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDEspera)] == 1)&&
-					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
-					) {
-				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
-			}
-			
-			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionA) != 0 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionB) != 0 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionC) != 0 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionD) != 0) && 
-					(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] != 0 || marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] != 0)
-					) {
-				fullTrenOrEmptyEstacion.await();
-			}
-			
-			if(		marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAArribo)] == 1 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBArribo)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCArribo)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDArribo)] == 1) {
-				((Tren)Thread.currentThread()).setTimeStamp(new Date());
-			}
-			
-
-			Integer[] vectorDisparo = Collections.nCopies(transiciones.size(), 0).toArray(new Integer[0]);
-			
-			LinkedHashMap<String, Boolean> preInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-
-//			LinkedHashMap<String, Boolean> sensibilizadas = getSensibilizadas();
-			for(String transicion: transiciones) {
-				if(recorridoTren.contains(transicion) && preInterseccion.get(transicion)) {
-					vectorDisparo[this.transiciones.indexOf(transicion)] = 1;
-				}
-			}
-			
-			System.out.println(" ");
-			Integer sensibilizada = 0;
-			for (int i = 0; i < vectorDisparo.length; i++) {
-				if(vectorDisparo[i] != 0) {
-					sensibilizada = i;
-				}
-				System.out.print(" "+vectorDisparo[i]);
-			}
-			System.out.println(" ");
-			
-			System.out.println("Disparo: "+transiciones.get(sensibilizada));
-			
-
-			
-
-			String[] prioritariasPrevias = politicas.values().toArray(new String[0]);
-			for(String transicion: prioritariasPrevias) {
-				if(vectorDisparo[transiciones.indexOf(transicion)] != 0) {
-					dispararRed(transicion);
-					break;
-				} 
-				
-//				if(preInterseccion.get(transicion)) {
-//					dispararRed(transicion);
-//					break;
-//				}
-			}
-			
-			ArrayList<String> transicionesRemanentes = new ArrayList<String>(this.transiciones);
-			for(String iterada: prioritariasPrevias) {
-				transicionesRemanentes.remove(transicionesRemanentes.indexOf(iterada));
-			}
-			
-			for(String transicionInmediata: transicionesRemanentes) {
-				if(preInterseccion.get(transicionInmediata)) {
-					dispararRed(transicionInmediata);
-					break;
-				}
-			}
-			
-			
-//			if(!dispararRed(vectorDisparo)) {
-//				return;
-//			}
-			
-			
-			
-			
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-			
-
-			String[] prioritarias = politicas.values().toArray(new String[0]);
-			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion)) {
-					colaCondicion.get(transicion).notify();
-					return;
-				}
-			}
-			
-			ArrayList<String> transicionesRestantes = new ArrayList<String>(this.transiciones);
-			for(String iterada: prioritarias) {
-				transicionesRestantes.remove(transicionesRestantes.indexOf(iterada));
-			}
-			
-			for(String transicionInmediata: transicionesRestantes) {
-				if(vectorInterseccion.get(transicionInmediata)) {
-//					dispararRed(transicionInmediata);
-					return;
-				}
-			}
-			
-//			int transicionesADisparar = 0;
-//			for(String transicion: transiciones) {
-//				if(vectorInterseccion.get(transicion)) {
-//					transicionesADisparar++;
-//				}
-//			}
-//			
-//			if(transicionesADisparar > 1) {
-//				colaCondicion.get(politicas(vectorInterseccion)).notify();
-//			} else {
-//				
-//			}
-			
-			
-			
-		} finally {
-			lock.unlock();
-		}
-	}
-	
-	private String politicas(LinkedHashMap<String, Boolean> interseccion) {
-		String[] prioritarias = politicas.keySet().toArray(new String[0]);
-		
-		for(String transicion: prioritarias) {
-			if(interseccion.get(transicion)) {
-				return transicion;
-			}
-		}
-
-		return "";
-	}
-	
 	private LinkedHashMap<String, Boolean> getInterseccionCondicion(LinkedHashMap<String, Boolean> vectorSensibilizadas, ReentrantLock lock) {
 		LinkedHashMap<String, Boolean> interseccion = new LinkedHashMap<>();
 		
