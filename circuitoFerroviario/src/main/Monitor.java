@@ -46,7 +46,12 @@ public class Monitor {
 	private final Condition bajadaEstacionD = lock.newCondition();
 	
 	/* Plazas */
-	
+
+	private final String trenEstacionA = "TEA";
+	private final String trenEstacionB = "TEB";
+	private final String trenEstacionC = "TEC";
+	private final String trenEstacionD = "TED";
+
 	private final String trenEstacionAEspera = "ATW";
 	private final String trenEstacionBEspera = "BTW";
 	private final String trenEstacionCEspera = "CTW";
@@ -124,7 +129,7 @@ public class Monitor {
 	private final String tranBajadaVagonCEstacionD = "BDVC";
 
 	
-	public Monitor(Integer lugaresMaquina, Integer lugaresVagon, Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones) {
+	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones) {
 		this.marcadoInicial = marcado;
 		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
 		for(int i = 0; i < this.marcado.length; i++) {
@@ -273,6 +278,7 @@ public class Monitor {
 				((Tren)Thread.currentThread()).setTimeStamp(new Date());
 			}
 			
+			String disparada = null;
 			Boolean disparoRealizado = false;
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
 			
@@ -280,14 +286,16 @@ public class Monitor {
 			for(String transicion: prioritarias) {
 				if(preSensibilizadas.get(transicion) && recorridoTren.contains(transicion)) {
 					disparoRealizado = dispararRed(transicion);
+					disparada = transicion;
 					break;
-				} 
+				}
 			}
 			
 			if(!disparoRealizado) {
 				for(String transicion: transiciones) {
 					if(preSensibilizadas.get(transicion) && (!prioritarias.contains(transicion))) {
 						dispararRed(transicion);
+						disparada = transicion;
 						break;
 					}
 				}
@@ -296,17 +304,17 @@ public class Monitor {
 			
 			/* PostDisparo se busca en las colas de condicion el siguiente hilo a despertar */
 			
-			
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			LinkedHashMap<String, Boolean> vectorSensicilizadas = getSensibilizadas();
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(vectorSensicilizadas, lock);
 			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion)) {
+				if(vectorInterseccion.get(transicion) || (transicion.equals(disparada) && vectorSensicilizadas.get(disparada))) {
 					colaCondicion.get(transicion).notify();
 					return;
 				}
 			}
 			
 			for(String transicion: transiciones) {
-				if(vectorInterseccion.get(transicion) && (!prioritarias.contains(transicion))) {
+				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
 					dispararRed(transicion);
 					return;
 				}
@@ -321,7 +329,21 @@ public class Monitor {
 		lock.lock();
 		
 		try {
-			
+			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionA)] == 1) {
+				subidaEstacionA.await();
+			}
+			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionB)] == 1) {
+				subidaEstacionB.await();
+			}
+			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionC)] == 1) {
+				subidaEstacionC.await();
+			}
+			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionD)] == 1) {
+				subidaEstacionD.await();
+			}
+
+			int pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
+			System.out.println(pasajeros);
 			
 //			while(lugaresMaquina == 0 && lugaresVagon == 0) {
 //				if(Thread.currentThread().getName().startsWith("Estacion A")) {
@@ -338,8 +360,6 @@ public class Monitor {
 //				}
 //			}
 			
-			int pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajerosEsperando();
-			System.out.println(pasajeros);
 			
 			
 			

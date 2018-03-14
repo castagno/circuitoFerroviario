@@ -12,9 +12,11 @@ public class Main {
 	private static final String estacionC = "Estacion C";
 	private static final String estacionD = "Estacion D";
 	
-	private static final String marcadoInicial = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MarcadoInicial.html";
-	private static final String matrizIMas = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMas.html";
-	private static final String matrizIMenos = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario/src/main/MatrizIMenos.html";
+	
+	private static final String marcadoInicial = "./src/main/MarcadoInicial.html";
+	private static final String matrizIMas = "./src/main/MatrizIMas.html";
+	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";
+//	private static final String absolutePath = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario";
 
 	public static void main(String[] args) {
 		
@@ -26,7 +28,7 @@ public class Main {
 		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
 		
-		Monitor monitor = new Monitor(30, 20, matrizMas, matrizMenos, marcadoInicial, transiciones);
+		Monitor monitor = new Monitor(matrizMas, matrizMenos, marcadoInicial, transiciones);
 
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);

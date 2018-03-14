@@ -4,9 +4,10 @@ import java.util.Date;
 
 public class SubirPasajeros extends Thread  {
 	
-	private Monitor monitorTren;
 	private Date sleepTimeStamp;
+	private Monitor monitorTren;
 	private String subida = "Subida";
+	private Integer pasajeros;
 	
 	public SubirPasajeros(Monitor monitor, String estacion) {
 		monitorTren = monitor;
@@ -17,17 +18,30 @@ public class SubirPasajeros extends Thread  {
 	@Override
 	public void run() {
 		try {
-			int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-//			System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
-			sleep(tiempo);
-			sleepTimeStamp = new Date();
-			monitorTren.abordarTren();
+			while(true) {
+				if(Integer.valueOf(0).equals(pasajeros)) {
+					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//					System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
+					sleep(tiempo);
+				}
+				sleepTimeStamp = new Date();
+				monitorTren.abordarTren();
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public int getPasajerosEsperando() {
+	
+	public Integer getPasajeros() {
+		pasajeros = pasajeros==null? getPasajerosEsperando(): pasajeros + getPasajerosEsperando();
+		return pasajeros;
+	}
+	
+	public void setPasajeros() {
+		
+	}
+	
+	private int getPasajerosEsperando() {
 		Date actual = new Date();
 		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
 		int pasajeros = 0;
