@@ -23,6 +23,7 @@ public class SubirPasajeros extends Thread  {
 					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
 //					System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
 					sleep(tiempo);
+					pasajeros = 1;
 				}
 				sleepTimeStamp = new Date();
 				monitorTren.abordarTren();

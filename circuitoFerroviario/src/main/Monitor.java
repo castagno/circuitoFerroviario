@@ -308,7 +308,7 @@ public class Monitor {
 			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(vectorSensicilizadas, lock);
 			for(String transicion: prioritarias) {
 				if(vectorInterseccion.get(transicion) || (transicion.equals(disparada) && vectorSensicilizadas.get(disparada))) {
-					colaCondicion.get(transicion).notify();
+					colaCondicion.get(transicion).signal();
 					return;
 				}
 			}
@@ -329,20 +329,28 @@ public class Monitor {
 		lock.lock();
 		
 		try {
-			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionA)] == 1) {
+			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionA)] == 1 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
 				subidaEstacionA.await();
 			}
-			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionB)] == 1) {
+			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionB)] == 1 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
 				subidaEstacionB.await();
 			}
-			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionC)] == 1) {
+			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionC)] == 1 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
 				subidaEstacionC.await();
 			}
-			while(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionD)] == 1) {
+			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionD)] == 1 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
+					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
 				subidaEstacionD.await();
 			}
 
-			int pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
+			Integer pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
 			System.out.println(pasajeros);
 			
 //			while(lugaresMaquina == 0 && lugaresVagon == 0) {
