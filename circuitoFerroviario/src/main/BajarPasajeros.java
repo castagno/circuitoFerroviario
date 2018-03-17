@@ -2,17 +2,17 @@ package main;
 
 import java.util.Date;
 
-public class SubirPasajeros extends Thread  {
+public class BajarPasajeros extends Thread  {
 	
 	private Date sleepTimeStamp;
 	private Monitor monitorTren;
-	private String subida = "Subida";
+	private String bajada = "Bajada";
 	private Integer pasajeros;
 	
-	public SubirPasajeros(Monitor monitor, String estacion) {
+	public BajarPasajeros(Monitor monitor, String estacion) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(subida + " " + estacion);
+		setName(bajada + " " + estacion);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class SubirPasajeros extends Thread  {
 					pasajeros = 1;
 				}
 				sleepTimeStamp = new Date();
-				monitorTren.abordarTren();
+				monitorTren.descenderTren();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

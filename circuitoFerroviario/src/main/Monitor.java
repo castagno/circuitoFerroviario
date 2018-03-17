@@ -16,11 +16,14 @@ public class Monitor {
 	
 	private Integer[] marcado;
 	private LinkedHashMap<String, Integer> marcadoInicial;
+	private ArrayList<String> plazas;
 	
 	private ArrayList<String> transiciones;
 	private ArrayList<String> recorridoTren;
 	private HashMap<String, Condition> colaCondicion;
 	private LinkedHashMap<Integer, String> politicas;
+	
+	private LinkedHashMap<String, String> abordarTren;
 	
 	private final ReentrantLock lock = new ReentrantLock();
 	
@@ -69,6 +72,17 @@ public class Monitor {
 
 	private final String vagon = "VAG";
 	private final String maquina = "MAQ";
+	
+	private final String vagA = "VA";
+	private final String vagB = "VB";
+	private final String vagC = "VC";
+	private final String vagD = "VD";
+	
+	private final String maqA = "MA";
+	private final String maqB = "MB";
+	private final String maqC = "MC";
+	private final String maqD = "MD";
+	
 	
 	/* Transiciones */
 	
@@ -132,10 +146,12 @@ public class Monitor {
 	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones) {
 		this.marcadoInicial = marcado;
 		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
+		this.plazas = new ArrayList<>(this.marcadoInicial.keySet());
 		for(int i = 0; i < this.marcado.length; i++) {
 			System.out.print(" "+this.marcado[i]);
 		}
 		System.out.println(" ");
+		
 		
 		this.transiciones = transiciones;
 		this.matrizMas = matrizMas;
@@ -246,35 +262,46 @@ public class Monitor {
 		this.politicas.put(index++, tranTrenEsperandoB);
 		this.politicas.put(index++, tranTrenEsperandoC);
 		this.politicas.put(index++, tranTrenEsperandoD);
-
+		
+		
+		this.abordarTren = new LinkedHashMap<>();
+		this.abordarTren.put(tranSubidaMaquinaEstacionA, trenEstacionA);
+		this.abordarTren.put(tranSubidaVagonEstacionA, trenEstacionA);
+		this.abordarTren.put(tranSubidaMaquinaEstacionB, trenEstacionB);
+		this.abordarTren.put(tranSubidaVagonEstacionB, trenEstacionB);
+		this.abordarTren.put(tranSubidaMaquinaEstacionC, trenEstacionC);
+		this.abordarTren.put(tranSubidaVagonEstacionC, trenEstacionC);
+		this.abordarTren.put(tranSubidaMaquinaEstacionD, trenEstacionD);
+		this.abordarTren.put(tranSubidaVagonEstacionD, trenEstacionD);
+		
 	}
 	
 	public void continuarRecorridoTren() throws InterruptedException {
 		lock.lock();
 		
 		try {
-			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAEspera)] == 1 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBEspera)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCEspera)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDEspera)] == 1)&&
+			while((	marcado[plazas.indexOf(trenEstacionAEspera)] == 1 || 
+					marcado[plazas.indexOf(trenEstacionBEspera)] == 1 ||
+					marcado[plazas.indexOf(trenEstacionCEspera)] == 1 ||
+					marcado[plazas.indexOf(trenEstacionDEspera)] == 1)&&
 					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
 					) {
 				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
 			}
 			
-			while((	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionA) != 0 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionB) != 0 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionC) != 0 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionD) != 0) && 
-					(marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] != 0 || marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] != 0)
+			while((	marcado[plazas.indexOf(trenEstacionAPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionA) != 0 || 
+					marcado[plazas.indexOf(trenEstacionBPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionB) != 0 ||
+					marcado[plazas.indexOf(trenEstacionCPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionC) != 0 ||
+					marcado[plazas.indexOf(trenEstacionDPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionD) != 0) && 
+					(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0)
 					) {
 				fullTrenOrEmptyEstacion.await();
 			}
 			
-			if(		marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionAArribo)] == 1 || 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionBArribo)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionCArribo)] == 1 ||
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionDArribo)] == 1) {
+			if(		marcado[plazas.indexOf(trenEstacionAArribo)] == 1 || 
+					marcado[plazas.indexOf(trenEstacionBArribo)] == 1 ||
+					marcado[plazas.indexOf(trenEstacionCArribo)] == 1 ||
+					marcado[plazas.indexOf(trenEstacionDArribo)] == 1) {
 				((Tren)Thread.currentThread()).setTimeStamp(new Date());
 			}
 			
@@ -329,61 +356,62 @@ public class Monitor {
 		lock.lock();
 		
 		try {
-			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionA)] == 1 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
+			while(	marcado[plazas.indexOf(trenEstacionA)] == 1 && 
+					marcado[plazas.indexOf(maquina)] == 0 && 
+					marcado[plazas.indexOf(vagon)] == 0) {
 				subidaEstacionA.await();
 			}
-			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionB)] == 1 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
+			while(	marcado[plazas.indexOf(trenEstacionB)] == 1 && 
+					marcado[plazas.indexOf(maquina)] == 0 && 
+					marcado[plazas.indexOf(vagon)] == 0) {
 				subidaEstacionB.await();
 			}
-			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionC)] == 1 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
+			while(	marcado[plazas.indexOf(trenEstacionC)] == 1 && 
+					marcado[plazas.indexOf(maquina)] == 0 && 
+					marcado[plazas.indexOf(vagon)] == 0) {
 				subidaEstacionC.await();
 			}
-			while(	marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(trenEstacionD)] == 1 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(maquina)] == 0 && 
-					marcado[new ArrayList<>(marcadoInicial.keySet()).indexOf(vagon)] == 0) {
+			while(	marcado[plazas.indexOf(trenEstacionD)] == 1 && 
+					marcado[plazas.indexOf(maquina)] == 0 && 
+					marcado[plazas.indexOf(vagon)] == 0) {
 				subidaEstacionD.await();
 			}
 
 			Integer pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
-			System.out.println(pasajeros);
-			
-//			while(lugaresMaquina == 0 && lugaresVagon == 0) {
-//				if(Thread.currentThread().getName().startsWith("Estacion A")) {
-//					subidaEstacionA.await();
-//				}
-//				if(Thread.currentThread().getName().startsWith("Estacion B")) {
-//					subidaEstacionB.await();
-//				}
-//				if(Thread.currentThread().getName().startsWith("Estacion C")) {
-//					subidaEstacionC.await();
-//				}
-//				if(Thread.currentThread().getName().startsWith("Estacion D")) {
-//					subidaEstacionD.await();
-//				}
-//			}
-			
-			
-			
-			
-			/*
-			if(lock.getWaitingThreadsPublic(notFullTren).contains(Thread.currentThread())) {
-				emptyEstacion.signal();
-		 	}
-		 	
-			if(lugaresMaquina == 0 && lugaresVagon == 0 ) {
-				fullTren.signal();
-			} else {
-				notFullTren.signalAll();
+			System.out.println("\n"+pasajeros+"\n");
+			if(pasajeros > 0) {
+				boolean disparoExitoso = false;
+				ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
+				for(String subida: listaSubidas) {
+					if(marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0) {
+						disparoExitoso = dispararRed(subida);
+						if(disparoExitoso) {
+							break;
+						}
+					}
+				}
+				
+				if(disparoExitoso) {
+					((SubirPasajeros) Thread.currentThread()).setPasajeros(pasajeros - 1);
+				}
 			}
 			
-			notFullMaquina.await();
-			*/
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
+				}
+			}
+			
+			for(String transicion: transiciones) {
+				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+					dispararRed(transicion);
+					return;
+				}
+			}
+			
 		} finally {
 			lock.unlock();
 		}
@@ -393,18 +421,35 @@ public class Monitor {
 		lock.lock();
 		
 		try {
-			/*
-			if(lock.getWaitingThreadsPublic(notFullTren).contains(Thread.currentThread())) {
-				emptyEstacion.signal();
-		 	}
-			if(lugaresMaquina == 0 && lugaresVagon == 0) {
-				fullTren.signal();
-			} else {
-				notFullTren.signal();
-			}
 			
-			notFullMaquina.await();
+			/*
+			while(	marcado[plazas.indexOf(trenEstacionA)] == 1 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				bajadaEstacionA.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionB)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				bajadaEstacionB.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionC)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				bajadaEstacionC.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionD)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0) {
+				bajadaEstacionD.await();
+			}
 			*/
+			
+			
 		} finally {
 			lock.unlock();
 		}

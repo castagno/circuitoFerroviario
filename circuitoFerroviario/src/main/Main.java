@@ -40,6 +40,15 @@ public class Main {
 		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD);
 		subirPasajerosD.start();
 		
+		BajarPasajeros bajarPasajerosA = new BajarPasajeros(monitor, estacionA);
+		bajarPasajerosA.start();
+		BajarPasajeros bajarPasajerosB = new BajarPasajeros(monitor, estacionB);
+		bajarPasajerosB.start();
+		BajarPasajeros bajarPasajerosC = new BajarPasajeros(monitor, estacionC);
+		bajarPasajerosC.start();
+		BajarPasajeros bajarPasajerosD = new BajarPasajeros(monitor, estacionD);
+		bajarPasajerosD.start();
+		
 		
 		Tren tren = new Tren(monitor);
 		tren.start();
