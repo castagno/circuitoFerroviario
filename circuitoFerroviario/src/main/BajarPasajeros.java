@@ -20,9 +20,9 @@ public class BajarPasajeros extends Thread  {
 		try {
 			while(true) {
 				if(Integer.valueOf(0).equals(pasajeros)) {
-					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
 //					System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
-					sleep(tiempo);
+//					sleep(tiempo);
 					pasajeros = 1;
 				}
 				sleepTimeStamp = new Date();

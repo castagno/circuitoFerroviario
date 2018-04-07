@@ -24,6 +24,7 @@ public class Monitor {
 	private LinkedHashMap<Integer, String> politicas;
 	
 	private LinkedHashMap<String, String> abordarTren;
+	private LinkedHashMap<String, String> descenderTren;
 	
 	private final ReentrantLock lock = new ReentrantLock();
 	
@@ -421,7 +422,31 @@ public class Monitor {
 		lock.lock();
 		
 		try {
-			
+			while(	marcado[plazas.indexOf(trenEstacionA)] == 1 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				subidaEstacionA.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionB)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				subidaEstacionB.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionC)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) {
+				subidaEstacionC.await();
+			}
+			while(	marcado[plazas.indexOf(trenEstacionD)] == 1 && 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0) {
+				subidaEstacionD.await();
+			}
+
 			/*
 			while(	marcado[plazas.indexOf(trenEstacionA)] == 1 && 
 					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
