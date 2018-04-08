@@ -6,17 +6,17 @@ public class BajarPasajeros extends Thread  {
 	
 	private Date sleepTimeStamp;
 	private Monitor monitorTren;
-	private String bajada = "Bajada";
 	private Integer pasajeros;
 	
 	public BajarPasajeros(Monitor monitor, String estacion) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(bajada + " " + estacion);
+		setName(ConstantesComunes.bajada + " " + estacion);
 	}
 
 	@Override
 	public void run() {
+		/*
 		try {
 			while(true) {
 				if(Integer.valueOf(0).equals(pasajeros)) {
@@ -28,9 +28,11 @@ public class BajarPasajeros extends Thread  {
 				sleepTimeStamp = new Date();
 				monitorTren.descenderTren();
 			}
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	public Integer getPasajeros() {

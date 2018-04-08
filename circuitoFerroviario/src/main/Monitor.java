@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Monitor {
+public class Monitor extends ConstantesComunes {
 	
 	private Integer[][] matrizMas;
 	private Integer[][] matrizMenos;
@@ -51,10 +51,11 @@ public class Monitor {
 	
 	/* Plazas */
 
-	private final String trenEstacionA = "TEA";
-	private final String trenEstacionB = "TEB";
-	private final String trenEstacionC = "TEC";
-	private final String trenEstacionD = "TED";
+	private final String trenEstacion = "TE";
+	private final String trenEstacionA = trenEstacion+"A";
+	private final String trenEstacionB = trenEstacion+"B";
+	private final String trenEstacionC = trenEstacion+"C";
+	private final String trenEstacionD = trenEstacion+"D";
 
 	private final String trenEstacionAEspera = "ATW";
 	private final String trenEstacionBEspera = "BTW";
@@ -263,7 +264,7 @@ public class Monitor {
 		this.politicas.put(index++, tranTrenEsperandoB);
 		this.politicas.put(index++, tranTrenEsperandoC);
 		this.politicas.put(index++, tranTrenEsperandoD);
-		
+
 		
 		this.abordarTren = new LinkedHashMap<>();
 		this.abordarTren.put(tranSubidaMaquinaEstacionA, trenEstacionA);
@@ -274,6 +275,44 @@ public class Monitor {
 		this.abordarTren.put(tranSubidaVagonEstacionC, trenEstacionC);
 		this.abordarTren.put(tranSubidaMaquinaEstacionD, trenEstacionD);
 		this.abordarTren.put(tranSubidaVagonEstacionD, trenEstacionD);
+
+		
+		this.descenderTren = new LinkedHashMap<>();
+		
+		this.descenderTren.put(tranBajadaMaquinaBEstacionA, trenEstacionA);
+		this.descenderTren.put(tranBajadaVagonBEstacionA, trenEstacionA);
+
+		this.descenderTren.put(tranBajadaMaquinaCEstacionA, trenEstacionA);
+		this.descenderTren.put(tranBajadaMaquinaDEstacionA, trenEstacionA);
+		this.descenderTren.put(tranBajadaVagonCEstacionA, trenEstacionA);
+		this.descenderTren.put(tranBajadaVagonDEstacionA, trenEstacionA);
+		
+
+		this.descenderTren.put(tranBajadaMaquinaCEstacionB, trenEstacionB);
+		this.descenderTren.put(tranBajadaVagonCEstacionB, trenEstacionB);
+		
+		this.descenderTren.put(tranBajadaMaquinaAEstacionB, trenEstacionB);
+		this.descenderTren.put(tranBajadaMaquinaDEstacionB, trenEstacionB);
+		this.descenderTren.put(tranBajadaVagonAEstacionB, trenEstacionB);
+		this.descenderTren.put(tranBajadaVagonDEstacionB, trenEstacionB);
+		
+
+		this.descenderTren.put(tranBajadaMaquinaDEstacionC, trenEstacionC);
+		this.descenderTren.put(tranBajadaVagonDEstacionC, trenEstacionC);
+		
+		this.descenderTren.put(tranBajadaMaquinaAEstacionC, trenEstacionC);
+		this.descenderTren.put(tranBajadaMaquinaBEstacionC, trenEstacionC);
+		this.descenderTren.put(tranBajadaVagonAEstacionC, trenEstacionC);
+		this.descenderTren.put(tranBajadaVagonBEstacionC, trenEstacionC);
+		
+
+		this.descenderTren.put(tranBajadaMaquinaAEstacionD, trenEstacionD);
+		this.descenderTren.put(tranBajadaVagonAEstacionD, trenEstacionD);
+		
+		this.descenderTren.put(tranBajadaMaquinaBEstacionD, trenEstacionD);
+		this.descenderTren.put(tranBajadaMaquinaCEstacionD, trenEstacionD);
+		this.descenderTren.put(tranBajadaVagonBEstacionD, trenEstacionD);
+		this.descenderTren.put(tranBajadaVagonCEstacionD, trenEstacionD);
 		
 	}
 	
@@ -356,25 +395,23 @@ public class Monitor {
 	public void abordarTren() throws InterruptedException {
 		lock.lock();
 		
+		String threadName = Thread.currentThread().getName();
+		
 		try {
-			while(	marcado[plazas.indexOf(trenEstacionA)] == 1 && 
-					marcado[plazas.indexOf(maquina)] == 0 && 
-					marcado[plazas.indexOf(vagon)] == 0) {
+			while(	trenEstacionA.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionA)] == 0 ||
+					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0) ) {
 				subidaEstacionA.await();
 			}
-			while(	marcado[plazas.indexOf(trenEstacionB)] == 1 && 
-					marcado[plazas.indexOf(maquina)] == 0 && 
-					marcado[plazas.indexOf(vagon)] == 0) {
+			while(	trenEstacionB.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionB)] == 0 || 
+					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0) ) {
 				subidaEstacionB.await();
 			}
-			while(	marcado[plazas.indexOf(trenEstacionC)] == 1 && 
-					marcado[plazas.indexOf(maquina)] == 0 && 
-					marcado[plazas.indexOf(vagon)] == 0) {
+			while(	trenEstacionC.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionC)] == 0 || 
+					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0) ) {
 				subidaEstacionC.await();
 			}
-			while(	marcado[plazas.indexOf(trenEstacionD)] == 1 && 
-					marcado[plazas.indexOf(maquina)] == 0 && 
-					marcado[plazas.indexOf(vagon)] == 0) {
+			while(	trenEstacionD.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionD)] == 0 || 
+					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0) ) {
 				subidaEstacionD.await();
 			}
 
@@ -384,7 +421,10 @@ public class Monitor {
 				boolean disparoExitoso = false;
 				ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
 				for(String subida: listaSubidas) {
-					if(marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0) {
+					System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
+					if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
+							marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 && 
+							abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
 						disparoExitoso = dispararRed(subida);
 						if(disparoExitoso) {
 							break;

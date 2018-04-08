@@ -6,13 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class Main {
-	private static final String estacionA = "Estacion A";
-	private static final String estacionB = "Estacion B";
-	private static final String estacionC = "Estacion C";
-	private static final String estacionD = "Estacion D";
-	
-	
+public class Main extends ConstantesComunes {
 	private static final String marcadoInicial = "./src/main/MarcadoInicial.html";
 	private static final String matrizIMas = "./src/main/MatrizIMas.html";
 	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";

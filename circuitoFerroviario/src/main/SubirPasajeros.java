@@ -6,13 +6,12 @@ public class SubirPasajeros extends Thread  {
 	
 	private Date sleepTimeStamp;
 	private Monitor monitorTren;
-	private String subida = "Subida";
 	private Integer pasajeros;
 	
 	public SubirPasajeros(Monitor monitor, String estacion) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(subida + " " + estacion);
+		setName(ConstantesComunes.subida + " " + estacion);
 	}
 
 	@Override

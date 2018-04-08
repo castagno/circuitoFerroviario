@@ -2,20 +2,19 @@ package main;
 
 import java.util.Date;
 
-public class Tren extends Thread  {
+public class Tren extends Thread {
 	
 	private Monitor monitorTren;
 //	private int currentIndex;
 //	private ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia;
 	private Date sleepTimeStamp;
-	private String tren = "Tren";
 	
 	public Tren(Monitor monitor) {
 //		this.matrizSecuencia = matrizSecuencia;
 //		currentIndex = 0;
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(tren);
+		setName(ConstantesComunes.tren);
 	}
 
 	@Override
