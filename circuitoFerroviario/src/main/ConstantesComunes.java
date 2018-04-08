@@ -7,6 +7,8 @@ public class ConstantesComunes {
 	public static final String estacionD = "Estacion D";
 	
 	public static final String tren = "Tren";
+	
+	public static final String transito = "Transito";
 
 	public static final String subida = "Subida";
 

@@ -2,20 +2,21 @@ package main;
 
 import java.util.Date;
 
-public class BajarPasajeros extends Thread  {
+public class Transito extends Thread  {
 	
 	private Date sleepTimeStamp;
 	private Monitor monitorTren;
-	private Integer pasajeros;
+	private Integer vehiculos;
 	
-	public BajarPasajeros(Monitor monitor, String estacion) {
+	public Transito(Monitor monitor) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(ConstantesComunes.bajada + " " + estacion);
+		setName(ConstantesComunes.transito);
 	}
 
 	@Override
 	public void run() {
+		/*
 		try {
 			while(true) {
 				if(Integer.valueOf(0).equals(pasajeros)) {
@@ -31,28 +32,29 @@ public class BajarPasajeros extends Thread  {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
-	public Integer getPasajeros() {
-		pasajeros = pasajeros==null? getPasajerosEsperando(): pasajeros + getPasajerosEsperando();
-		return pasajeros;
+	public Integer getVehiculos() {
+		vehiculos = vehiculos==null? getVehiculosEsperando(): vehiculos + getVehiculosEsperando();
+		return vehiculos;
 	}
 	
-	public void setPasajeros(int pasajeros) {
-		this.pasajeros = pasajeros;
+	public void setVehiculos(int vehiculos) {
+		this.vehiculos = vehiculos;
 	}
 	
-	private int getPasajerosEsperando() {
+	private int getVehiculosEsperando() {
 		Date actual = new Date();
 		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
-		int pasajeros = 0;
+		int vehiculos = 0;
 		int tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
 		while(tiempoDormido > tiempoEsperado) {
 			tiempoDormido = tiempoDormido - tiempoEsperado;
 			tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-			pasajeros = pasajeros + 1;
+			vehiculos = vehiculos + 1;
 		}
 		
-		return pasajeros;
+		return vehiculos;
 	}
 }
