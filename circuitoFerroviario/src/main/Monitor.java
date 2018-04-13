@@ -331,8 +331,8 @@ public class Monitor extends ConstantesComunes {
 			
 			while((	marcado[plazas.indexOf(trenEstacionAPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionA) != 0 || 
 					marcado[plazas.indexOf(trenEstacionBPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionB) != 0 ||
-					marcado[plazas.indexOf(trenEstacionCPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionC) != 0 ||
-					marcado[plazas.indexOf(trenEstacionDPartida)] == 1 &&	lock.getWaitQueueLength(subidaEstacionD) != 0) && 
+					marcado[plazas.indexOf(trenEstacionCPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionC) != 0 ||
+					marcado[plazas.indexOf(trenEstacionDPartida)] == 1 && lock.getWaitQueueLength(subidaEstacionD) != 0) && 
 					(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0)
 					) {
 				fullTrenOrEmptyEstacion.await();
