@@ -27,14 +27,13 @@ public class BajarPasajeros extends Thread  {
 				sleepTimeStamp = new Date();
 				monitorTren.descenderTren();
 			}
-			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Integer getPasajeros() {
-		pasajeros = pasajeros==null? getPasajerosEsperando(): pasajeros + getPasajerosEsperando();
+	public Integer getPasajeros(Date fechaSubida) {
+		pasajeros = pasajeros==null? getPasajerosEsperando(fechaSubida): pasajeros + getPasajerosEsperando(fechaSubida);
 		return pasajeros;
 	}
 	
@@ -42,7 +41,7 @@ public class BajarPasajeros extends Thread  {
 		this.pasajeros = pasajeros;
 	}
 	
-	private int getPasajerosEsperando() {
+	private int getPasajerosEsperando(Date fechaSubida) {
 		Date actual = new Date();
 		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
 		int pasajeros = 0;

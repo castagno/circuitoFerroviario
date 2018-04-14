@@ -26,6 +26,8 @@ public class Monitor extends ConstantesComunes {
 	private LinkedHashMap<String, String> abordarTren;
 	private LinkedHashMap<String, String> descenderTren;
 	
+	private ArrayList<String> estaciones;
+	private LinkedHashMap<String, Date> ultimaSubidaEstacion;
 	private final ReentrantLock lock = new ReentrantLock();
 	
 	/*
@@ -282,38 +284,44 @@ public class Monitor extends ConstantesComunes {
 		this.descenderTren.put(tranBajadaMaquinaBEstacionA, trenEstacionA);
 		this.descenderTren.put(tranBajadaVagonBEstacionA, trenEstacionA);
 
+		this.descenderTren.put(tranBajadaMaquinaCEstacionB, trenEstacionB);
+		this.descenderTren.put(tranBajadaVagonCEstacionB, trenEstacionB);
+		
+		this.descenderTren.put(tranBajadaMaquinaDEstacionC, trenEstacionC);
+		this.descenderTren.put(tranBajadaVagonDEstacionC, trenEstacionC);
+		
+		this.descenderTren.put(tranBajadaMaquinaAEstacionD, trenEstacionD);
+		this.descenderTren.put(tranBajadaVagonAEstacionD, trenEstacionD);
+		
+		
 		this.descenderTren.put(tranBajadaMaquinaCEstacionA, trenEstacionA);
 		this.descenderTren.put(tranBajadaMaquinaDEstacionA, trenEstacionA);
 		this.descenderTren.put(tranBajadaVagonCEstacionA, trenEstacionA);
 		this.descenderTren.put(tranBajadaVagonDEstacionA, trenEstacionA);
 		
-
-		this.descenderTren.put(tranBajadaMaquinaCEstacionB, trenEstacionB);
-		this.descenderTren.put(tranBajadaVagonCEstacionB, trenEstacionB);
-		
 		this.descenderTren.put(tranBajadaMaquinaAEstacionB, trenEstacionB);
 		this.descenderTren.put(tranBajadaMaquinaDEstacionB, trenEstacionB);
 		this.descenderTren.put(tranBajadaVagonAEstacionB, trenEstacionB);
 		this.descenderTren.put(tranBajadaVagonDEstacionB, trenEstacionB);
-		
 
-		this.descenderTren.put(tranBajadaMaquinaDEstacionC, trenEstacionC);
-		this.descenderTren.put(tranBajadaVagonDEstacionC, trenEstacionC);
-		
 		this.descenderTren.put(tranBajadaMaquinaAEstacionC, trenEstacionC);
 		this.descenderTren.put(tranBajadaMaquinaBEstacionC, trenEstacionC);
 		this.descenderTren.put(tranBajadaVagonAEstacionC, trenEstacionC);
 		this.descenderTren.put(tranBajadaVagonBEstacionC, trenEstacionC);
-		
 
-		this.descenderTren.put(tranBajadaMaquinaAEstacionD, trenEstacionD);
-		this.descenderTren.put(tranBajadaVagonAEstacionD, trenEstacionD);
-		
 		this.descenderTren.put(tranBajadaMaquinaBEstacionD, trenEstacionD);
 		this.descenderTren.put(tranBajadaMaquinaCEstacionD, trenEstacionD);
 		this.descenderTren.put(tranBajadaVagonBEstacionD, trenEstacionD);
 		this.descenderTren.put(tranBajadaVagonCEstacionD, trenEstacionD);
-		
+
+
+		estaciones = new ArrayList<>(Arrays.asList(estacion));
+		this.ultimaSubidaEstacion = new LinkedHashMap<>();
+		Date fechaActual = new Date();
+		ultimaSubidaEstacion.put(trenEstacionA, fechaActual);
+		ultimaSubidaEstacion.put(trenEstacionB, fechaActual);
+		ultimaSubidaEstacion.put(trenEstacionC, fechaActual);
+		ultimaSubidaEstacion.put(trenEstacionD, fechaActual);
 	}
 	
 	public void continuarRecorridoTren() throws InterruptedException {
@@ -416,7 +424,7 @@ public class Monitor extends ConstantesComunes {
 			}
 
 			Integer pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
-			System.out.println("\n"+pasajeros+"\n");
+			System.out.println("\n"+"Pasajeros : "+pasajeros+"\n");
 			if(pasajeros > 0) {
 				boolean disparoExitoso = false;
 				ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
@@ -427,6 +435,7 @@ public class Monitor extends ConstantesComunes {
 							abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
 						disparoExitoso = dispararRed(subida);
 						if(disparoExitoso) {
+							ultimaSubidaEstacion.put(trenEstacion + threadName.substring(threadName.length() - 1), new Date());
 							break;
 						}
 					}
@@ -488,7 +497,46 @@ public class Monitor extends ConstantesComunes {
 					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0) ) {
 				subidaEstacionD.await();
 			}
+
+
+			Integer pasajerosAnterior = ((BajarPasajeros) Thread.currentThread()).getPasajeros(ultimaSubidaEstacion.get(trenEstacion + estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 3)%4]));
+			Integer pasajerosOpuesta = ((BajarPasajeros) Thread.currentThread()).getPasajeros(ultimaSubidaEstacion.get(trenEstacion + estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 2)%4]));
+			System.out.println("\n"+"PasajerosAnterior : "+pasajerosAnterior+" -  PasajerosOpuesta : "+pasajerosOpuesta+"\n");
 			
+			//TODO
+			boolean disparoExitoso = false;
+			ArrayList<String> listaBajadas = new ArrayList<>(Arrays.asList(descenderTren.keySet().toArray(new String[descenderTren.keySet().size()])));
+			for(String bajada: listaBajadas) {
+				System.out.println(descenderTren.get(bajada) +" "+ threadName.substring(threadName.length() - 1));
+				if(		bajada.startsWith("B"+ threadName.substring(threadName.length() - 1)) && 
+						marcado[plazas.indexOf(bajada.substring(2, bajada.length()))] != 0 && 
+						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1) {
+					disparoExitoso = dispararRed(bajada);
+					if(disparoExitoso) {
+						break;
+					}
+				}
+			}
+			
+			if(disparoExitoso) {
+				((SubirPasajeros) Thread.currentThread()).setPasajeros(((SubirPasajeros) Thread.currentThread()).getPasajeros() - 1);
+			}
+			
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
+				}
+			}
+			
+			for(String transicion: transiciones) {
+				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+					dispararRed(transicion);
+					return;
+				}
+			}
 			
 		} finally {
 			lock.unlock();
