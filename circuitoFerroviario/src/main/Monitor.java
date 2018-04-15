@@ -51,6 +51,9 @@ public class Monitor extends ConstantesComunes {
 	private final Condition subidaEstacionD = lock.newCondition();
 	private final Condition bajadaEstacionD = lock.newCondition();
 	
+	private final Condition pasoDeNivelAB = lock.newCondition();
+	private final Condition pasoDeNivelCD = lock.newCondition();
+	
 	/* Plazas */
 
 	private final String trenEstacion = "TE";
@@ -86,6 +89,10 @@ public class Monitor extends ConstantesComunes {
 	private final String maqB = "MB";
 	private final String maqC = "MC";
 	private final String maqD = "MD";
+	
+
+	private final String pasoNivelABBarrera = "PNABB";
+	private final String pasoNivelCDBarrera = "PNCDB";
 	
 	
 	/* Transiciones */
@@ -477,28 +484,32 @@ public class Monitor extends ConstantesComunes {
 					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
 					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
 					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) ) {
-				subidaEstacionA.await();
+				bajadaEstacionA.await();
 			}
 			while(	trenEstacionB.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionB)] == 0 || 
 					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
 					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
 					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) ) {
-				subidaEstacionB.await();
+				bajadaEstacionB.await();
 			}
 			while(	trenEstacionC.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionC)] == 0 ||  
 					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
 					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
 					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) ) {
-				subidaEstacionC.await();
+				bajadaEstacionC.await();
 			}
 			while(	trenEstacionD.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionD)] == 0 || 
 					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
 					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
 					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0) ) {
-				subidaEstacionD.await();
+				bajadaEstacionD.await();
 			}
 
 
+			// pasajerosAnterior calcula bajadas estocasticas para los pasajeros subidos en la estacion anterior utilizando la hora de la ultima subida en esa estacion
+			// la estacion anterior se obtiene buscando en la lista de estaciones la estacion correspondiente al indice anterior al de la estacion actual. En el caso en que el indice 
+			// sea 0 la estacion anterior se encontraria en el indice -1 si ultilizamos un offset negativo por lo que se suma el tamanio del array y se calcula el modulo para que el indice
+			// siempre este dentro del array. (-1 + 4) = 3 para la estacion anterior y (-2 + 4) = 2 para la estacion opuesta de esta forma usamos al array como un anillo (campo finito cerrado o campo de Galois)
 			Integer pasajerosAnterior = ((BajarPasajeros) Thread.currentThread()).getPasajeros(ultimaSubidaEstacion.get(trenEstacion + estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 3)%4]));
 			Integer pasajerosOpuesta = ((BajarPasajeros) Thread.currentThread()).getPasajeros(ultimaSubidaEstacion.get(trenEstacion + estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 2)%4]));
 			System.out.println("\n"+"PasajerosAnterior : "+pasajerosAnterior+" -  PasajerosOpuesta : "+pasajerosOpuesta+"\n");
@@ -508,9 +519,13 @@ public class Monitor extends ConstantesComunes {
 			ArrayList<String> listaBajadas = new ArrayList<>(Arrays.asList(descenderTren.keySet().toArray(new String[descenderTren.keySet().size()])));
 			for(String bajada: listaBajadas) {
 				System.out.println(descenderTren.get(bajada) +" "+ threadName.substring(threadName.length() - 1));
-				if(		bajada.startsWith("B"+ threadName.substring(threadName.length() - 1)) && 
-						marcado[plazas.indexOf(bajada.substring(2, bajada.length()))] != 0 && 
-						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1) {
+				if(		bajada.startsWith("B"+ threadName.substring(threadName.length() - 1)) &&																	// Si el thread baja pasajeros en la estacion de la tansicion
+						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 &&												// Si el tren se encuentra en la estacion del thread
+						marcado[plazas.indexOf(bajada.substring(2, bajada.length()))] != 0 && (																		// Si hay pasajeros viajando desde la estacion de la transicion
+								bajada.endsWith(estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 3)%4]) && pasajerosAnterior > 0 ||	// Si la transicion baja pasajeros de la estacion anterior
+								bajada.endsWith(estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 2)%4]) && pasajerosOpuesta > 0 ||		// Si la transicion baja pasajeros de la estacion opuesta
+								bajada.endsWith(estacion[(estaciones.indexOf(threadName.substring(threadName.length() - 1)) + 1)%4])								// Si la transicion baja pasajeros de la estacion siguiente
+						) ) {
 					disparoExitoso = dispararRed(bajada);
 					if(disparoExitoso) {
 						break;
@@ -543,6 +558,71 @@ public class Monitor extends ConstantesComunes {
 		}
 	}
 
+
+	public void cruzarPasoNivel() throws InterruptedException {
+		lock.lock();
+
+		String threadName = Thread.currentThread().getName();
+		
+		try {
+			while(	pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2)) && (marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+					marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) ) {
+				pasoDeNivelAB.await();
+			}
+			while(	pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2)) && (marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+					marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
+					marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
+					marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0) ) {
+				pasoDeNivelCD.await();
+			}
+			
+			Integer vehiculos = ((Transito) Thread.currentThread()).getVehiculos();
+			System.out.println("\n"+"vehiculos : "+vehiculos+"\n");
+			
+			//TODO
+			boolean disparoExitoso = false;
+			ArrayList<String> listaBajadas = new ArrayList<>(Arrays.asList(descenderTren.keySet().toArray(new String[descenderTren.keySet().size()])));
+			for(String bajada: listaBajadas) {
+				System.out.println(descenderTren.get(bajada) +" "+ threadName.substring(threadName.length() - 1));
+				if(		bajada.startsWith("B"+ threadName.substring(threadName.length() - 1)) &&
+						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 &&
+						marcado[plazas.indexOf(bajada.substring(2, bajada.length()))] != 0) {
+					disparoExitoso = dispararRed(bajada);
+					if(disparoExitoso) {
+						break;
+					}
+				}
+			}
+			
+			if(disparoExitoso) {
+				((SubirPasajeros) Thread.currentThread()).setPasajeros(((SubirPasajeros) Thread.currentThread()).getPasajeros() - 1);
+			}
+			
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
+				}
+			}
+			
+			for(String transicion: transiciones) {
+				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+					dispararRed(transicion);
+					return;
+				}
+			}
+			
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	
+	
 	private LinkedHashMap<String, Boolean> getInterseccionCondicion(LinkedHashMap<String, Boolean> vectorSensibilizadas, ReentrantLock lock) {
 		LinkedHashMap<String, Boolean> interseccion = new LinkedHashMap<>();
 		

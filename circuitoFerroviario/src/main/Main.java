@@ -43,6 +43,11 @@ public class Main extends ConstantesComunes {
 		BajarPasajeros bajarPasajerosD = new BajarPasajeros(monitor, estacionD);
 		bajarPasajerosD.start();
 		
+		Transito pasoDeNivelAB = new Transito(monitor, pasoNivelAB);
+		pasoDeNivelAB.start();
+		Transito pasoDeNivelCD = new Transito(monitor, pasoNivelCD);
+		pasoDeNivelCD.start();
+		
 		
 		Tren tren = new Tren(monitor);
 		tren.start();

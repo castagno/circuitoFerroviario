@@ -15,4 +15,8 @@ public class ConstantesComunes {
 	public static final String bajada = "Bajada";
 	
 	public static final String[] estacion = {"A", "B", "C", "D"};
+	
+	public static final String pasoNivelAB = "PNAB";
+	public static final String pasoNivelCD = "PNCD";
+	
 }

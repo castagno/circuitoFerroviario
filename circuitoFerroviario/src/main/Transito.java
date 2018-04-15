@@ -8,31 +8,23 @@ public class Transito extends Thread  {
 	private Monitor monitorTren;
 	private Integer vehiculos;
 	
-	public Transito(Monitor monitor) {
+	public Transito(Monitor monitor, String pasoNivel) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(ConstantesComunes.transito);
+		setName(ConstantesComunes.transito + pasoNivel);
 	}
 
 	@Override
 	public void run() {
-		/*
+
 		try {
 			while(true) {
-				if(Integer.valueOf(0).equals(pasajeros)) {
-//					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-//					System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
-//					sleep(tiempo);
-					pasajeros = 1;
-				}
 				sleepTimeStamp = new Date();
-				monitorTren.descenderTren();
+				monitorTren.cruzarPasoNivel();
 			}
-			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		*/
 	}
 	
 	public Integer getVehiculos() {

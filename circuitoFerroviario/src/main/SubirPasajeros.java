@@ -18,12 +18,14 @@ public class SubirPasajeros extends Thread  {
 	public void run() {
 		try {
 			while(true) {
+				/*
 				if(Integer.valueOf(0).equals(pasajeros)) {
 					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
 //					System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): "+tiempo);
 					sleep(tiempo);
 					pasajeros = 1;
 				}
+				*/
 				sleepTimeStamp = new Date();
 				monitorTren.abordarTren();
 			}
