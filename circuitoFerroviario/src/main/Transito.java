@@ -19,6 +19,11 @@ public class Transito extends Thread  {
 
 		try {
 			while(true) {
+//				if(Integer.valueOf(0).equals(vehiculos)) {
+//					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//					sleep(tiempo);
+//					vehiculos = 1;
+//				}
 				sleepTimeStamp = new Date();
 				monitorTren.cruzarPasoNivel();
 			}

@@ -22,7 +22,7 @@ public class Tren extends Thread {
 		try {
 			while(true) {
 //				System.out.println("Tiempo de espera ("+Thread.currentThread().getName()+"): ");
-				sleep(1000);
+//				sleep(1000);
 //				monitorTren.continuarRecorridoTren(matrizSecuencia.get(currentIndex).values().toArray(new Integer[matrizSecuencia.get(currentIndex).values().size()]));
 //				currentIndex = (currentIndex + 1) % matrizSecuencia.size();
 				monitorTren.continuarRecorridoTren();
