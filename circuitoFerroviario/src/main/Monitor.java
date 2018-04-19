@@ -94,6 +94,9 @@ public class Monitor extends ConstantesComunes {
 	private final String pasoNivelABBarrera = "PNABB";
 	private final String pasoNivelCDBarrera = "PNCDB";
 	
+	private final String pasoNivelABTransito = "PNABT";
+	private final String pasoNivelCDTransito = "PNCDT";
+	
 	private final String pasoNivelABMaquina = "RABM";
 	private final String pasoNivelABVagon = "RABV";
 	
@@ -160,8 +163,10 @@ public class Monitor extends ConstantesComunes {
 
 	
 
-	private final String tranPasoNivelABTransito = "PNABTW";
-	private final String tranPasoNivelCDTransito = "PNCDTW";
+	private final String tranPasoNivelABTransitoWait = "PNABTW";
+	private final String tranPasoNivelCDTransitoWait = "PNCDTW";
+	private final String tranPasoNivelABTransitoReady = "PNABTR";
+	private final String tranPasoNivelCDTransitoReady = "PNCDTR";
 	
 	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones) {
 		this.marcadoInicial = marcado;
@@ -231,8 +236,10 @@ public class Monitor extends ConstantesComunes {
 		this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
 		this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
 		
-		this.colaCondicion.put(tranPasoNivelABTransito, pasoDeNivelAB);
-		this.colaCondicion.put(tranPasoNivelCDTransito, pasoDeNivelCD);
+		this.colaCondicion.put(tranPasoNivelABTransitoReady, pasoDeNivelAB);
+		this.colaCondicion.put(tranPasoNivelCDTransitoReady, pasoDeNivelCD);
+		this.colaCondicion.put(tranPasoNivelABTransitoWait, pasoDeNivelAB);
+		this.colaCondicion.put(tranPasoNivelCDTransitoWait, pasoDeNivelCD);
 		
 		
 		this.politicas = new LinkedHashMap<>();
@@ -284,9 +291,11 @@ public class Monitor extends ConstantesComunes {
 		this.politicas.put(index++, tranTrenEsperandoB);
 		this.politicas.put(index++, tranTrenEsperandoC);
 		this.politicas.put(index++, tranTrenEsperandoD);
-		
-		this.politicas.put(index++, tranPasoNivelABTransito);
-		this.politicas.put(index++, tranPasoNivelCDTransito);
+
+		this.politicas.put(index++, tranPasoNivelABTransitoReady);
+		this.politicas.put(index++, tranPasoNivelCDTransitoReady);
+		this.politicas.put(index++, tranPasoNivelABTransitoWait);
+		this.politicas.put(index++, tranPasoNivelCDTransitoWait);
 
 		
 		this.abordarTren = new LinkedHashMap<>();
@@ -576,14 +585,22 @@ public class Monitor extends ConstantesComunes {
 		String threadName = Thread.currentThread().getName();
 		
 		try {
-			while(	pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2)) && (marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
-					marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelABVagon)] != 0 ||
-					((Transito) Thread.currentThread()).getVehiculos() == 0) ) {
+			while(	pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2)) && (
+					((Transito) Thread.currentThread()).getVehiculos() == 0 ||
+					marcado[plazas.indexOf(pasoNivelABTransito)] == 0 && (
+							marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+							marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || 
+							marcado[plazas.indexOf(pasoNivelABVagon)] != 0
+					) ) ) {
 				pasoDeNivelAB.await();
 			}
-			while(	pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2)) && (marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
-					marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelCDVagon)] != 0 ||
-					((Transito) Thread.currentThread()).getVehiculos() == 0) ) {
+			while(	pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2)) && (
+					((Transito) Thread.currentThread()).getVehiculos() == 0 ||
+					marcado[plazas.indexOf(pasoNivelCDTransito)] == 0 && (
+							marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+							marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || 
+							marcado[plazas.indexOf(pasoNivelCDVagon)] != 0
+					) ) ) {
 				pasoDeNivelCD.await();
 			}
 			
@@ -595,10 +612,18 @@ public class Monitor extends ConstantesComunes {
 			
 			if(vehiculos > 0) {
 				if(pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2))) {
-					disparoExitoso = dispararRed(tranPasoNivelABTransito);
+					if(marcado[plazas.indexOf(pasoNivelABTransito)] == 0) {
+						disparoExitoso = dispararRed(tranPasoNivelABTransitoWait);
+					} else {
+						disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+					}
 				}
 				if(pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2))) {
-					disparoExitoso = dispararRed(tranPasoNivelCDTransito);
+					if(marcado[plazas.indexOf(pasoNivelCDTransito)] == 0) {
+						disparoExitoso = dispararRed(tranPasoNivelCDTransitoWait);
+					} else {
+						disparoExitoso = dispararRed(tranPasoNivelCDTransitoReady);
+					}
 				}
 			}
 			
