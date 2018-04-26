@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,8 +19,8 @@ public class Monitor extends ConstantesComunes {
 	
 	private ArrayList<String> transiciones;
 	private ArrayList<String> recorridoTren;
-	private HashMap<String, Condition> colaCondicion;
-	private LinkedHashMap<Integer, String> politicas;
+	private LinkedHashMap<String, Condition> colaCondicion;
+//	private LinkedHashMap<Integer, String> politicas;
 	
 	private LinkedHashMap<String, String> abordarTren;
 	private LinkedHashMap<String, String> descenderTren;
@@ -183,119 +182,113 @@ public class Monitor extends ConstantesComunes {
 		this.matrizMenos = matrizMenos;
 		this.recorridoTren = secuenciaTransiciones();
 		
-		this.colaCondicion = new HashMap<>();
-		this.colaCondicion.put(tranTrenEsperandoA, tiempoDeEspera);
-		this.colaCondicion.put(tranTrenEsperandoB, tiempoDeEspera);
-		this.colaCondicion.put(tranTrenEsperandoC, tiempoDeEspera);
-		this.colaCondicion.put(tranTrenEsperandoD, tiempoDeEspera);
-		
+		this.colaCondicion = new LinkedHashMap<>();
+				
+		this.colaCondicion.put(tranBajadaMaquinaAEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaMaquinaBEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaMaquinaCEstacionB, bajadaEstacionB);
+		this.colaCondicion.put(tranBajadaMaquinaDEstacionC, bajadaEstacionC);
+		this.colaCondicion.put(tranBajadaVagonAEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaVagonBEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaVagonCEstacionB, bajadaEstacionB);
+		this.colaCondicion.put(tranBajadaVagonDEstacionC, bajadaEstacionC);
+
+		this.colaCondicion.put(tranBajadaMaquinaAEstacionB, bajadaEstacionB);
+		this.colaCondicion.put(tranBajadaMaquinaAEstacionC, bajadaEstacionC);
+		this.colaCondicion.put(tranBajadaMaquinaBEstacionC, bajadaEstacionC);
+		this.colaCondicion.put(tranBajadaMaquinaBEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaMaquinaCEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaMaquinaCEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaMaquinaDEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaMaquinaDEstacionB, bajadaEstacionB);
+		this.colaCondicion.put(tranBajadaVagonAEstacionB, bajadaEstacionB);
+		this.colaCondicion.put(tranBajadaVagonAEstacionC, bajadaEstacionC);
+		this.colaCondicion.put(tranBajadaVagonBEstacionC, bajadaEstacionC);
+		this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaVagonCEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
+		this.colaCondicion.put(tranBajadaVagonDEstacionA, bajadaEstacionA);
+		this.colaCondicion.put(tranBajadaVagonDEstacionB, bajadaEstacionB);
+
+		this.colaCondicion.put(tranSubidaMaquinaEstacionA, subidaEstacionA);
+		this.colaCondicion.put(tranSubidaMaquinaEstacionB, subidaEstacionB);
+		this.colaCondicion.put(tranSubidaMaquinaEstacionC, subidaEstacionC);
+		this.colaCondicion.put(tranSubidaMaquinaEstacionD, subidaEstacionD);
+		this.colaCondicion.put(tranSubidaVagonEstacionA, subidaEstacionA);
+		this.colaCondicion.put(tranSubidaVagonEstacionB, subidaEstacionB);
+		this.colaCondicion.put(tranSubidaVagonEstacionC, subidaEstacionC);
+		this.colaCondicion.put(tranSubidaVagonEstacionD, subidaEstacionD);
+
 		this.colaCondicion.put(tranTrenLlenoEstacionVaciaA, fullTrenOrEmptyEstacion);
 		this.colaCondicion.put(tranTrenLlenoEstacionVaciaB, fullTrenOrEmptyEstacion);
 		this.colaCondicion.put(tranTrenLlenoEstacionVaciaC, fullTrenOrEmptyEstacion);
 		this.colaCondicion.put(tranTrenLlenoEstacionVaciaD, fullTrenOrEmptyEstacion);
-		
-		
-		this.colaCondicion.put(tranSubidaMaquinaEstacionA, subidaEstacionA);
-		this.colaCondicion.put(tranSubidaVagonEstacionA, subidaEstacionA);
-		
-		this.colaCondicion.put(tranSubidaMaquinaEstacionB, subidaEstacionB);
-		this.colaCondicion.put(tranSubidaVagonEstacionB, subidaEstacionB);
-		
-		this.colaCondicion.put(tranSubidaMaquinaEstacionC, subidaEstacionC);
-		this.colaCondicion.put(tranSubidaVagonEstacionC, subidaEstacionC);
-		
-		this.colaCondicion.put(tranSubidaMaquinaEstacionD, subidaEstacionD);
-		this.colaCondicion.put(tranSubidaVagonEstacionD, subidaEstacionD);
-		
-		
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonBEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonCEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonDEstacionA, bajadaEstacionA);
-		
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonAEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonCEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonDEstacionB, bajadaEstacionB);
-		
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonAEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonBEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonDEstacionC, bajadaEstacionC);
-		
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonAEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
-		
-		this.colaCondicion.put(tranPasoNivelABTransitoReady, pasoDeNivelAB);
-		this.colaCondicion.put(tranPasoNivelCDTransitoReady, pasoDeNivelCD);
+
+		this.colaCondicion.put(tranTrenEsperandoA, tiempoDeEspera);
+		this.colaCondicion.put(tranTrenEsperandoB, tiempoDeEspera);
+		this.colaCondicion.put(tranTrenEsperandoC, tiempoDeEspera);
+		this.colaCondicion.put(tranTrenEsperandoD, tiempoDeEspera);
+
+//		this.colaCondicion.put(tranPasoNivelABTransitoReady, pasoDeNivelAB);
+//		this.colaCondicion.put(tranPasoNivelCDTransitoReady, pasoDeNivelCD);
 		this.colaCondicion.put(tranPasoNivelABTransitoWait, pasoDeNivelAB);
 		this.colaCondicion.put(tranPasoNivelCDTransitoWait, pasoDeNivelCD);
 		
 		
-		this.politicas = new LinkedHashMap<>();
-		int index = 0;
-		this.politicas.put(index++, tranBajadaMaquinaAEstacionD);
-		this.politicas.put(index++, tranBajadaMaquinaBEstacionA);
-		this.politicas.put(index++, tranBajadaMaquinaCEstacionB);
-		this.politicas.put(index++, tranBajadaMaquinaDEstacionC);
-		this.politicas.put(index++, tranBajadaVagonAEstacionD);
-		this.politicas.put(index++, tranBajadaVagonBEstacionA);
-		this.politicas.put(index++, tranBajadaVagonCEstacionB);
-		this.politicas.put(index++, tranBajadaVagonDEstacionC);
-		
-		
-		this.politicas.put(index++, tranBajadaMaquinaAEstacionB);
-		this.politicas.put(index++, tranBajadaMaquinaAEstacionC);
-		this.politicas.put(index++, tranBajadaMaquinaBEstacionC);
-		this.politicas.put(index++, tranBajadaMaquinaBEstacionD);
-		this.politicas.put(index++, tranBajadaMaquinaCEstacionA);
-		this.politicas.put(index++, tranBajadaMaquinaCEstacionD);
-		this.politicas.put(index++, tranBajadaMaquinaDEstacionA);
-		this.politicas.put(index++, tranBajadaMaquinaDEstacionB);
-		this.politicas.put(index++, tranBajadaVagonAEstacionB);
-		this.politicas.put(index++, tranBajadaVagonAEstacionC);
-		this.politicas.put(index++, tranBajadaVagonBEstacionC);
-		this.politicas.put(index++, tranBajadaVagonBEstacionD);
-		this.politicas.put(index++, tranBajadaVagonCEstacionA);
-		this.politicas.put(index++, tranBajadaVagonCEstacionD);
-		this.politicas.put(index++, tranBajadaVagonDEstacionA);
-		this.politicas.put(index++, tranBajadaVagonDEstacionB);
-		
-		
-		this.politicas.put(index++, tranSubidaMaquinaEstacionA);
-		this.politicas.put(index++, tranSubidaMaquinaEstacionB);
-		this.politicas.put(index++, tranSubidaMaquinaEstacionC);
-		this.politicas.put(index++, tranSubidaMaquinaEstacionD);
-		this.politicas.put(index++, tranSubidaVagonEstacionA);
-		this.politicas.put(index++, tranSubidaVagonEstacionB);
-		this.politicas.put(index++, tranSubidaVagonEstacionC);
-		this.politicas.put(index++, tranSubidaVagonEstacionD);
-		
-		
-		this.politicas.put(index++, tranTrenLlenoEstacionVaciaA);
-		this.politicas.put(index++, tranTrenLlenoEstacionVaciaB);
-		this.politicas.put(index++, tranTrenLlenoEstacionVaciaC);
-		this.politicas.put(index++, tranTrenLlenoEstacionVaciaD);
-		
-		this.politicas.put(index++, tranTrenEsperandoA);
-		this.politicas.put(index++, tranTrenEsperandoB);
-		this.politicas.put(index++, tranTrenEsperandoC);
-		this.politicas.put(index++, tranTrenEsperandoD);
-
-		this.politicas.put(index++, tranPasoNivelABTransitoReady);
-		this.politicas.put(index++, tranPasoNivelCDTransitoReady);
-		this.politicas.put(index++, tranPasoNivelABTransitoWait);
-		this.politicas.put(index++, tranPasoNivelCDTransitoWait);
+//		this.politicas = new LinkedHashMap<>();
+//		int index = 0;
+//		this.politicas.put(index++, tranBajadaMaquinaAEstacionD);
+//		this.politicas.put(index++, tranBajadaMaquinaBEstacionA);
+//		this.politicas.put(index++, tranBajadaMaquinaCEstacionB);
+//		this.politicas.put(index++, tranBajadaMaquinaDEstacionC);
+//		this.politicas.put(index++, tranBajadaVagonAEstacionD);
+//		this.politicas.put(index++, tranBajadaVagonBEstacionA);
+//		this.politicas.put(index++, tranBajadaVagonCEstacionB);
+//		this.politicas.put(index++, tranBajadaVagonDEstacionC);
+//		
+//		
+//		this.politicas.put(index++, tranBajadaMaquinaAEstacionB);
+//		this.politicas.put(index++, tranBajadaMaquinaAEstacionC);
+//		this.politicas.put(index++, tranBajadaMaquinaBEstacionC);
+//		this.politicas.put(index++, tranBajadaMaquinaBEstacionD);
+//		this.politicas.put(index++, tranBajadaMaquinaCEstacionA);
+//		this.politicas.put(index++, tranBajadaMaquinaCEstacionD);
+//		this.politicas.put(index++, tranBajadaMaquinaDEstacionA);
+//		this.politicas.put(index++, tranBajadaMaquinaDEstacionB);
+//		this.politicas.put(index++, tranBajadaVagonAEstacionB);
+//		this.politicas.put(index++, tranBajadaVagonAEstacionC);
+//		this.politicas.put(index++, tranBajadaVagonBEstacionC);
+//		this.politicas.put(index++, tranBajadaVagonBEstacionD);
+//		this.politicas.put(index++, tranBajadaVagonCEstacionA);
+//		this.politicas.put(index++, tranBajadaVagonCEstacionD);
+//		this.politicas.put(index++, tranBajadaVagonDEstacionA);
+//		this.politicas.put(index++, tranBajadaVagonDEstacionB);
+//		
+//		
+//		this.politicas.put(index++, tranSubidaMaquinaEstacionA);
+//		this.politicas.put(index++, tranSubidaMaquinaEstacionB);
+//		this.politicas.put(index++, tranSubidaMaquinaEstacionC);
+//		this.politicas.put(index++, tranSubidaMaquinaEstacionD);
+//		this.politicas.put(index++, tranSubidaVagonEstacionA);
+//		this.politicas.put(index++, tranSubidaVagonEstacionB);
+//		this.politicas.put(index++, tranSubidaVagonEstacionC);
+//		this.politicas.put(index++, tranSubidaVagonEstacionD);
+//		
+//		
+//		this.politicas.put(index++, tranTrenLlenoEstacionVaciaA);
+//		this.politicas.put(index++, tranTrenLlenoEstacionVaciaB);
+//		this.politicas.put(index++, tranTrenLlenoEstacionVaciaC);
+//		this.politicas.put(index++, tranTrenLlenoEstacionVaciaD);
+//		
+//		this.politicas.put(index++, tranTrenEsperandoA);
+//		this.politicas.put(index++, tranTrenEsperandoB);
+//		this.politicas.put(index++, tranTrenEsperandoC);
+//		this.politicas.put(index++, tranTrenEsperandoD);
+//
+//		this.politicas.put(index++, tranPasoNivelABTransitoReady);
+//		this.politicas.put(index++, tranPasoNivelCDTransitoReady);
+//		this.politicas.put(index++, tranPasoNivelABTransitoWait);
+//		this.politicas.put(index++, tranPasoNivelCDTransitoWait);
 
 		
 		this.abordarTren = new LinkedHashMap<>();
@@ -383,47 +376,68 @@ public class Monitor extends ConstantesComunes {
 				((Tren)Thread.currentThread()).setTimeStamp(new Date());
 			}
 			
-			String disparada = null;
-			Boolean disparoRealizado = false;
-			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
+
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
 			
 			LinkedHashMap<String, Boolean> preSensibilizadas = getSensibilizadas();
 			for(String transicion: prioritarias) {
 				if(preSensibilizadas.get(transicion) && recorridoTren.contains(transicion)) {
-					disparoRealizado = dispararRed(transicion);
-					disparada = transicion;
+					dispararRed(transicion);
 					break;
 				}
 			}
 			
-			if(!disparoRealizado) {
-				for(String transicion: transiciones) {
-					if(preSensibilizadas.get(transicion) && (!prioritarias.contains(transicion))) {
-						dispararRed(transicion);
-						disparada = transicion;
-						break;
+//			if(!disparoRealizado) {
+//				for(String transicion: transiciones) {
+//					if(preSensibilizadas.get(transicion) && (!prioritarias.contains(transicion))) {
+//						dispararRed(transicion);
+//						disparada = transicion;
+//						break;
+//					}
+//				}
+//			}
+			
+			boolean ningunaCondicionNotificada = true;
+			while (ningunaCondicionNotificada) {
+				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+				for(String transicion: prioritarias) {
+					if(vectorInterseccion.get(transicion)) {
+						colaCondicion.get(transicion).signal();
+						ningunaCondicionNotificada = false;
+						return;
+					}
+				}
+				
+				if(ningunaCondicionNotificada) {
+					for(String transicion: transiciones) {
+						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+							dispararRed(transicion);
+							break;
+						}
 					}
 				}
 			}
+				
+				/* PostDisparo se busca en las colas de condicion el siguiente hilo a despertar */
+
+//				if(!disparoRealizado) {
+//					LinkedHashMap<String, Boolean> vectorSensicilizadas = getSensibilizadas();
+//					LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(vectorSensicilizadas, lock);
+//					for(String transicion: prioritarias) {
+//						if(vectorInterseccion.get(transicion) || (transicion.equals(disparada) && vectorSensicilizadas.get(disparada))) {
+//							colaCondicion.get(transicion).signal();
+//							return;
+//						}
+//					}
+//					
+//					for(String transicion: transiciones) {
+//						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+//							dispararRed(transicion);
+//							return;
+//						}
+//					}
+//				}
 			
-			
-			/* PostDisparo se busca en las colas de condicion el siguiente hilo a despertar */
-			
-			LinkedHashMap<String, Boolean> vectorSensicilizadas = getSensibilizadas();
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(vectorSensicilizadas, lock);
-			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion) || (transicion.equals(disparada) && vectorSensicilizadas.get(disparada))) {
-					colaCondicion.get(transicion).signal();
-					return;
-				}
-			}
-			
-			for(String transicion: transiciones) {
-				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-					dispararRed(transicion);
-					return;
-				}
-			}
 			
 		} finally {
 			lock.unlock();
@@ -476,19 +490,26 @@ public class Monitor extends ConstantesComunes {
 				}
 			}
 			
-			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion)) {
-					colaCondicion.get(transicion).signal();
-					return;
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
+
+			boolean ningunaCondicionNotificada = true;
+			while (ningunaCondicionNotificada) {
+				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+				for(String transicion: prioritarias) {
+					if(vectorInterseccion.get(transicion)) {
+						colaCondicion.get(transicion).signal();
+						ningunaCondicionNotificada = false;
+						return;
+					}
 				}
-			}
-			
-			for(String transicion: transiciones) {
-				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-					dispararRed(transicion);
-					return;
+				
+				if(ningunaCondicionNotificada) {
+					for(String transicion: transiciones) {
+						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+							dispararRed(transicion);
+							break;
+						}
+					}
 				}
 			}
 			
@@ -556,20 +577,26 @@ public class Monitor extends ConstantesComunes {
 				}
 			}
 			
-			
-			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion)) {
-					colaCondicion.get(transicion).signal();
-					return;
+
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
+			boolean ningunaCondicionNotificada = true;
+			while (ningunaCondicionNotificada) {
+				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+				for(String transicion: prioritarias) {
+					if(vectorInterseccion.get(transicion)) {
+						colaCondicion.get(transicion).signal();
+						ningunaCondicionNotificada = false;
+						return;
+					}
 				}
-			}
-			
-			for(String transicion: transiciones) {
-				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-					dispararRed(transicion);
-					return;
+
+				if (ningunaCondicionNotificada) {
+					for(String transicion: transiciones) {
+						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+							dispararRed(transicion);
+							break;
+						}
+					}
 				}
 			}
 			
@@ -586,21 +613,23 @@ public class Monitor extends ConstantesComunes {
 		
 		try {
 			while(	pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2)) && (
-					((Transito) Thread.currentThread()).getVehiculos() == 0 ||
-					marcado[plazas.indexOf(pasoNivelABTransito)] == 0 && (
+//					marcado[plazas.indexOf(pasoNivelABTransito)] == 0 && (
+							((Transito) Thread.currentThread()).getVehiculos() == 0 ||
 							marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
 							marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || 
 							marcado[plazas.indexOf(pasoNivelABVagon)] != 0
-					) ) ) {
+//					) 
+					) ) {
 				pasoDeNivelAB.await();
 			}
 			while(	pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2)) && (
-					((Transito) Thread.currentThread()).getVehiculos() == 0 ||
-					marcado[plazas.indexOf(pasoNivelCDTransito)] == 0 && (
+//					marcado[plazas.indexOf(pasoNivelCDTransito)] == 0 && (
+							((Transito) Thread.currentThread()).getVehiculos() == 0 ||
 							marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
 							marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || 
 							marcado[plazas.indexOf(pasoNivelCDVagon)] != 0
-					) ) ) {
+//					) 
+					) ) {
 				pasoDeNivelCD.await();
 			}
 			
@@ -612,18 +641,18 @@ public class Monitor extends ConstantesComunes {
 			
 			if(vehiculos > 0) {
 				if(pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2))) {
-					if(marcado[plazas.indexOf(pasoNivelABTransito)] == 0) {
+//					if(marcado[plazas.indexOf(pasoNivelABTransito)] == 0) {
 						disparoExitoso = dispararRed(tranPasoNivelABTransitoWait);
-					} else {
-						disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
-					}
+//					} else {
+//						disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+//					}
 				}
 				if(pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2))) {
-					if(marcado[plazas.indexOf(pasoNivelCDTransito)] == 0) {
+//					if(marcado[plazas.indexOf(pasoNivelCDTransito)] == 0) {
 						disparoExitoso = dispararRed(tranPasoNivelCDTransitoWait);
-					} else {
-						disparoExitoso = dispararRed(tranPasoNivelCDTransitoReady);
-					}
+//					} else {
+//						disparoExitoso = dispararRed(tranPasoNivelCDTransitoReady);
+//					}
 				}
 			}
 			
@@ -631,19 +660,25 @@ public class Monitor extends ConstantesComunes {
 				((Transito) Thread.currentThread()).setVehiculos(((Transito) Thread.currentThread()).getVehiculos() - 1);
 			}
 			
-			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(politicas.values().toArray(new String[politicas.values().size()])));
-			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-			for(String transicion: prioritarias) {
-				if(vectorInterseccion.get(transicion)) {
-					colaCondicion.get(transicion).signal();
-					return;
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
+			boolean ningunaCondicionNotificada = true;
+			while (ningunaCondicionNotificada) {
+				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+				for(String transicion: prioritarias) {
+					if(vectorInterseccion.get(transicion)) {
+						colaCondicion.get(transicion).signal();
+						ningunaCondicionNotificada = false;
+						return;
+					}
 				}
-			}
-			
-			for(String transicion: transiciones) {
-				if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-					dispararRed(transicion);
-					return;
+
+				if (ningunaCondicionNotificada) {
+					for(String transicion: transiciones) {
+						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
+							dispararRed(transicion);
+							break;
+						}
+					}
 				}
 			}
 			
@@ -693,17 +728,17 @@ public class Monitor extends ConstantesComunes {
 	}
 	
 	private LinkedHashMap<String, Boolean> getSensibilizadas(){
-		LinkedHashMap<String, Boolean> transiciones = new LinkedHashMap<>();
+		LinkedHashMap<String, Boolean> sensibilizadas = new LinkedHashMap<>();
 		
-		for (String transicion : this.transiciones) {
+		for (String transicion : transiciones) {
 			Integer sign = 0;
 			for(int i = 0; i < matrizMenos.length; i++) {
-				sign = new Integer(marcado[i]) - matrizMenos[i][this.transiciones.indexOf(transicion)];
-				transiciones.put(transicion, (transiciones.get(transicion)!=null? transiciones.get(transicion) : true) && !(sign < 0));
+				sign = new Integer(marcado[i]) - matrizMenos[i][transiciones.indexOf(transicion)];
+				sensibilizadas.put(transicion, (sensibilizadas.get(transicion)!=null? sensibilizadas.get(transicion) : true) && !(sign < 0));
 			}
 		}
 		
-		return transiciones;
+		return sensibilizadas;
 	}
 	
 	private boolean dispararRed(String transicion) {
