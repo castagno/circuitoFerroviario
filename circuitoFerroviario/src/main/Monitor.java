@@ -70,7 +70,8 @@ public class Monitor extends ConstantesComunes {
 	
 	private final Condition pasoDeNivelVagonAB = lock.newCondition();
 	private final Condition pasoDeNivelVagonCD = lock.newCondition();
-	
+
+	private final Condition liberarBarreraPasoNivel = lock.newCondition();
 	
 	
 	/* Plazas */
@@ -129,6 +130,10 @@ public class Monitor extends ConstantesComunes {
 	/* Transito en el paso de nivel Cruzando */
 	private final String pasoNivelABTransito = "PNABT";
 	private final String pasoNivelCDTransito = "PNCDT";
+	
+	/* Transito en el paso de nivel Esperando */
+	private final String pasoNivelABTransitoEsperando = "PNABTQ";
+	private final String pasoNivelCDTransitoEsperando = "PNCDTQ";
 	
 	/* Maquina en el paso de nivel Cruzando */
 	private final String pasoNivelABMaquina = "RABM";
@@ -467,9 +472,9 @@ public class Monitor extends ConstantesComunes {
 		
 		try {
 			while((	marcado[plazas.indexOf(trenEstacionAEspera)] == 1 || 
-					marcado[plazas.indexOf(trenEstacionBEspera)] == 1 ||
-					marcado[plazas.indexOf(trenEstacionCEspera)] == 1 ||
-					marcado[plazas.indexOf(trenEstacionDEspera)] == 1)&&
+					marcado[plazas.indexOf(trenEstacionBEspera)] == 1 || 
+					marcado[plazas.indexOf(trenEstacionCEspera)] == 1 || 
+					marcado[plazas.indexOf(trenEstacionDEspera)] == 1)&& 
 					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
 					) {
 				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
@@ -616,49 +621,29 @@ public class Monitor extends ConstantesComunes {
 				subidaEstacionD.await();
 			}
 
-			Integer pasajeros = ((SubirPasajeros) Thread.currentThread()).getPasajeros();
-			System.out.println("\n"+"Pasajeros : "+pasajeros+"\n");
-			if(pasajeros > 0) {
-				boolean disparoExitoso = false;
-				ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
-				for(String subida: listaSubidas) {
-					System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
-					if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
-							marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 && 
-							abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
-						disparoExitoso = dispararRed(subida);
-						if(disparoExitoso) {
-							ultimaSubidaEstacion.put(trenEstacion + threadName.substring(threadName.length() - 1), new Date());
-							break;
-						}
+			boolean disparoExitoso = false;
+			ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
+			for(String subida: listaSubidas) {
+				System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
+				if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
+						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 && 
+						abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
+					disparoExitoso = dispararRed(subida);
+					if(disparoExitoso) {
+						ultimaSubidaEstacion.put(trenEstacion + threadName.substring(threadName.length() - 1), new Date());
+						break;
 					}
-				}
-				
-				if(disparoExitoso) {
-					((SubirPasajeros) Thread.currentThread()).setPasajeros(pasajeros - 1);
 				}
 			}
 			
+			
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
 
-			boolean ningunaCondicionNotificada = true;
-			while (ningunaCondicionNotificada) {
-				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-				for(String transicion: prioritarias) {
-					if(vectorInterseccion.get(transicion)) {
-						colaCondicion.get(transicion).signal();
-						ningunaCondicionNotificada = false;
-						return;
-					}
-				}
-				
-				if(ningunaCondicionNotificada) {
-					for(String transicion: transiciones) {
-						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-							dispararRed(transicion);
-							break;
-						}
-					}
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
 				}
 			}
 			
@@ -728,26 +713,14 @@ public class Monitor extends ConstantesComunes {
 			
 
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
-			boolean ningunaCondicionNotificada = true;
-			while (ningunaCondicionNotificada) {
-				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-				for(String transicion: prioritarias) {
-					if(vectorInterseccion.get(transicion)) {
-						colaCondicion.get(transicion).signal();
-						ningunaCondicionNotificada = false;
-						return;
-					}
-				}
-
-				if (ningunaCondicionNotificada) {
-					for(String transicion: transiciones) {
-						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-							dispararRed(transicion);
-							break;
-						}
-					}
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
 				}
 			}
+
 			
 		} finally {
 			lock.unlock();
@@ -761,73 +734,68 @@ public class Monitor extends ConstantesComunes {
 		String threadName = Thread.currentThread().getName();
 		
 		try {
-			while(	pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2)) && (
-					marcado[plazas.indexOf(pasoNivelABTransito)] == 0 && (
-							((Transito) Thread.currentThread()).getVehiculos() == 0 ||
-							marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
-							marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || 
-							marcado[plazas.indexOf(pasoNivelABVagon)] != 0
-					) 
+			while(	pasoNivelTransitoAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+						marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelABVagon)] != 0
 					) ) {
 				pasoDeNivelTransitoAB.await();
 			}
-			while(	pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2)) && (
-					marcado[plazas.indexOf(pasoNivelCDTransito)] == 0 && (
-							((Transito) Thread.currentThread()).getVehiculos() == 0 ||
-							marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
-							marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || 
-							marcado[plazas.indexOf(pasoNivelCDVagon)] != 0
-					) 
+			while(	pasoNivelTransitoCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+						marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelCDVagon)] != 0
 					) ) {
 				pasoDeNivelTransitoCD.await();
 			}
-			
-			Integer vehiculos = ((Transito) Thread.currentThread()).getVehiculos();
-			System.out.println("\n"+"vehiculos : "+vehiculos+"\n");
-			
-			//TODO
-			boolean disparoExitoso = false;
-			
-			if(vehiculos > 0) {
-				if(pasoNivelAB.endsWith(threadName.substring(threadName.length() - 2))) {
-					if(marcado[plazas.indexOf(pasoNivelABTransito)] == 0) {
-						disparoExitoso = dispararRed(tranPasoNivelABTransitoWait);
-					} else {
-						disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
-					}
-				}
-				if(pasoNivelCD.endsWith(threadName.substring(threadName.length() - 2))) {
-					if(marcado[plazas.indexOf(pasoNivelCDTransito)] == 0) {
-						disparoExitoso = dispararRed(tranPasoNivelCDTransitoWait);
-					} else {
-						disparoExitoso = dispararRed(tranPasoNivelCDTransitoReady);
-					}
-				}
+			while(	pasoNivelVagonAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABVagon)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0|| 
+						marcado[plazas.indexOf(pasoNivelABMaquina)] != 0
+					) ) {
+				pasoDeNivelVagonAB.await();
 			}
+			while(	pasoNivelVagonCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDVagon)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0|| 
+						marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0
+					) ) {
+				pasoDeNivelVagonCD.await();
+			}
+			while(	pasoNivelMaquinaAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABMaquina)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0
+					) ) {
+				pasoDeNivelMaquinaAB.await();
+			}
+			while(	pasoNivelMaquinaCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDMaquina)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0
+					) ) {
+				pasoDeNivelMaquinaCD.await();
+			}
+		
 			
-			if(disparoExitoso) {
-				((Transito) Thread.currentThread()).setVehiculos(((Transito) Thread.currentThread()).getVehiculos() - 1);
+			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABTransitoWait);
+//				disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+			}
+			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDTransitoWait);
+			}
+			if(pasoNivelMaquinaAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABMaquinaWait);
+			}
+			if(pasoNivelMaquinaCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDMaquinaWait);
+			}
+			if(pasoNivelVagonAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABVagonWait);
+			}
+			if(pasoNivelVagonCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDVagonWait);
 			}
 			
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
-			boolean ningunaCondicionNotificada = true;
-			while (ningunaCondicionNotificada) {
-				LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
-				for(String transicion: prioritarias) {
-					if(vectorInterseccion.get(transicion)) {
-						colaCondicion.get(transicion).signal();
-						ningunaCondicionNotificada = false;
-						return;
-					}
-				}
-
-				if (ningunaCondicionNotificada) {
-					for(String transicion: transiciones) {
-						if(vectorInterseccion.get(transicion) && !prioritarias.contains(transicion)) {
-							dispararRed(transicion);
-							break;
-						}
-					}
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
 				}
 			}
 			
@@ -837,6 +805,83 @@ public class Monitor extends ConstantesComunes {
 	}
 
 	
+
+	public void liberarBarreraPasoNivel() throws InterruptedException {
+		lock.lock();
+
+		String threadName = Thread.currentThread().getName();
+		
+		try {
+			while(	pasoNivelTransitoAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+						marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelABVagon)] != 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+			while(	pasoNivelTransitoCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+						marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 || marcado[plazas.indexOf(pasoNivelCDVagon)] != 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+			while(	pasoNivelVagonAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABVagon)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0|| 
+						marcado[plazas.indexOf(pasoNivelABMaquina)] != 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+			while(	pasoNivelVagonCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDVagon)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0|| 
+						marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+			while(	pasoNivelMaquinaAB.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelABMaquina)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+			while(	pasoNivelMaquinaCD.equalsIgnoreCase(threadName) && 
+					(	marcado[plazas.indexOf(pasoNivelCDMaquina)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0
+					) ) {
+				liberarBarreraPasoNivel.await();
+			}
+		
+			
+			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABTransitoWait);
+//				disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+			}
+			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDTransitoWait);
+			}
+			if(pasoNivelMaquinaAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABMaquinaWait);
+			}
+			if(pasoNivelMaquinaCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDMaquinaWait);
+			}
+			if(pasoNivelVagonAB.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelABVagonWait);
+			}
+			if(pasoNivelVagonCD.equalsIgnoreCase(threadName)) {
+				dispararRed(tranPasoNivelCDVagonWait);
+			}
+			
+			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
+			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getSensibilizadas(), lock);
+			for(String transicion: prioritarias) {
+				if(vectorInterseccion.get(transicion)) {
+					colaCondicion.get(transicion).signal();
+					return;
+				}
+			}
+			
+		} finally {
+			lock.unlock();
+		}
+	}
+
 	
 	private LinkedHashMap<String, Boolean> getInterseccionCondicion(LinkedHashMap<String, Boolean> vectorSensibilizadas, ReentrantLock lock) {
 		LinkedHashMap<String, Boolean> interseccion = new LinkedHashMap<>();

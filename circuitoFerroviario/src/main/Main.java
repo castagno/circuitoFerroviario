@@ -24,10 +24,10 @@ public class Main extends ConstantesComunes {
 		
 		Monitor monitor = new Monitor(matrizMas, matrizMenos, marcadoInicial, transiciones);
 
-		Transito pasoDeNivelAB = new Transito(monitor, pasoNivelAB);
-		pasoDeNivelAB.start();
-		Transito pasoDeNivelCD = new Transito(monitor, pasoNivelCD);
-		pasoDeNivelCD.start();
+		PasoNivel pasoDeNivelTransitoAB = new PasoNivel(monitor, transito, recorridoAB);
+		pasoDeNivelTransitoAB.start();
+		PasoNivel pasoDeNivelTransitoCD = new PasoNivel(monitor, transito, recorridoCD);
+		pasoDeNivelTransitoCD.start();
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);
 		subirPasajerosA.start();
