@@ -17,6 +17,8 @@ public class ConstantesComunes {
 	public static final String maquina = "Maquina";
 	
 	public static final String vagon = "Vagon";
+
+	public static final String pasajeros = "Pasajeros";
 	
 	public static final String transito = "Transito";
 	
@@ -31,4 +33,15 @@ public class ConstantesComunes {
 	
 	public static final String pasoNivelVagonAB = vagon+recorridoAB;
 	public static final String pasoNivelVagonCD = vagon+recorridoCD;
+	
+	public static final String pasoNivel = "PasoNivel";
+	
+	public static final String precedenciaPrincipal = "Principal";
+	public static final String precedenciaAuxiliar = "Auxiliar";
+	public static final String precedenciaAuxiliarArrivo = precedenciaAuxiliar+"Arrivo";
+	public static final String precedenciaAuxiliarPartida = precedenciaAuxiliar+"Partida";
+	
+	public static final String generador = "Generador";
+	public static final String generadorTransito = generador+transito;
+	public static final String generadorPasajeros = generador+pasajeros;
 }

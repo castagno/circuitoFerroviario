@@ -8,49 +8,90 @@ import java.util.Scanner;
 
 public class Main extends ConstantesComunes {
 	private static final String marcadoInicial = "./src/main/MarcadoInicial.html";
+	private static final String matrizInhibicion = "./src/main/MatrizInhibicion.html";
 	private static final String matrizIMas = "./src/main/MatrizIMas.html";
 	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";
 //	private static final String absolutePath = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario";
 
 	public static void main(String[] args) {
 		
-		Integer[][] matrizMas = getIncidenceMatrix(matrizIMas);
-		Integer[][] matrizMenos = getIncidenceMatrix(matrizIMenos);
+		Integer[][] matrizMas = getMatrix(matrizIMas);
+		Integer[][] matrizMenos = getMatrix(matrizIMenos);
+		Integer[][] matrizInhibidora = getMatrix(matrizInhibicion);
 		
 		ArrayList<String> transiciones = getTransiciones(matrizIMas);
 		
 		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
 		
-		Monitor monitor = new Monitor(matrizMas, matrizMenos, marcadoInicial, transiciones);
-
-		PasoNivel pasoDeNivelTransitoAB = new PasoNivel(monitor, transito, recorridoAB);
-		pasoDeNivelTransitoAB.start();
-		PasoNivel pasoDeNivelTransitoCD = new PasoNivel(monitor, transito, recorridoCD);
-		pasoDeNivelTransitoCD.start();
+		Monitor monitor = new Monitor(matrizMas, matrizMenos, matrizInhibidora, marcadoInicial, transiciones);
 		
-		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA);
+		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA, precedenciaPrincipal);
 		subirPasajerosA.start();
-		SubirPasajeros subirPasajerosB = new SubirPasajeros(monitor, estacionB);
+		SubirPasajeros subirPasajerosB = new SubirPasajeros(monitor, estacionB, precedenciaPrincipal);
 		subirPasajerosB.start();
-		SubirPasajeros subirPasajerosC = new SubirPasajeros(monitor, estacionC);
+		SubirPasajeros subirPasajerosC = new SubirPasajeros(monitor, estacionC, precedenciaPrincipal);
 		subirPasajerosC.start();
-		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD);
+		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD, precedenciaPrincipal);
 		subirPasajerosD.start();
 		
-		BajarPasajeros bajarPasajerosA = new BajarPasajeros(monitor, estacionA);
+		SubirPasajeros subirPasajerosAuxA = new SubirPasajeros(monitor, estacionA, precedenciaAuxiliar);
+		subirPasajerosAuxA.start();
+		SubirPasajeros subirPasajerosAuxB = new SubirPasajeros(monitor, estacionB, precedenciaAuxiliar);
+		subirPasajerosAuxB.start();
+		SubirPasajeros subirPasajerosAuxC = new SubirPasajeros(monitor, estacionC, precedenciaAuxiliar);
+		subirPasajerosAuxC.start();
+		SubirPasajeros subirPasajerosAuxD = new SubirPasajeros(monitor, estacionD, precedenciaAuxiliar);
+		subirPasajerosAuxD.start();
+		
+		BajarPasajeros bajarPasajerosA = new BajarPasajeros(monitor, estacionA, precedenciaPrincipal);
 		bajarPasajerosA.start();
-		BajarPasajeros bajarPasajerosB = new BajarPasajeros(monitor, estacionB);
+		BajarPasajeros bajarPasajerosB = new BajarPasajeros(monitor, estacionB, precedenciaPrincipal);
 		bajarPasajerosB.start();
-		BajarPasajeros bajarPasajerosC = new BajarPasajeros(monitor, estacionC);
+		BajarPasajeros bajarPasajerosC = new BajarPasajeros(monitor, estacionC, precedenciaPrincipal);
 		bajarPasajerosC.start();
-		BajarPasajeros bajarPasajerosD = new BajarPasajeros(monitor, estacionD);
+		BajarPasajeros bajarPasajerosD = new BajarPasajeros(monitor, estacionD, precedenciaPrincipal);
 		bajarPasajerosD.start();
 		
+		BajarPasajeros bajarPasajerosAuxA = new BajarPasajeros(monitor, estacionA, precedenciaAuxiliar);
+		bajarPasajerosAuxA.start();
+		BajarPasajeros bajarPasajerosAuxB = new BajarPasajeros(monitor, estacionB, precedenciaAuxiliar);
+		bajarPasajerosAuxB.start();
+		BajarPasajeros bajarPasajerosAuxC = new BajarPasajeros(monitor, estacionC, precedenciaAuxiliar);
+		bajarPasajerosAuxC.start();
+		BajarPasajeros bajarPasajerosAuxD = new BajarPasajeros(monitor, estacionD, precedenciaAuxiliar);
+		bajarPasajerosAuxD.start();
 		
-		
-		Tren tren = new Tren(monitor);
+		Tren tren = new Tren(monitor, precedenciaPrincipal);
 		tren.start();
+		Tren trenAuxiliarArrivo = new Tren(monitor, precedenciaAuxiliarArrivo);
+		trenAuxiliarArrivo.start();
+		Tren trenAuxiliarPartida = new Tren(monitor, precedenciaAuxiliarPartida);
+		trenAuxiliarPartida.start();
+		
+		Generador generadorPasajerosEstacionA = new Generador(monitor, generadorPasajeros, estacionA);
+		generadorPasajerosEstacionA.start();
+		Generador generadorPasajerosEstacionB = new Generador(monitor, generadorPasajeros, estacionB);
+		generadorPasajerosEstacionB.start();
+		Generador generadorPasajerosEstacionC = new Generador(monitor, generadorPasajeros, estacionC);
+		generadorPasajerosEstacionC.start();
+		Generador generadorPasajerosEstacionD = new Generador(monitor, generadorPasajeros, estacionD);
+		generadorPasajerosEstacionD.start();
+		
+		Generador generadorTransitoEstacionA = new Generador(monitor, generadorTransito, recorridoAB);
+		generadorTransitoEstacionA.start();
+		Generador generadorTransitoEstacionB = new Generador(monitor, generadorTransito, recorridoCD);
+		generadorTransitoEstacionB.start();
+		
+		PasoNivel pasoDeNivelMaquina = new PasoNivel(monitor, maquina);
+		pasoDeNivelMaquina.start();
+		PasoNivel pasoDeNivelVagon = new PasoNivel(monitor, vagon);
+		pasoDeNivelVagon.start();
+		PasoNivelAuxiliar pasoDeNivelTransitoAB = new PasoNivelAuxiliar(monitor, recorridoAB);
+		pasoDeNivelTransitoAB.start();
+		PasoNivelAuxiliar pasoDeNivelTransitoCD = new PasoNivelAuxiliar(monitor, recorridoCD);
+		pasoDeNivelTransitoCD.start();
+		
 	}
 	
 	/*
@@ -105,7 +146,7 @@ public class Main extends ConstantesComunes {
 	}
 	*/
 	
-	static private Integer[][] getIncidenceMatrix(String pathName) {
+	static private Integer[][] getMatrix(String pathName) {
 		Integer[][] matriz = new Integer[100][100];
 		Integer[][] matrizIncidencia = null;
 		

@@ -9,12 +9,12 @@ public class Tren extends Thread {
 //	private ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia;
 	private Date sleepTimeStamp;
 	
-	public Tren(Monitor monitor) {
+	public Tren(Monitor monitor, String precedencia) {
 //		this.matrizSecuencia = matrizSecuencia;
 //		currentIndex = 0;
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(ConstantesComunes.tren);
+		setName(ConstantesComunes.tren + precedencia);
 	}
 
 	@Override

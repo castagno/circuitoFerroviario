@@ -1,15 +1,15 @@
 package main;
 
-public class PasoNivel extends Thread  {
+public class PasoNivelAuxiliar extends Thread  {
 	
 //	private Date sleepTimeStamp;
 	private Monitor monitorTren;
 //	private Integer vehiculos;
 	
-	public PasoNivel(Monitor monitor, String maquinaVagon) {
+	public PasoNivelAuxiliar(Monitor monitor, String recorrido) {
 		monitorTren = monitor;
 //		sleepTimeStamp = new Date();
-		setName(ConstantesComunes.pasoNivel + maquinaVagon);
+		setName(ConstantesComunes.pasoNivel + ConstantesComunes.precedenciaAuxiliar + recorrido);
 	}
 
 	@Override

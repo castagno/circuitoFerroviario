@@ -2,16 +2,15 @@ package main;
 
 import java.util.Date;
 
-public class GenerarPasajeros extends Thread  {
+public class Generador extends Thread  {
 	
 	private Date sleepTimeStamp;
 	private Monitor monitorTren;
-	private Integer pasajeros;
 	
-	public GenerarPasajeros(Monitor monitor, String estacion) {
+	public Generador(Monitor monitor, String transitoPasajeros, String estacion) {
 		monitorTren = monitor;
 		sleepTimeStamp = new Date();
-		setName(ConstantesComunes.subida + " " + estacion);
+		setName(transitoPasajeros + estacion);
 	}
 
 	@Override
@@ -29,15 +28,6 @@ public class GenerarPasajeros extends Thread  {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public Integer getPasajeros() {
-		pasajeros = pasajeros==null? getPasajerosEsperando(): pasajeros + getPasajerosEsperando();
-		return pasajeros;
-	}
-	
-	public void setPasajeros(int pasajeros) {
-		this.pasajeros = pasajeros;
 	}
 	
 	private int getPasajerosEsperando() {
