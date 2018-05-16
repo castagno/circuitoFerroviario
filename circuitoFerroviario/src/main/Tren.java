@@ -25,7 +25,15 @@ public class Tren extends Thread {
 //				sleep(1000);
 //				monitorTren.continuarRecorridoTren(matrizSecuencia.get(currentIndex).values().toArray(new Integer[matrizSecuencia.get(currentIndex).values().size()]));
 //				currentIndex = (currentIndex + 1) % matrizSecuencia.size();
-				monitorTren.continuarRecorridoTren();
+				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaAuxiliarArrivo)) {
+					monitorTren.arrivoTrenEstacion();
+				}
+				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaAuxiliarPartida)) {
+					monitorTren.partidaTren();
+				}
+				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaPrincipal)) {
+					monitorTren.continuarRecorridoTren();
+				}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

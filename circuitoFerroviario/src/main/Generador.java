@@ -1,16 +1,15 @@
 package main;
 
-import java.util.Date;
 
 public class Generador extends Thread  {
 	
-	private Date sleepTimeStamp;
+//	private Date sleepTimeStamp;
 	private Monitor monitorTren;
 	
-	public Generador(Monitor monitor, String transitoPasajeros, String estacion) {
+	public Generador(Monitor monitor, String transitoPasajeros, String estacionRecorrido) {
 		monitorTren = monitor;
-		sleepTimeStamp = new Date();
-		setName(transitoPasajeros + estacion);
+//		sleepTimeStamp = new Date();
+		setName(transitoPasajeros + estacionRecorrido);
 	}
 
 	@Override
@@ -18,29 +17,36 @@ public class Generador extends Thread  {
 		try {
 			while(true) {
 //				if(Integer.valueOf(0).equals(pasajeros)) {
-//					int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-//					sleep(tiempo);
+				int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+				sleep(tiempo);
 //					pasajeros = 1;
 //				}
-				sleepTimeStamp = new Date();
-				monitorTren.abordarTren();
+//				sleepTimeStamp = new Date();
+				
+				
+//				if(Thread.currentThread().getName().startsWith(ConstantesComunes.pasajeros)) {
+//					monitorTren.generarPasajeros();
+//				}	
+//				if(Thread.currentThread().getName().startsWith(ConstantesComunes.transito)) {
+//					monitorTren.generarPasajeros();
+//				}	
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private int getPasajerosEsperando() {
-		Date actual = new Date();
-		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
-		int pasajeros = 0;
-		int tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-		while(tiempoDormido > tiempoEsperado) {
-			tiempoDormido = tiempoDormido - tiempoEsperado;
-			tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-			pasajeros = pasajeros + 1;
-		}
-		
-		return pasajeros;
-	}
+//	
+//	private int getPasajerosEsperando() {
+//		Date actual = new Date();
+//		Long tiempoDormido = actual.getTime() - sleepTimeStamp.getTime();
+//		int pasajeros = 0;
+//		int tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//		while(tiempoDormido > tiempoEsperado) {
+//			tiempoDormido = tiempoDormido - tiempoEsperado;
+//			tiempoEsperado = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//			pasajeros = pasajeros + 1;
+//		}
+//		
+//		return pasajeros;
+//	}
 }
