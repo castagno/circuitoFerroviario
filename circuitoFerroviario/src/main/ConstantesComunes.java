@@ -28,13 +28,11 @@ public class ConstantesComunes {
 	public static final String pasoNivelTransitoAB = transito+recorridoAB;
 	public static final String pasoNivelTransitoCD = transito+recorridoCD;
 	
-	public static final String pasoNivelMaquinaAB = maquina+recorridoAB;
-	public static final String pasoNivelMaquinaCD = maquina+recorridoCD;
-	
-	public static final String pasoNivelVagonAB = vagon+recorridoAB;
-	public static final String pasoNivelVagonCD = vagon+recorridoCD;
-	
 	public static final String pasoNivel = "PasoNivel";
+	
+	public static final String pasoNivelMaquina = pasoNivel+maquina;
+	
+	public static final String pasoNivelVagon = pasoNivel+vagon;
 	
 	public static final String precedenciaPrincipal = "Principal";
 	public static final String precedenciaAuxiliar = "Auxiliar";

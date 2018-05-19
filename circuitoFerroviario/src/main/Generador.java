@@ -14,26 +14,22 @@ public class Generador extends Thread  {
 
 	@Override
 	public void run() {
-		try {
-			while(true) {
-//				if(Integer.valueOf(0).equals(pasajeros)) {
-				int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
-				sleep(tiempo);
-//					pasajeros = 1;
-//				}
-//				sleepTimeStamp = new Date();
-				
-				
+//		try {
+//			while(true) {
+//				int tiempo = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+//				sleep(tiempo);
+//				
+//				
 //				if(Thread.currentThread().getName().startsWith(ConstantesComunes.pasajeros)) {
 //					monitorTren.generarPasajeros();
 //				}	
 //				if(Thread.currentThread().getName().startsWith(ConstantesComunes.transito)) {
 //					monitorTren.generarPasajeros();
 //				}	
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//			}
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 //	
 //	private int getPasajerosEsperando() {

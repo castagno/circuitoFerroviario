@@ -66,11 +66,11 @@ public class Monitor extends ConstantesComunes {
 //	private final Condition pasoDeNivelTransitoAB = lock.newCondition();
 //	private final Condition pasoDeNivelTransitoCD = lock.newCondition();
 	
-	private final Condition pasoDeNivelMaquinaAB = lock.newCondition();
-	private final Condition pasoDeNivelMaquinaCD = lock.newCondition();
+	private final Condition pasoDeNivelMaquina = lock.newCondition();
+//	private final Condition pasoDeNivelMaquinaCD = lock.newCondition();
 	
-	private final Condition pasoDeNivelVagonAB = lock.newCondition();
-	private final Condition pasoDeNivelVagonCD = lock.newCondition();
+	private final Condition pasoDeNivelVagon = lock.newCondition();
+//	private final Condition pasoDeNivelVagonCD = lock.newCondition();
 
 	private final Condition liberarBarreraPasoNivelAB = lock.newCondition();
 	private final Condition liberarBarreraPasoNivelCD = lock.newCondition();
@@ -152,6 +152,14 @@ public class Monitor extends ConstantesComunes {
 	/* Vagon en el paso de nivel Cruzando */
 	private final String pasoNivelCDMaquinaEsperando = "RCDM";
 	private final String pasoNivelCDVagonEsperando = "RCDV";
+	
+	/* Maquina fuera del paso de nivel esperando Union */
+	private final String pasoNivelABMaquinaUnion = "RABMR";
+	private final String pasoNivelABVagonUnion = "RABVR";
+	
+	/* Vagon fuera del paso de nivel esperando Union */
+	private final String pasoNivelCDMaquinaUnion = "RCDMR";
+	private final String pasoNivelCDVagonUnion = "RCDVR";
 	
 	
 	
@@ -331,8 +339,8 @@ public class Monitor extends ConstantesComunes {
 		this.colaCondicion.put(tranTrenArriboC, trenArriboEstacion);
 		this.colaCondicion.put(tranTrenArriboD, trenArriboEstacion);
 		
-		this.colaCondicion.put(tranRecorridoTrenAB, trenRecorridoAB);
-		this.colaCondicion.put(tranRecorridoTrenCD, trenRecorridoCD);
+		this.colaCondicion.put(tranRecorridoTrenAB, fullTrenOrEmptyEstacion);
+		this.colaCondicion.put(tranRecorridoTrenCD, fullTrenOrEmptyEstacion);
 		
 		this.colaCondicion.put(tranPasajerosAGenerador, pasajeroGeneradorEstacionA);
 		this.colaCondicion.put(tranPasajerosBGenerador, pasajeroGeneradorEstacionB);
@@ -343,13 +351,13 @@ public class Monitor extends ConstantesComunes {
 		
 		this.colaCondicion.put(tranPasoNivelABMaquinaReady, liberarBarreraPasoNivelAB);
 		this.colaCondicion.put(tranPasoNivelCDMaquinaReady, liberarBarreraPasoNivelCD);
-		this.colaCondicion.put(tranPasoNivelABMaquinaWait, pasoDeNivelMaquinaAB);
-		this.colaCondicion.put(tranPasoNivelCDMaquinaWait, pasoDeNivelMaquinaCD);
+		this.colaCondicion.put(tranPasoNivelABMaquinaWait, pasoDeNivelMaquina);
+		this.colaCondicion.put(tranPasoNivelCDMaquinaWait, pasoDeNivelMaquina);
 		
 		this.colaCondicion.put(tranPasoNivelABVagonReady, liberarBarreraPasoNivelAB);
 		this.colaCondicion.put(tranPasoNivelCDVagonReady, liberarBarreraPasoNivelCD);
-		this.colaCondicion.put(tranPasoNivelABVagonWait, pasoDeNivelVagonAB);
-		this.colaCondicion.put(tranPasoNivelCDVagonWait, pasoDeNivelVagonCD);
+		this.colaCondicion.put(tranPasoNivelABVagonWait, pasoDeNivelVagon);
+		this.colaCondicion.put(tranPasoNivelCDVagonWait, pasoDeNivelVagon);
 		
 		this.colaCondicion.put(tranPasoNivelABTransitoReady, liberarBarreraPasoNivelAB);
 		this.colaCondicion.put(tranPasoNivelCDTransitoReady, liberarBarreraPasoNivelCD);
@@ -482,13 +490,18 @@ public class Monitor extends ConstantesComunes {
 		lock.lock();
 		
 		try {
-			while((	marcado[plazas.indexOf(trenEstacionAEspera)] == 1 || 
-					marcado[plazas.indexOf(trenEstacionBEspera)] == 1 || 
-					marcado[plazas.indexOf(trenEstacionCEspera)] == 1 || 
-					marcado[plazas.indexOf(trenEstacionDEspera)] == 1)&& 
-					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
+//			while((	marcado[plazas.indexOf(trenEstacionAEspera)] == 1 || 
+//					marcado[plazas.indexOf(trenEstacionBEspera)] == 1 || 
+//					marcado[plazas.indexOf(trenEstacionCEspera)] == 1 || 
+//					marcado[plazas.indexOf(trenEstacionDEspera)] == 1)&& 
+//					(new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime()) < 10000
+//					) {
+//				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
+//			}
+			while((	marcado[plazas.indexOf(trenEstacionAEspera)] == 0 && marcado[plazas.indexOf(trenEstacionBEspera)] == 0 && 
+					marcado[plazas.indexOf(trenEstacionCEspera)] == 0 && marcado[plazas.indexOf(trenEstacionDEspera)] == 0) 
 					) {
-				tiempoDeEspera.awaitNanos((10000 - (new Date().getTime() - ((Tren)Thread.currentThread()).getTimeStamp().getTime())) * 1000);
+				tiempoDeEspera.await();
 			}
 			
 //			while((	marcado[plazas.indexOf(trenEstacionAPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] != 0 || 
@@ -587,29 +600,43 @@ public class Monitor extends ConstantesComunes {
 		lock.lock();
 		
 		try {
-			while((	marcado[plazas.indexOf(trenEstacionAPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] != 0 || 
-					marcado[plazas.indexOf(trenEstacionBPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] != 0 || 
-					marcado[plazas.indexOf(trenEstacionCPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] != 0 || 
-					marcado[plazas.indexOf(trenEstacionDPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] != 0) && 
-					(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0)
-					) {
+			while(	!(
+					(marcado[plazas.indexOf(pasoNivelABMaquinaUnion)] == 1 && marcado[plazas.indexOf(pasoNivelABVagonUnion)] == 1) || 
+					(marcado[plazas.indexOf(pasoNivelCDMaquinaUnion)] == 1 && marcado[plazas.indexOf(pasoNivelCDVagonUnion)] == 1) 
+					) || 
+					(
+					(marcado[plazas.indexOf(trenEstacionAPartida)] == 1 || marcado[plazas.indexOf(trenEstacionBPartida)] == 1 || 
+					marcado[plazas.indexOf(trenEstacionCPartida)] == 1 || marcado[plazas.indexOf(trenEstacionDPartida)] == 1) && (
+						(marcado[plazas.indexOf(trenEstacionAPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] != 0 || 
+						marcado[plazas.indexOf(trenEstacionBPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] != 0 || 
+						marcado[plazas.indexOf(trenEstacionCPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] != 0 || 
+						marcado[plazas.indexOf(trenEstacionDPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] != 0) && 
+						(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0)
+					) ) ) {
 				fullTrenOrEmptyEstacion.await();
 			}
 			
 			
-			for(String estacion: estaciones) {
-				if(marcado[plazas.indexOf(estacion + trenEstacionAPartida.substring(1))] == 1) {
-					if(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0) {
-						dispararRed(estacion + tranTrenLlenoA.substring(1));
-						break;
+			if(marcado[plazas.indexOf(pasoNivelABMaquinaUnion)] == 1 && marcado[plazas.indexOf(pasoNivelABVagonUnion)] == 1) {
+				dispararRed(tranRecorridoTrenAB);
+			} else if(marcado[plazas.indexOf(pasoNivelCDMaquinaUnion)] == 1 && marcado[plazas.indexOf(pasoNivelCDVagonUnion)] == 1) {
+				dispararRed(tranRecorridoTrenCD);
+			} else {
+				for(String estacion: estaciones) {
+					if(marcado[plazas.indexOf(estacion + trenEstacionAPartida.substring(1))] == 1) {
+						if(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0) {
+							dispararRed(estacion + tranTrenLlenoA.substring(1));
+							break;
+						}
+						if(marcado[plazas.indexOf(pasajerosEsperandoSubidaA.substring(0, 1) + estacion + pasajerosEsperandoSubidaA.substring(pasajerosEsperandoSubidaA.length()-1) )] == 0) {
+							dispararRed(estacion + tranEstacionVaciaA.substring(1));
+							break;
+						}
+						
 					}
-					if(marcado[plazas.indexOf(pasajerosEsperandoSubidaA.substring(0, 1) + estacion + pasajerosEsperandoSubidaA.substring(pasajerosEsperandoSubidaA.length()-1) )] == 0) {
-						dispararRed(estacion + tranEstacionVaciaA.substring(1));
-						break;
-					}
-					
 				}
 			}
+			
 			
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
 			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getInterseccionInhibicion(getSensibilizadas(), getInhibidas()), lock);
@@ -629,9 +656,9 @@ public class Monitor extends ConstantesComunes {
 		lock.lock();
 		
 		try {
-			while((	marcado[plazas.indexOf(trenEstacionAArribo)] == 0 || 
-					marcado[plazas.indexOf(trenEstacionBArribo)] == 0 || 
-					marcado[plazas.indexOf(trenEstacionCArribo)] == 0 || 
+			while((	marcado[plazas.indexOf(trenEstacionAArribo)] == 0 && 
+					marcado[plazas.indexOf(trenEstacionBArribo)] == 0 && 
+					marcado[plazas.indexOf(trenEstacionCArribo)] == 0 && 
 					marcado[plazas.indexOf(trenEstacionDArribo)] == 0 
 					) ) {
 				trenArriboEstacion.await();
@@ -639,10 +666,12 @@ public class Monitor extends ConstantesComunes {
 			
 			((Tren)Thread.currentThread()).setTimeStamp(new Date());
 			
-			for(String estacion: estaciones) {
-				if(marcado[plazas.indexOf(trenEstacionAArribo.substring(0 ,trenEstacionAArribo.length() - 2) + estacion + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1))] == 1) {
-					arriboEstacion.put(trenEstacion + estacion, new Date());
-					dispararRed(estacion + tranTrenArribo);
+			for(String estacionActual: estaciones) {
+//				System.out.println(trenEstacionAArribo.substring(0 ,1) + estacion[(estaciones.indexOf(estacionActual)+3)%4] + estacionActual + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1));
+//				System.out.println(plazas.indexOf(trenEstacionAArribo.substring(0 ,1) + estacion[(estaciones.indexOf(estacionActual)+3)%4] + estacionActual + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1)));
+				if(marcado[plazas.indexOf(trenEstacionAArribo.substring(0 ,1) + estacion[(estaciones.indexOf(estacionActual)+3)%4] + estacionActual + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1))] == 1) {
+					arriboEstacion.put(trenEstacion + estacionActual, new Date());
+					dispararRed(estacionActual + tranTrenArribo);
 					break;
 				}
 			}
@@ -811,28 +840,50 @@ public class Monitor extends ConstantesComunes {
 //					) ) {
 //				pasoDeNivelTransitoCD.await();
 //			}
-			while(	pasoNivelVagonAB.equalsIgnoreCase(threadName) && 
-					(	marcado[plazas.indexOf(pasoNivelABVagonEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0|| 
-						marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0
-					) ) {
-				pasoDeNivelVagonAB.await();
+			
+//			System.out.println(threadName + pasoNivelVagon);
+			while(	threadName.endsWith(pasoNivelVagon) && (
+					marcado[plazas.indexOf(pasoNivelABVagonEsperando)] == 0 && marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] == 0 || 
+					marcado[plazas.indexOf(pasoNivelABVagonEsperando)] != 0 && (
+							marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+							marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0
+					) || 
+					marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] != 0 && (
+							marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+							marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0
+					)
+				)
+			) {
+				pasoDeNivelVagon.await();
 			}
-			while(	pasoNivelVagonCD.equalsIgnoreCase(threadName) && 
-					(	marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0|| 
-						marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0
-					) ) {
-				pasoDeNivelVagonCD.await();
+			
+//			while(	pasoNivelVagonCD.equalsIgnoreCase(threadName) && 
+//					(	marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+//						marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0
+//					) ) {
+//				pasoDeNivelVagonCD.await();
+//			}
+			
+//			System.out.println(threadName + pasoNivelMaquina);
+			while(	threadName.endsWith(pasoNivelMaquina) && (
+					marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] == 0 && marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] == 0 || 
+					marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0 && marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
+					marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0 && marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0
+				)
+			) {
+				pasoDeNivelMaquina.await();
 			}
-			while(	pasoNivelMaquinaAB.equalsIgnoreCase(threadName) && 
-					(	marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0
-					) ) {
-				pasoDeNivelMaquinaAB.await();
-			}
-			while(	pasoNivelMaquinaCD.equalsIgnoreCase(threadName) && 
-					(	marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0
-					) ) {
-				pasoDeNivelMaquinaCD.await();
-			}
+		
+//			while(	pasoNivelMaquina.equalsIgnoreCase(threadName) && 
+//					(	marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0
+//					) ) {
+//				pasoDeNivelMaquinaAB.await();
+//			}
+//			while(	pasoNivelMaquinaCD.equalsIgnoreCase(threadName) && 
+//					(	marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0
+//					) ) {
+//				pasoDeNivelMaquinaCD.await();
+//			}
 		
 			
 //			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
@@ -842,17 +893,21 @@ public class Monitor extends ConstantesComunes {
 //			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
 //				dispararRed(tranPasoNivelCDTransitoWait);
 //			}
-			if(pasoNivelMaquinaAB.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelABMaquinaWait);
+			if(threadName.endsWith(pasoNivelMaquina)) {
+				if(marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0) {
+					dispararRed(tranPasoNivelABMaquinaWait);
+				}
+				if(marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0) {
+					dispararRed(tranPasoNivelCDMaquinaWait);
+				}
 			}
-			if(pasoNivelMaquinaCD.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelCDMaquinaWait);
-			}
-			if(pasoNivelVagonAB.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelABVagonWait);
-			}
-			if(pasoNivelVagonCD.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelCDVagonWait);
+			if(threadName.endsWith(pasoNivelVagon)) {
+				if(marcado[plazas.indexOf(pasoNivelABVagonEsperando)] != 0) {
+					dispararRed(tranPasoNivelABVagonWait);
+				}
+				if(marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] != 0) {
+					dispararRed(tranPasoNivelCDVagonWait);
+				}
 			}
 			
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
@@ -877,6 +932,28 @@ public class Monitor extends ConstantesComunes {
 		String threadName = Thread.currentThread().getName();
 		
 		try {
+			while(	threadName.endsWith(pasoNivelTransitoAB) && 
+					(	marcado[plazas.indexOf(pasoNivelABBarrera)] == 1 && 
+						(	marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] == 0 || 
+							marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0 || 
+							marcado[plazas.indexOf(pasoNivelABVagonEsperando)] != 0 
+						)
+					)
+				) {
+				liberarBarreraPasoNivelAB.await();
+			}
+		
+			while(	threadName.endsWith(pasoNivelTransitoCD) && (
+						marcado[plazas.indexOf(pasoNivelCDTransito)] == 0 ||
+						marcado[plazas.indexOf(pasoNivelCDTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelCDBarrera)] == 0 || 
+						marcado[plazas.indexOf(pasoNivelCDMaquinaEsperando)] != 0 || marcado[plazas.indexOf(pasoNivelCDVagonEsperando)] != 0
+					)
+					) {
+				liberarBarreraPasoNivelCD.await();
+			}
+		
+			
+			/*
 			while(	pasoNivelTransitoAB.equalsIgnoreCase(threadName) && 
 					(	marcado[plazas.indexOf(pasoNivelABTransito)] == 0 ||
 						marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
@@ -897,6 +974,7 @@ public class Monitor extends ConstantesComunes {
 					) {
 				liberarBarreraPasoNivelCD.await();
 			}
+			*/
 //			while(	pasoNivelTransitoAB.equalsIgnoreCase(threadName) && 
 //					(	marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] == 0 || marcado[plazas.indexOf(pasoNivelABBarrera)] == 0 || 
 //						marcado[plazas.indexOf(pasoNivelABMaquinaEsperando)] != 0 || marcado[plazas.indexOf(pasoNivelABVagonEsperando)] != 0
@@ -910,20 +988,44 @@ public class Monitor extends ConstantesComunes {
 //				liberarBarreraPasoNivelCD.await();
 //			}
 
-			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelABTransitoWait);
-//				disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+			boolean disparoExitoso = false;
+			if(threadName.endsWith(pasoNivelTransitoAB)) {
+				if(marcado[plazas.indexOf(pasoNivelABMaquina)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelABMaquinaReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelABVagon)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelABVagonReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelABTransito)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelABTransitoEsperando)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelABTransitoWait);
+				}
 			}
-			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelCDTransitoWait);
+			if(threadName.endsWith(pasoNivelTransitoCD)) {
+				if(marcado[plazas.indexOf(pasoNivelCDMaquina)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelCDMaquinaReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelCDVagon)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelCDVagonReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelCDTransito)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelCDTransitoReady);
+				}
+				if(marcado[plazas.indexOf(pasoNivelCDTransitoEsperando)] != 0 && !disparoExitoso) {
+					disparoExitoso = dispararRed(tranPasoNivelCDTransitoWait);
+				}
 			}
-			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelABTransitoWait);
-//				disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
-			}
-			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
-				dispararRed(tranPasoNivelCDTransitoWait);
-			}
+			
+//			if(pasoNivelTransitoAB.equalsIgnoreCase(threadName)) {
+//				dispararRed(tranPasoNivelABTransitoWait);
+////				disparoExitoso = dispararRed(tranPasoNivelABTransitoReady);
+//			}
+//			if(pasoNivelTransitoCD.equalsIgnoreCase(threadName)) {
+//				dispararRed(tranPasoNivelCDTransitoWait);
+//			}
+			/*
 			if(pasoNivelMaquinaAB.equalsIgnoreCase(threadName)) {
 				dispararRed(tranPasoNivelABMaquinaWait);
 			}
@@ -936,6 +1038,7 @@ public class Monitor extends ConstantesComunes {
 			if(pasoNivelVagonCD.equalsIgnoreCase(threadName)) {
 				dispararRed(tranPasoNivelCDVagonWait);
 			}
+			*/
 			
 			ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
 			LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getInterseccionInhibicion(getSensibilizadas(), getInhibidas()), lock);
