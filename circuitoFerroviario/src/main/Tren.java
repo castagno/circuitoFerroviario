@@ -7,13 +7,13 @@ public class Tren extends Thread {
 	private Monitor monitorTren;
 //	private int currentIndex;
 //	private ArrayList<LinkedHashMap<String, Integer>> matrizSecuencia;
-	private Date sleepTimeStamp;
+//	private Date sleepTimeStamp;
 	
 	public Tren(Monitor monitor, String precedencia) {
 //		this.matrizSecuencia = matrizSecuencia;
 //		currentIndex = 0;
 		monitorTren = monitor;
-		sleepTimeStamp = new Date();
+//		sleepTimeStamp = new Date();
 		setName(ConstantesComunes.tren + precedencia);
 	}
 
@@ -40,11 +40,11 @@ public class Tren extends Thread {
 		}
 	}
 	
-	public Date getTimeStamp() {
-		return (sleepTimeStamp!=null? sleepTimeStamp : new Date());
-	}
-	
-	public void setTimeStamp(Date time) {
-		this.sleepTimeStamp = time;
-	}
+//	public Date getTimeStamp() {
+//		return (sleepTimeStamp!=null? sleepTimeStamp : new Date());
+//	}
+//	
+//	public void setTimeStamp(Date time) {
+//		this.sleepTimeStamp = time;
+//	}
 }
