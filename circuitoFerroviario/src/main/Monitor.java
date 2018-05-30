@@ -545,13 +545,13 @@ public class Monitor extends ConstantesComunes {
 				trenArriboEstacion.await();
 			}
 			
-			ultimoArrivoEstacion = new Date();
-			
 			for(String estacionActual: estaciones) {
 				if(marcado[plazas.indexOf(trenEstacionAArribo.substring(0 ,1) + estacion[(estaciones.indexOf(estacionActual)+3)%4] + estacionActual + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1))] == 1) {
 					arriboEstacion.put(trenEstacion + estacionActual, new Date());
-					dispararRed(estacionActual + tranTrenArribo);
-					break;
+					if(dispararRed(estacionActual + tranTrenArribo)) {
+						ultimoArrivoEstacion = new Date();
+						break;
+					}
 				}
 			}
 
@@ -569,27 +569,32 @@ public class Monitor extends ConstantesComunes {
 	}
 	
 	public void abordarTren() throws InterruptedException {
-		if(!lock.tryLock()) {
-			return;
-		}
+		lock.lock();
+//		if(!lock.tryLock()) {
+//			return;
+//		}
 		
 		String threadName = Thread.currentThread().getName();
 		
 		try {
-			while(	trenEstacionA.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionA)] == 0 ||
+			while(	trenEstacionA.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionA)] != 0 ||
 					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] == 0) ) {
+//				System.out.println("Pasajeros esperando "+ threadName + " : " + marcado[plazas.indexOf(pasajerosEsperandoSubidaA)]);
 				subidaEstacionA.await();
 			}
-			while(	trenEstacionB.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionB)] == 0 || 
+			while(	trenEstacionB.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionB)] != 0 || 
 					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] == 0) ) {
+//				System.out.println("Pasajeros esperando "+ threadName + " : " + marcado[plazas.indexOf(pasajerosEsperandoSubidaB)]);
 				subidaEstacionB.await();
 			}
-			while(	trenEstacionC.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionC)] == 0 || 
+			while(	trenEstacionC.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionC)] != 0 || 
 					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] == 0) ) {
+//				System.out.println("Pasajeros esperando "+ threadName + " : " + marcado[plazas.indexOf(pasajerosEsperandoSubidaC)]);
 				subidaEstacionC.await();
 			}
-			while(	trenEstacionD.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionD)] == 0 || 
+			while(	trenEstacionD.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionD)] != 0 || 
 					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] == 0) ) {
+//				System.out.println("Pasajeros esperando "+ threadName + " : " + marcado[plazas.indexOf(pasajerosEsperandoSubidaD)]);
 				subidaEstacionD.await();
 			}
 
@@ -598,7 +603,7 @@ public class Monitor extends ConstantesComunes {
 			for(String subida: listaSubidas) {
 				System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
 				if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
-						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 1 && 
+						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 0 && 
 						abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
 					disparoExitoso = dispararRed(subida);
 					if(disparoExitoso) {

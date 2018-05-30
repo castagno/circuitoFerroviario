@@ -16,14 +16,14 @@ public class SubirPasajeros extends Thread  {
 
 	@Override
 	public void run() {
-//		try {
-//			while(true) {
-//				sleepTimeStamp = new Date();
-//				monitorTren.abordarTren();
-//			}
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			while(true) {
+				sleepTimeStamp = new Date();
+				monitorTren.abordarTren();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Integer getPasajeros() {
