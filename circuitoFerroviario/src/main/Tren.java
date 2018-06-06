@@ -20,7 +20,8 @@ public class Tren extends Thread {
 					monitorTren.partidaTren();
 				}
 				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaPrincipal)) {
-					monitorTren.continuarRecorridoTren();
+					Long tiempoEsperaContinuarRecorrido = monitorTren.continuarRecorridoTren();
+					sleep(tiempoEsperaContinuarRecorrido);
 				}
 			}
 		} catch (InterruptedException e) {

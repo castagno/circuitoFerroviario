@@ -11,12 +11,14 @@ public class Main extends ConstantesComunes {
 	private static final String matrizInhibicion = "./src/main/MatrizInhibicion.html";
 	private static final String matrizIMas = "./src/main/MatrizIMas.html";
 	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";
-//	private static final String absolutePath = "/home/chloe/git/circuitoFerroviario/circuitoFerroviario";
 
 	public static void main(String[] args) {
 		
+		System.out.println("\nMatriz de Incidencia Positiva");
 		Integer[][] matrizMas = getMatrix(matrizIMas);
+		System.out.println("\nMatriz de Incidencia Negativa");
 		Integer[][] matrizMenos = getMatrix(matrizIMenos);
+		System.out.println("\nMatriz de Arcos Inhibidores");
 		Integer[][] matrizInhibidora = getMatrix(matrizInhibicion);
 		
 		ArrayList<String> transiciones = getTransiciones(matrizIMas);
@@ -94,57 +96,6 @@ public class Main extends ConstantesComunes {
 		
 	}
 	
-	/*
-	static private ArrayList<ArrayList<Integer>> parseIncidenceMatrix(String pathName) {
-		ArrayList<ArrayList<Integer>> matrizPlus = new ArrayList<>();
-		
-		FileReader matrizIPlus;
-		try {
-			matrizIPlus = new FileReader(pathName);
-			Scanner scanFile = new Scanner(matrizIPlus);
-			System.out.println(scanFile.hasNext());
-			
-			if(!scanFile.nextLine().contains("<table")) {
-				scanFile.close();
-				return null;
-			}
-			String tempString = scanFile.nextLine();
-			while(!tempString.contains("</table")) {
-				//System.out.println(tempString);
-				if(!tempString.contains("<tr")) {
-					tempString = scanFile.nextLine();
-					continue;
-				}
-				tempString = scanFile.nextLine();
-				ArrayList<Integer> filaPlaza = new ArrayList<>();
-				while(!tempString.contains("</tr")) {
-					if(!tempString.contains("<td")) {
-						tempString = scanFile.nextLine();
-						continue;
-					}
-					while(!tempString.contains("</td")) {
-						if(tempString.contains("<td class=\"cell\">")) {
-							tempString = scanFile.nextLine();
-							System.out.print(" "+tempString.trim());
-							filaPlaza.add(Integer.valueOf(tempString.trim()));
-						} else {
-							tempString = scanFile.nextLine();
-						}
-					}
-					
-				}
-				matrizPlus.add(filaPlaza);
-				System.out.println(" ");
-				
-			}
-			scanFile.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		return matrizPlus;
-	}
-	*/
 	
 	static private Integer[][] getMatrix(String pathName) {
 		Integer[][] matriz = new Integer[100][100];
@@ -154,7 +105,7 @@ public class Main extends ConstantesComunes {
 		try {
 			matrizIPlus = new FileReader(pathName);
 			Scanner scanFile = new Scanner(matrizIPlus);
-			System.out.println(scanFile.hasNext());
+//			System.out.println(scanFile.hasNext());
 			
 			String tempString = scanFile.nextLine();
 			int i = 0;
@@ -172,14 +123,12 @@ public class Main extends ConstantesComunes {
 						if(tempString.contains("<td class=\"cell\">")) {
 							tempString = scanFile.nextLine();
 							matriz[i][j] = Integer.valueOf(tempString.trim());
-//							System.out.print(" "+tempString.trim());
 						} else {
 							tempString = scanFile.nextLine();
 						}
 					}
 					tempString = scanFile.nextLine();
 				}
-//				System.out.println(" ");
 				tempString = scanFile.nextLine();
 			}
 
@@ -209,9 +158,6 @@ public class Main extends ConstantesComunes {
 		try {
 			matrizIPlus = new FileReader(pathName);
 			Scanner scanFile = new Scanner(matrizIPlus);
-			System.out.println(scanFile.hasNext());
-			
-//			ArrayList<String> keySet = new ArrayList<>();
 			
 			if(!scanFile.nextLine().contains("<table")) {
 				scanFile.close();
@@ -219,7 +165,6 @@ public class Main extends ConstantesComunes {
 			}
 			String tempString = scanFile.nextLine();
 			while(!tempString.contains("</table")) {
-				//System.out.println(tempString);
 				if(!tempString.contains("<tr")) {
 					tempString = scanFile.nextLine();
 					continue;
@@ -234,13 +179,12 @@ public class Main extends ConstantesComunes {
 					while(!tempString.contains("</td")) {
 						if(tempString.contains("<td class=\"colhead\">")) {
 							tempString = scanFile.nextLine();
-							System.out.print(" "+tempString.trim());
+//							System.out.print(" "+tempString.trim());
 							marcadoInicial.put(tempString.trim(), null);
-//							keySet.add(tempString.trim());
 							index = index + 1;
 						} else if(tempString.contains("<td class=\"cell\">")) {
 							tempString = scanFile.nextLine();
-							System.out.print(" "+tempString.trim());
+//							System.out.print(" "+tempString.trim());
 							marcadoInicial.put((String)marcadoInicial.keySet().toArray()[index], Integer.valueOf(tempString.trim()));
 							index = index + 1;
 						} else {
@@ -248,13 +192,10 @@ public class Main extends ConstantesComunes {
 						}
 					}
 				}
-				System.out.println(" ");
-//				break;
+//				System.out.println(" ");
 			}
 			
 			System.out.println("");
-			System.out.println(marcadoInicial.size());
-			System.out.println(marcadoInicial.get(marcadoInicial.keySet().toArray()[0]));
 			scanFile.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -270,7 +211,6 @@ public class Main extends ConstantesComunes {
 		try {
 			matrizIPlus = new FileReader(pathName);
 			Scanner scanFile = new Scanner(matrizIPlus);
-			System.out.println(scanFile.hasNext());
 			
 			if(!scanFile.nextLine().contains("<table")) {
 				scanFile.close();
@@ -278,7 +218,6 @@ public class Main extends ConstantesComunes {
 			}
 			String tempString = scanFile.nextLine();
 			while(!tempString.contains("</table")) {
-				//System.out.println(tempString);
 				if(!tempString.contains("<tr")) {
 					tempString = scanFile.nextLine();
 					continue;
@@ -292,7 +231,7 @@ public class Main extends ConstantesComunes {
 					while(!tempString.contains("</td")) {
 						if(tempString.contains("<td class=\"colhead\">")) {
 							tempString = scanFile.nextLine();
-							System.out.print(" "+tempString.trim());
+//							System.out.print(" "+tempString.trim());
 							transiciones.add(tempString.trim());
 						} else {
 							tempString = scanFile.nextLine();
@@ -301,11 +240,8 @@ public class Main extends ConstantesComunes {
 				}
 				break;
 			}
-			
 
 			System.out.println("");
-			System.out.println(transiciones.size());
-			System.out.println(transiciones.get(0));
 			scanFile.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -314,104 +250,4 @@ public class Main extends ConstantesComunes {
 		return transiciones;
 	}
 	
-	/*
-
-	
-	static private ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo(ArrayList<String> secuenciaTransiciones, String pathName) {
-		ArrayList<LinkedHashMap<String, Integer>> secuenciaDisparo = new ArrayList<>();
-		
-		FileReader matrizIPlus;
-		try {
-			matrizIPlus = new FileReader(pathName);
-			Scanner scanFile = new Scanner(matrizIPlus);
-			System.out.println(scanFile.hasNext());
-			
-			ArrayList<String> filaPlaza = new ArrayList<>();
-			
-			if(!scanFile.nextLine().contains("<table")) {
-				scanFile.close();
-				return null;
-			}
-			String tempString = scanFile.nextLine();
-			while(!tempString.contains("</table")) {
-				//System.out.println(tempString);
-				if(!tempString.contains("<tr")) {
-					tempString = scanFile.nextLine();
-					continue;
-				}
-				tempString = scanFile.nextLine();
-				while(!tempString.contains("</tr")) {
-					if(!tempString.contains("<td")) {
-						tempString = scanFile.nextLine();
-						continue;
-					}
-					while(!tempString.contains("</td")) {
-						if(tempString.contains("<td class=\"colhead\">")) {
-							tempString = scanFile.nextLine();
-							System.out.print(" "+tempString.trim());
-							filaPlaza.add(tempString.trim());
-						} else {
-							tempString = scanFile.nextLine();
-						}
-					}
-				}
-				break;
-			}
-			
-			for(String transicion: secuenciaTransiciones) {
-				System.out.println("");
-
-				LinkedHashMap<String, Integer> disparo = new LinkedHashMap<>();
-				for (String columna: filaPlaza) {
-					if(transicion.equals(columna)) {
-						disparo.put(columna, 1);
-						System.out.print(" "+1);
-					} else {
-						disparo.put(columna, 0);
-						System.out.print(" "+0);
-					}
-				}
-				secuenciaDisparo.add(disparo);
-			}
-			
-
-			System.out.println("");
-			System.out.println(filaPlaza.size());
-			System.out.println(filaPlaza.get(0));
-			scanFile.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		return secuenciaDisparo;
-	}
-	
-	private static ArrayList<String> secuenciaTransiciones(){
-		ArrayList<String> secuenciaTransiciones = new ArrayList<>();
-		secuenciaTransiciones.add("BAr");
-		secuenciaTransiciones.add("BW");
-		secuenciaTransiciones.add("BDe");
-		secuenciaTransiciones.add("CAr");
-		secuenciaTransiciones.add("CW");
-		secuenciaTransiciones.add("CDe");
-		secuenciaTransiciones.add("PNCDMW");
-		secuenciaTransiciones.add("PNCDMR");
-		secuenciaTransiciones.add("PNCDVW");
-		secuenciaTransiciones.add("PNCDVR");
-		secuenciaTransiciones.add("RCD");
-		secuenciaTransiciones.add("DAr");
-		secuenciaTransiciones.add("DW");
-		secuenciaTransiciones.add("DDe");
-		secuenciaTransiciones.add("AAr");
-		secuenciaTransiciones.add("AW");
-		secuenciaTransiciones.add("ADe");
-		secuenciaTransiciones.add("PNABMW");
-		secuenciaTransiciones.add("PNABMR");
-		secuenciaTransiciones.add("PNABVW");
-		secuenciaTransiciones.add("PNABVR");
-		secuenciaTransiciones.add("RAB");
-		
-		return secuenciaTransiciones;
-	}
-	*/
 }
