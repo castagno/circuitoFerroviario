@@ -14,7 +14,7 @@ public class BajarPasajeros extends Thread  {
 		try {
 			while(true) {
 				Long bajadaSleep = monitorTren.descenderTren();
-				System.out.println("bajadaSleep = "+ bajadaSleep);
+//				System.out.println("bajadaSleep = "+ bajadaSleep);
 				sleep(bajadaSleep);
 			}
 		} catch (InterruptedException e) {

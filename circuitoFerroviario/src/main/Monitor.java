@@ -17,6 +17,7 @@ public class Monitor extends ConstantesComunes {
 	private Integer[] marcado;
 	private LinkedHashMap<String, Integer> marcadoInicial;
 	private ArrayList<String> plazas;
+	private LinkedHashMap<String, Integer> printOrder;	
 	
 	private ArrayList<String> transiciones;
 //	private ArrayList<String> recorridoTren;
@@ -423,13 +424,71 @@ public class Monitor extends ConstantesComunes {
 		ultimaSubidaEstacion.put(trenEstacionC, fechaActual);
 		ultimaSubidaEstacion.put(trenEstacionD, fechaActual);
 		
-		arriboEstacion = new LinkedHashMap<>();
-		arriboEstacion.put(trenEstacionA, fechaActual);
-		arriboEstacion.put(trenEstacionB, fechaActual);
-		arriboEstacion.put(trenEstacionC, fechaActual);
-		arriboEstacion.put(trenEstacionD, fechaActual);
+//		arriboEstacion = new LinkedHashMap<>();
+//		arriboEstacion.put(trenEstacionA, fechaActual);
+//		arriboEstacion.put(trenEstacionB, fechaActual);
+//		arriboEstacion.put(trenEstacionC, fechaActual);
+//		arriboEstacion.put(trenEstacionD, fechaActual);
 		
 		ultimoArrivoEstacion = fechaActual;
+		
+		printOrder = new LinkedHashMap<>();
+		printOrder.put(maquina, plazas.indexOf(maquina));
+		printOrder.put(vagon, plazas.indexOf(vagon));
+		
+		printOrder.put(trenEstacionA, plazas.indexOf(trenEstacionA));
+		printOrder.put(maqA, plazas.indexOf(maqA));
+		printOrder.put(vagA, plazas.indexOf(vagA));
+		printOrder.put(pasajerosEsperandoSubidaA, plazas.indexOf(pasajerosEsperandoSubidaA));
+		
+		printOrder.put(trenEstacionB, plazas.indexOf(trenEstacionB));
+		printOrder.put(maqB, plazas.indexOf(maqB));
+		printOrder.put(vagB, plazas.indexOf(vagB));
+		printOrder.put(pasajerosEsperandoSubidaB, plazas.indexOf(pasajerosEsperandoSubidaB));
+		
+		printOrder.put(trenEstacionC, plazas.indexOf(trenEstacionC));
+		printOrder.put(maqC, plazas.indexOf(maqC));
+		printOrder.put(vagC, plazas.indexOf(vagC));
+		printOrder.put(pasajerosEsperandoSubidaC, plazas.indexOf(pasajerosEsperandoSubidaC));
+		
+		printOrder.put(trenEstacionD, plazas.indexOf(trenEstacionD));
+		printOrder.put(maqD, plazas.indexOf(maqD));
+		printOrder.put(vagD, plazas.indexOf(vagD));
+		printOrder.put(pasajerosEsperandoSubidaD, plazas.indexOf(pasajerosEsperandoSubidaD));
+		
+		printOrder.put(trenEstacionAArribo, plazas.indexOf(trenEstacionAArribo));
+		printOrder.put(trenEstacionAEspera, plazas.indexOf(trenEstacionAEspera));
+		printOrder.put(trenEstacionAPartida, plazas.indexOf(trenEstacionAPartida));
+		printOrder.put(pasoNivelABMaquinaEsperando, plazas.indexOf(pasoNivelABMaquinaEsperando));
+		printOrder.put(pasoNivelABMaquina, plazas.indexOf(pasoNivelABMaquina));
+		printOrder.put(pasoNivelABMaquinaUnion, plazas.indexOf(pasoNivelABMaquinaUnion));
+		printOrder.put(pasoNivelABVagonEsperando, plazas.indexOf(pasoNivelABVagonEsperando));
+		printOrder.put(pasoNivelABVagon, plazas.indexOf(pasoNivelABVagon));
+		printOrder.put(pasoNivelABVagonUnion, plazas.indexOf(pasoNivelABVagonUnion));
+		
+		printOrder.put(trenEstacionBEspera, plazas.indexOf(trenEstacionBEspera));
+		printOrder.put(trenEstacionBPartida, plazas.indexOf(trenEstacionBPartida));
+		printOrder.put(trenEstacionBArribo, plazas.indexOf(trenEstacionBArribo));
+		
+		printOrder.put(trenEstacionCArribo, plazas.indexOf(trenEstacionCArribo));
+		printOrder.put(trenEstacionCEspera, plazas.indexOf(trenEstacionCEspera));
+		printOrder.put(trenEstacionCPartida, plazas.indexOf(trenEstacionCPartida));
+		printOrder.put(pasoNivelCDMaquinaEsperando, plazas.indexOf(pasoNivelCDMaquinaEsperando));
+		printOrder.put(pasoNivelCDMaquina, plazas.indexOf(pasoNivelCDMaquina));
+		printOrder.put(pasoNivelCDMaquinaUnion, plazas.indexOf(pasoNivelCDMaquinaUnion));
+		printOrder.put(pasoNivelCDVagonEsperando, plazas.indexOf(pasoNivelCDVagonEsperando));
+		printOrder.put(pasoNivelCDVagon, plazas.indexOf(pasoNivelCDVagon));
+		printOrder.put(pasoNivelCDVagonUnion, plazas.indexOf(pasoNivelCDVagonUnion));
+		
+		printOrder.put(trenEstacionDEspera, plazas.indexOf(trenEstacionDEspera));
+		printOrder.put(trenEstacionDPartida, plazas.indexOf(trenEstacionDPartida));
+		printOrder.put(trenEstacionDArribo, plazas.indexOf(trenEstacionDArribo));
+		
+		printOrder.put(pasoNivelABTransitoEsperando, plazas.indexOf(pasoNivelABTransitoEsperando));
+		printOrder.put(pasoNivelABTransito, plazas.indexOf(pasoNivelABTransito));
+		printOrder.put(pasoNivelCDTransitoEsperando, plazas.indexOf(pasoNivelCDTransitoEsperando));
+		printOrder.put(pasoNivelCDTransito, plazas.indexOf(pasoNivelCDTransito));
+		
 	}
 	
 	public void continuarRecorridoTren() throws InterruptedException {
@@ -537,7 +596,7 @@ public class Monitor extends ConstantesComunes {
 			
 			for(String estacionActual: estaciones) {
 				if(marcado[plazas.indexOf(trenEstacionAArribo.substring(0 ,1) + estacion[(estaciones.indexOf(estacionActual)+3)%4] + estacionActual + trenEstacionAArribo.substring(trenEstacionAArribo.length() - 1))] == 1) {
-					arriboEstacion.put(trenEstacion + estacionActual, new Date());
+//					arriboEstacion.put(trenEstacion + estacionActual, new Date());
 					if(dispararRed(estacionActual + tranTrenArribo)) {
 						ultimoArrivoEstacion = new Date();
 						break;
@@ -587,7 +646,7 @@ public class Monitor extends ConstantesComunes {
 			boolean disparoExitoso = false;
 			ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
 			for(String subida: listaSubidas) {
-				System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
+//				System.out.println(abordarTren.get(subida) +" "+ threadName.substring(threadName.length() - 1));
 				if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
 						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 0 && 
 						abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
@@ -627,8 +686,8 @@ public class Monitor extends ConstantesComunes {
 					(marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 && 
 					(marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime()) && 
 					(marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) ) ) ) {
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
 				
 				if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime() && ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) {
 					if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()) {
@@ -648,8 +707,8 @@ public class Monitor extends ConstantesComunes {
 					(marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 && 
 					(marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime()) && 
 					(marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) ) ) ) {
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
 
 				if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime() && ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) {
 					if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()) {
@@ -670,8 +729,8 @@ public class Monitor extends ConstantesComunes {
 					(marcado[plazas.indexOf(maqD)] == 0 && marcado[plazas.indexOf(vagD)] == 0 && 
 					(marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime()) && 
 					(marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) ) ) ) {
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
 				
 				if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime() && ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) {
 					if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()) {
@@ -692,8 +751,8 @@ public class Monitor extends ConstantesComunes {
 					(marcado[plazas.indexOf(maqA)] == 0 && marcado[plazas.indexOf(vagA)] == 0 && 
 					(marcado[plazas.indexOf(maqB)] == 0 && marcado[plazas.indexOf(vagB)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime()) && 
 					(marcado[plazas.indexOf(maqC)] == 0 && marcado[plazas.indexOf(vagC)] == 0 || ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) ) ) ) {
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
-				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionOpuestaTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren)+" > "+actual);
+//				System.out.println("ultimaSubidaEstacion.get("+trenEstacion + estacionAnteriorTren+") = "+ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren)+" > "+actual);
 				
 				if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > actual.getTime() && ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() > actual.getTime()) {
 					if(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() > ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()) {
@@ -724,9 +783,9 @@ public class Monitor extends ConstantesComunes {
 
 			ArrayList<String> listaBajadas = new ArrayList<>(Arrays.asList(descenderTren.keySet().toArray(new String[descenderTren.keySet().size()])));
 			for(String bajada: listaBajadas) {
-				System.out.println(bajada +" = "+ threadName.substring(threadName.length() - 1) + " - " + marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] + " - " + descenderTren.get(bajada));
-				System.out.println("marcado[plazas.indexOf("+bajada.substring(bajada.length() - 2, bajada.length())+")] = "+ marcado[plazas.indexOf(bajada.substring(2, bajada.length()))]);
-				System.out.println("ultimaSubidaEstacion.get("+(trenEstacion + estacionAnteriorTren)+").getTime() = "+ ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()+" < "+actual.getTime());
+//				System.out.println(bajada +" = "+ threadName.substring(threadName.length() - 1) + " - " + marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] + " - " + descenderTren.get(bajada));
+//				System.out.println("marcado[plazas.indexOf("+bajada.substring(bajada.length() - 2, bajada.length())+")] = "+ marcado[plazas.indexOf(bajada.substring(2, bajada.length()))]);
+//				System.out.println("ultimaSubidaEstacion.get("+(trenEstacion + estacionAnteriorTren)+").getTime() = "+ ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime()+" < "+actual.getTime());
 				if(		bajada.startsWith("B"+ threadName.substring(threadName.length() - 1)) &&																	// Si el thread baja pasajeros en la estacion de la tansicion
 						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 0 &&												// Si el tren se encuentra en la estacion del thread
 						marcado[plazas.indexOf(bajada.substring(bajada.length() - 2, bajada.length()))] != 0 && (													// Si hay pasajeros viajando desde la estacion de la transicion
@@ -1008,6 +1067,24 @@ public class Monitor extends ConstantesComunes {
 		}
 	}
 
+	private void imprimirMarcado() {
+		ArrayList<String> printOrderKeys = new ArrayList<>(Arrays.asList(printOrder.keySet().toArray(new String[printOrder.keySet().size()])));
+		ArrayList<Integer> colWidthPrint = new ArrayList<>();
+		for(String plaza: printOrderKeys) {
+			System.out.print(" "+plaza);
+			colWidthPrint.add(plaza.length());
+		}
+		System.out.print("\n");
+		for(String plaza: printOrderKeys) {
+			for(int i = 0; i < (colWidthPrint.get(printOrderKeys.indexOf(plaza)) - String.valueOf(marcado[printOrder.get(plaza)]).length()); i++) {
+				System.out.print(" ");
+			}
+			System.out.print(" "+marcado[printOrder.get(plaza)]);
+			colWidthPrint.add(plaza.length());
+		}
+		System.out.print("\n");
+	}
+	
 	private String interseccionPrioritarias() {
 		ArrayList<String> prioritarias = new ArrayList<>(Arrays.asList(colaCondicion.keySet().toArray(new String[colaCondicion.keySet().size()])));
 		LinkedHashMap<String, Boolean> vectorInterseccion = getInterseccionCondicion(getInterseccionInhibicion(getSensibilizadas(), getInhibidas()));
@@ -1086,7 +1163,7 @@ public class Monitor extends ConstantesComunes {
 			return false;
 		}
 		
-		System.out.println(" ");
+//		System.out.println(" ");
 		
 		Integer[] postDisparo = new Integer[marcado.length];
 		for(int i = 0; i < matrizMenos.length; i++) {
@@ -1099,12 +1176,12 @@ public class Monitor extends ConstantesComunes {
 				postDisparo[i] = postDisparo[i] - matrizMenos[i][j] * vectorDisparo[j];
 			}
 //			System.out.println(" ");
-			System.out.print(" "+postDisparo[i]);
+//			System.out.print(" "+postDisparo[i]);
 			if(postDisparo[i] < 0) {
 				return false;
 			}
 		}
-		System.out.println(" ");
+//		System.out.println(" ");
 
 		for(int i = 0; i < matrizMas.length; i++) {
 			for (int j = 0; j < matrizMas[i].length; j++) {
@@ -1115,15 +1192,15 @@ public class Monitor extends ConstantesComunes {
 				postDisparo[i] = postDisparo[i] + matrizMas[i][j] * vectorDisparo[j];
 			}
 //			System.out.println(" ");
-			System.out.print(" "+postDisparo[i]);
+//			System.out.print(" "+postDisparo[i]);
 			if(postDisparo[i] < 0) {
 				return false;
 			}
 		}
-		System.out.println(" ");
+//		System.out.println(" ");
 		
 		this.marcado = postDisparo;
-		
+		imprimirMarcado();
 		return true;
 	}
 }
