@@ -103,9 +103,9 @@ public class Main extends ConstantesComunes {
 		Generador generadorTransitoEstacionB = new Generador(monitor, generadorTransito, recorridoCD);
 		generadorTransitoEstacionB.start();
 		
-		PasoNivel pasoDeNivelMaquina = new PasoNivel(monitor, maquina, precedenciaPrincipal);
+		PasoNivel pasoDeNivelMaquina = new PasoNivel(monitor, maquinaTren, precedenciaPrincipal);
 		pasoDeNivelMaquina.start();
-		PasoNivel pasoDeNivelVagon = new PasoNivel(monitor, vagon, precedenciaPrincipal);
+		PasoNivel pasoDeNivelVagon = new PasoNivel(monitor, vagonTren, precedenciaPrincipal);
 		pasoDeNivelVagon.start();
 		PasoNivel pasoDeNivelTransitoAuxiliarAB = new PasoNivel(monitor, pasoNivelTransitoAB, precedenciaAuxiliar);
 		pasoDeNivelTransitoAuxiliarAB.start();

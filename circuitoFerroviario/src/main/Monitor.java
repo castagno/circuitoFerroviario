@@ -33,14 +33,6 @@ public class Monitor extends ConstantesComunes {
 	private final ReentrantLock lock = new ReentrantLock(false);
 	
 	private PrintWriter printWriter;
-	/*
-	 * 1) Disparo red con el disparo correspondiente a la transicion representada por la condicion a la que se notifico.
-	 * 2) Si el disparo es completado pido Vs y Vc intersecto y uso politicas para decidir que condicion notificar (despertar hilo).
-	 * 3) Si el disparo no es completado libera el lock y sale del monitor.
-	 * 
-	 * Nota: Las transiciones sensibilizadas que no tienen una cola de condicion asociada se disparan inmediatamente.
-	 * 
-	 */
 	
 	private final Condition fullTrenOrEmptyEstacion = lock.newCondition();
 	private final Condition tiempoDeEspera = lock.newCondition();
@@ -70,196 +62,15 @@ public class Monitor extends ConstantesComunes {
 	private final Condition liberarBarreraPasoNivelAB = lock.newCondition();
 	private final Condition liberarBarreraPasoNivelCD = lock.newCondition();
 	
-	
-	/* Plazas */
+	/*
+	 * 1) Disparo red con el disparo correspondiente a la transicion representada por la condicion a la que se notifico.
+	 * 2) Si el disparo es completado pido Vs y Vc intersecto y uso politicas para decidir que condicion notificar (despertar hilo).
+	 * 3) Si el disparo no es completado libera el lock y sale del monitor.
+	 * 
+	 * Nota: Las transiciones sensibilizadas que no tienen una cola de condicion asociada se disparan inmediatamente.
+	 * 
+	 */
 
-	/* Tren en Estacion */
-	private final String trenEstacion = "TE";
-	private final String trenEstacionA = trenEstacion+"A";
-	private final String trenEstacionB = trenEstacion+"B";
-	private final String trenEstacionC = trenEstacion+"C";
-	private final String trenEstacionD = trenEstacion+"D";
-	
-	/* Tren en Espera */
-	private final String trenEstacionAEspera = "ATW";
-	private final String trenEstacionBEspera = "BTW";
-	private final String trenEstacionCEspera = "CTW";
-	private final String trenEstacionDEspera = "DTW";
-
-	/* Tren esparando condicion de partida*/
-	private final String trenEstacionAPartida = "ATR";
-	private final String trenEstacionBPartida = "BTR";
-	private final String trenEstacionCPartida = "CTR";
-	private final String trenEstacionDPartida = "DTR";
-
-	/* Tren en recorrido llegando a estacion */
-	private final String trenEstacionAArribo = "RDAT";
-	private final String trenEstacionBArribo = "RABT";
-	private final String trenEstacionCArribo = "RBCT";
-	private final String trenEstacionDArribo = "RCDT";
-	
-	/* Pasajeros esperando subida */
-	private final String pasajerosEsperandoSubidaA = "PAQ";
-	private final String pasajerosEsperandoSubidaB = "PBQ";
-	private final String pasajerosEsperandoSubidaC = "PCQ";
-	private final String pasajerosEsperandoSubidaD = "PDQ";
-
-	/* Lugares del tren compuesto por Vagon y Maquina */
-	private final String vagon = "VAG";
-	private final String maquina = "MAQ";
-	
-	/* Lugares del vagon ocupados por pasajeros de la estacion indicada */
-	private final String vagA = "VA";
-	private final String vagB = "VB";
-	private final String vagC = "VC";
-	private final String vagD = "VD";
-	
-	/* Lugares de la maquina ocupados por pasajeros de la estacion indicada */
-	private final String maqA = "MA";
-	private final String maqB = "MB";
-	private final String maqC = "MC";
-	private final String maqD = "MD";
-	
-	/* Barrera del paso de nivel, recurso compartido */
-	private final String pasoNivelABBarrera = "PNABB";
-	private final String pasoNivelCDBarrera = "PNCDB";
-	
-	/* Transito en el paso de nivel Cruzando */
-	private final String pasoNivelABTransito = "PNABT";
-	private final String pasoNivelCDTransito = "PNCDT";
-	
-	/* Maquina en el paso de nivel Cruzando */
-	private final String pasoNivelABMaquina = "PNABM";
-	private final String pasoNivelCDMaquina = "PNCDM";
-	
-	/* Vagon en el paso de nivel Cruzando */
-	private final String pasoNivelABVagon = "PNABV";
-	private final String pasoNivelCDVagon = "PNCDV";
-	
-	/* Transito en el paso de nivel Esperando */
-	private final String pasoNivelABTransitoEsperando = "PNABTQ";
-	private final String pasoNivelCDTransitoEsperando = "PNCDTQ";
-	
-	/* Maquina en el paso de nivel Cruzando */
-	private final String pasoNivelABMaquinaEsperando = "RABM";
-	private final String pasoNivelABVagonEsperando = "RABV";
-	
-	/* Vagon en el paso de nivel Cruzando */
-	private final String pasoNivelCDMaquinaEsperando = "RCDM";
-	private final String pasoNivelCDVagonEsperando = "RCDV";
-	
-	/* Maquina fuera del paso de nivel esperando Union */
-	private final String pasoNivelABMaquinaUnion = "RABMR";
-	private final String pasoNivelABVagonUnion = "RABVR";
-	
-	/* Vagon fuera del paso de nivel esperando Union */
-	private final String pasoNivelCDMaquinaUnion = "RCDMR";
-	private final String pasoNivelCDVagonUnion = "RCDVR";
-	
-	
-	
-	
-	/* Transiciones */
-	
-	/* Estacion */
-	private final String tranTrenArriboA = "AAr";
-	private final String tranTrenArriboB = "BAr";
-	private final String tranTrenArriboC = "CAr";
-	private final String tranTrenArriboD = "DAr";
-	private final String tranTrenArribo = "Ar";
-	
-	private final String tranTrenEsperandoA = "AW";
-	private final String tranTrenEsperandoB = "BW";
-	private final String tranTrenEsperandoC = "CW";
-	private final String tranTrenEsperandoD = "DW";
-	
-	private final String tranTrenLlenoA = "ADe";
-	private final String tranTrenLlenoB = "BDe";
-	private final String tranTrenLlenoC = "CDe";
-	private final String tranTrenLlenoD = "DDe";
-	
-	private final String tranEstacionVaciaA = "ADV";
-	private final String tranEstacionVaciaB = "BDV";
-	private final String tranEstacionVaciaC = "CDV";
-	private final String tranEstacionVaciaD = "DDV";
-	
-	/* Subida de pasajeros */
-	private final String tranSubidaMaquinaEstacionA = "SMA";
-	private final String tranSubidaMaquinaEstacionB = "SMB";
-	private final String tranSubidaMaquinaEstacionC = "SMC";
-	private final String tranSubidaMaquinaEstacionD = "SMD";
-
-	private final String tranSubidaVagonEstacionA = "SVA";
-	private final String tranSubidaVagonEstacionB = "SVB";
-	private final String tranSubidaVagonEstacionC = "SVC";
-	private final String tranSubidaVagonEstacionD = "SVD";
-	
-	/* Bajada de pasajeros */
-	private final String tranBajadaMaquinaBEstacionA = "BAMB";
-	private final String tranBajadaMaquinaCEstacionA = "BAMC";
-	private final String tranBajadaMaquinaDEstacionA = "BAMD";
-
-	private final String tranBajadaVagonBEstacionA = "BAVB";
-	private final String tranBajadaVagonCEstacionA = "BAVC";
-	private final String tranBajadaVagonDEstacionA = "BAVD";
-
-	
-	private final String tranBajadaMaquinaAEstacionB = "BBMA";
-	private final String tranBajadaMaquinaCEstacionB = "BBMC";
-	private final String tranBajadaMaquinaDEstacionB = "BBMD";
-
-	private final String tranBajadaVagonAEstacionB = "BBVA";
-	private final String tranBajadaVagonCEstacionB = "BBVC";
-	private final String tranBajadaVagonDEstacionB = "BBVD";
-
-	
-	private final String tranBajadaMaquinaAEstacionC = "BCMA";
-	private final String tranBajadaMaquinaBEstacionC = "BCMB";
-	private final String tranBajadaMaquinaDEstacionC = "BCMD";
-
-	private final String tranBajadaVagonAEstacionC = "BCVA";
-	private final String tranBajadaVagonBEstacionC = "BCVB";
-	private final String tranBajadaVagonDEstacionC = "BCVD";
-
-	
-	private final String tranBajadaMaquinaAEstacionD = "BDMA";
-	private final String tranBajadaMaquinaBEstacionD = "BDMB";
-	private final String tranBajadaMaquinaCEstacionD = "BDMC";
-
-	private final String tranBajadaVagonAEstacionD = "BDVA";
-	private final String tranBajadaVagonBEstacionD = "BDVB";
-	private final String tranBajadaVagonCEstacionD = "BDVC";
-
-	
-	/* Paso de Nivel Transito */
-	private final String tranPasoNivelABTransitoWait = "PNABTW";
-	private final String tranPasoNivelABTransitoReady = "PNABTR";
-	private final String tranPasoNivelABTransitoGenerador = "PNABTG";
-	private final String tranPasoNivelABMaquinaWait = "PNABMW";
-	private final String tranPasoNivelABMaquinaReady = "PNABMR";
-	private final String tranPasoNivelABVagonWait = "PNABVW";
-	private final String tranPasoNivelABVagonReady = "PNABVR";
-	
-	private final String tranPasoNivelCDTransitoWait = "PNCDTW";
-	private final String tranPasoNivelCDTransitoReady = "PNCDTR";
-	private final String tranPasoNivelCDTransitoGenerador = "PNCDTG";
-	private final String tranPasoNivelCDMaquinaWait = "PNCDMW";
-	private final String tranPasoNivelCDMaquinaReady = "PNCDMR";
-	private final String tranPasoNivelCDVagonWait = "PNCDVW";
-	private final String tranPasoNivelCDVagonReady = "PNCDVR";
-	
-	/* Recorrido Tren */
-	private final String tranRecorridoTrenAB = "RAB";
-	private final String tranRecorridoTrenCD = "RCD";
-	
-	/* Generador de Pasajeros para abordar tren */
-	private final String tranPasajerosAGenerador = "PAG";
-	private final String tranPasajerosBGenerador = "PBG";
-	private final String tranPasajerosCGenerador = "PCG";
-	private final String tranPasajerosDGenerador = "PDG";
-	
-	
-	
 	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones, PrintWriter printWriter) {
 		this.printWriter = printWriter;
 		this.marcadoInicial = marcado;
@@ -416,8 +227,8 @@ public class Monitor extends ConstantesComunes {
 		
 		
 		printOrder = new LinkedHashMap<>();
-		printOrder.put(maquina, plazas.indexOf(maquina));
-		printOrder.put(vagon, plazas.indexOf(vagon));
+		printOrder.put(maq, plazas.indexOf(maq));
+		printOrder.put(vag, plazas.indexOf(vag));
 		
 		printOrder.put(trenEstacionA, plazas.indexOf(trenEstacionA));
 		printOrder.put(maqA, plazas.indexOf(maqA));
@@ -548,7 +359,7 @@ public class Monitor extends ConstantesComunes {
 						marcado[plazas.indexOf(trenEstacionBPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] != 0 || 
 						marcado[plazas.indexOf(trenEstacionCPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] != 0 || 
 						marcado[plazas.indexOf(trenEstacionDPartida)] == 1 && marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] != 0) && 
-						(marcado[plazas.indexOf(vagon)] != 0 || marcado[plazas.indexOf(maquina)] != 0)
+						(marcado[plazas.indexOf(vag)] != 0 || marcado[plazas.indexOf(maq)] != 0)
 					) ) ) {
 				fullTrenOrEmptyEstacion.await();
 			}
@@ -561,7 +372,7 @@ public class Monitor extends ConstantesComunes {
 			} else {
 				for(String estacion: estaciones) {
 					if(marcado[plazas.indexOf(estacion + trenEstacionAPartida.substring(1))] == 1) {
-						if(marcado[plazas.indexOf(vagon)] == 0 && marcado[plazas.indexOf(maquina)] == 0) {
+						if(marcado[plazas.indexOf(vag)] == 0 && marcado[plazas.indexOf(maq)] == 0) {
 							dispararRed(estacion + tranTrenLlenoA.substring(1));
 							break;
 						}
@@ -620,26 +431,26 @@ public class Monitor extends ConstantesComunes {
 		
 		try {
 			while(	trenEstacionA.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionA)] != 0 ||
-					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] == 0) ) {
+					marcado[plazas.indexOf(maq)] == 0 && marcado[plazas.indexOf(vag)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaA)] == 0) ) {
 				subidaEstacionA.await();
 			}
 			while(	trenEstacionB.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionB)] != 0 || 
-					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] == 0) ) {
+					marcado[plazas.indexOf(maq)] == 0 && marcado[plazas.indexOf(vag)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaB)] == 0) ) {
 				subidaEstacionB.await();
 			}
 			while(	trenEstacionC.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionC)] != 0 || 
-					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] == 0) ) {
+					marcado[plazas.indexOf(maq)] == 0 && marcado[plazas.indexOf(vag)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaC)] == 0) ) {
 				subidaEstacionC.await();
 			}
 			while(	trenEstacionD.endsWith(threadName.substring(threadName.length() - 1)) && (marcado[plazas.indexOf(trenEstacionD)] != 0 || 
-					marcado[plazas.indexOf(maquina)] == 0 && marcado[plazas.indexOf(vagon)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] == 0) ) {
+					marcado[plazas.indexOf(maq)] == 0 && marcado[plazas.indexOf(vag)] == 0 || marcado[plazas.indexOf(pasajerosEsperandoSubidaD)] == 0) ) {
 				subidaEstacionD.await();
 			}
 
 			boolean disparoExitoso = false;
 			ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(abordarTren.keySet().toArray(new String[abordarTren.keySet().size()])));
 			for(String subida: listaSubidas) {
-				if(		marcado[plazas.indexOf(subida.startsWith("SM")? maquina : vagon)] != 0 && 
+				if(		marcado[plazas.indexOf(subida.startsWith("SM")? maq : vag)] != 0 && 
 						marcado[plazas.indexOf(trenEstacion + threadName.substring(threadName.length() - 1))] == 0 && 
 						abordarTren.get(subida).endsWith(threadName.substring(threadName.length() - 1))) {
 					disparoExitoso = dispararRed(subida);
