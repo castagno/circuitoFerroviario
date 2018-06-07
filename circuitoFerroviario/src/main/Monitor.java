@@ -464,10 +464,14 @@ public class Monitor extends ConstantesComunes {
 		printOrder.put(trenEstacionDPartida, plazas.indexOf(trenEstacionDPartida));
 		printOrder.put(trenEstacionDArribo, plazas.indexOf(trenEstacionDArribo));
 		
+		printOrder.put(pasoNivelABBarrera, plazas.indexOf(pasoNivelABBarrera));
 		printOrder.put(pasoNivelABTransitoEsperando, plazas.indexOf(pasoNivelABTransitoEsperando));
 		printOrder.put(pasoNivelABTransito, plazas.indexOf(pasoNivelABTransito));
+		
+		printOrder.put(pasoNivelCDBarrera, plazas.indexOf(pasoNivelCDBarrera));
 		printOrder.put(pasoNivelCDTransitoEsperando, plazas.indexOf(pasoNivelCDTransitoEsperando));
 		printOrder.put(pasoNivelCDTransito, plazas.indexOf(pasoNivelCDTransito));
+		
 		
 		transicionesGeneradoras = new ArrayList<>();
 		transicionesGeneradoras.add(tranPasajerosAGenerador);
