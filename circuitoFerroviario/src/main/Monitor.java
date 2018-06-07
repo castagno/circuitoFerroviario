@@ -1,5 +1,6 @@
 package main;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class Monitor extends ConstantesComunes {
 	private Date ultimoArrivoEstacion;
 	private final ReentrantLock lock = new ReentrantLock(false);
 	
+	private PrintWriter printWriter;
 	/*
 	 * 1) Disparo red con el disparo correspondiente a la transicion representada por la condicion a la que se notifico.
 	 * 2) Si el disparo es completado pido Vs y Vc intersecto y uso politicas para decidir que condicion notificar (despertar hilo).
@@ -258,7 +260,8 @@ public class Monitor extends ConstantesComunes {
 	
 	
 	
-	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones) {
+	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones, PrintWriter printWriter) {
+		this.printWriter = printWriter;
 		this.marcadoInicial = marcado;
 		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
 		this.plazas = new ArrayList<>(this.marcadoInicial.keySet());
@@ -1055,9 +1058,13 @@ public class Monitor extends ConstantesComunes {
 	}
 
 	private boolean dispararRed(Integer[] vectorDisparo) {
+		String transicionDisparada = "";
 		Integer sumatoriaDisparo = 0;
-		for(Integer disparo: vectorDisparo) {
-			sumatoriaDisparo += disparo;
+		for (int i = 0; i < vectorDisparo.length; i++) {
+			if(vectorDisparo[i] != 0) {
+				transicionDisparada = transiciones.get(i);
+			}
+			sumatoriaDisparo += vectorDisparo[i];
 		}
 		if(!sumatoriaDisparo.equals(1)) {
 			return false;
@@ -1083,7 +1090,10 @@ public class Monitor extends ConstantesComunes {
 			}
 		}
 		
+		
 		this.marcado = postDisparo;
+		this.printWriter.print(transicionDisparada+" ");
+		this.printWriter.flush();
 		imprimirMarcado();
 		return true;
 	}
