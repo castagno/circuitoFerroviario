@@ -119,10 +119,10 @@ public class Main extends ConstantesComunes {
 		Integer[][] matriz = new Integer[100][100];
 		Integer[][] matrizIncidencia = null;
 		
-		FileReader matrizIPlus;
+		FileReader matrizFile;
 		try {
-			matrizIPlus = new FileReader(pathName);
-			Scanner scanFile = new Scanner(matrizIPlus);
+			matrizFile = new FileReader(pathName);
+			Scanner scanFile = new Scanner(matrizFile);
 //			System.out.println(scanFile.hasNext());
 			
 			String tempString = scanFile.nextLine();
@@ -172,10 +172,10 @@ public class Main extends ConstantesComunes {
 	static private LinkedHashMap<String, Integer> marcadoInicial(String pathName) {
 		LinkedHashMap<String, Integer> marcadoInicial = new LinkedHashMap<>();
 		
-		FileReader matrizIPlus;
+		FileReader vectorMarcado;
 		try {
-			matrizIPlus = new FileReader(pathName);
-			Scanner scanFile = new Scanner(matrizIPlus);
+			vectorMarcado = new FileReader(pathName);
+			Scanner scanFile = new Scanner(vectorMarcado);
 			
 			if(!scanFile.nextLine().contains("<table")) {
 				scanFile.close();
