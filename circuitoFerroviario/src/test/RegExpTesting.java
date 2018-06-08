@@ -2,7 +2,10 @@ package test;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import main.ConstantesComunes;
 
@@ -28,7 +31,36 @@ public class RegExpTesting extends ConstantesComunes {
 				}
 			}
 			
-			tempCopy = tempCopy.replaceAll(".*"+tranTrenArriboB+".*"+tranTrenEsperandoB+".*("+tranTrenLlenoB+"|"+tranEstacionVaciaB+").*", "");
+			for(String transicion: complemento) {
+				tempCopy = tempCopy.replaceAll(transicion+" ", "");
+			}
+//			System.out.println(tempCopy);
+			
+//			Pattern pattern = Pattern.compile(".*("+tranTrenArriboB+"(?="+tranTrenEsperandoB+")).*");
+			
+			String complementoRecorrido = "";
+			for(String transicion: complemento) {
+				complementoRecorrido += transicion + "\\s|";
+			}
+			if(complementoRecorrido.endsWith("\\s|")) {
+				complementoRecorrido = complementoRecorrido.substring(0, complementoRecorrido.length() - 1);
+			}
+			
+			String patternCompile = tranTrenArriboB+"\\s("+complementoRecorrido+"){0,}(?="+tranTrenEsperandoB+"\\s("+complementoRecorrido+"){0,}(?="+tranEstacionVaciaB+"))";
+			System.out.println(patternCompile);
+			Pattern pattern = Pattern.compile(patternCompile);
+			Matcher matcherTemp = pattern.matcher(tempString);
+			
+			while(matcherTemp.find()) {
+				System.out.println(matcherTemp.start());
+				System.out.println(matcherTemp.end());
+				System.out.println(matcherTemp.group());
+			}
+			
+//			while (tempCopy.contains("  ")) {
+//				tempCopy = tempCopy.replaceAll("\\s\\s", " ");
+//			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,7 +79,6 @@ public class RegExpTesting extends ConstantesComunes {
 		transiciones.add(tranTrenArriboB);
 		transiciones.add(tranTrenArriboC);
 		transiciones.add(tranTrenArriboD);
-		transiciones.add(tranTrenArribo);
 		
 		transiciones.add(tranTrenEsperandoA);
 		transiciones.add(tranTrenEsperandoB);
@@ -145,8 +176,6 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getRecorridoTren(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
-		/* Transiciones */
-		
 		/* Estacion */
 		transiciones.add(tranTrenArriboA);
 		transiciones.add(tranTrenArriboB);
