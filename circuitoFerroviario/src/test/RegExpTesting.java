@@ -22,6 +22,10 @@ public class RegExpTesting extends ConstantesComunes {
 			
 			System.out.println(tempCopy.matches(".*"+tranTrenArriboB+".*"+tranTrenEsperandoB+".*("+tranTrenLlenoB+"|"+tranEstacionVaciaB+").*"));
 			
+			/* Cuando el tren se encuentra en una estacion se pueden disparar las transiciones de espera, partida, subida y bajada de dicha estacion y las
+			 * transiciones de cruze de trancito en pasos de nivel y todas las generadoras de pasajeros y transito. */
+			
+			
 			ArrayList<String> transiciones = getTransiciones();
 			ArrayList<String> recorridoTren = getRecorridoTren();
 			ArrayList<String> complemento = new ArrayList<>();
@@ -67,6 +71,35 @@ public class RegExpTesting extends ConstantesComunes {
 		} finally {
 			scanFile.close();
 		}
+	}
+	
+	
+	
+	private static ArrayList<String> getTransicionesPasoNivelTransito(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranPasoNivelABTransitoWait);
+		transiciones.add(tranPasoNivelABTransitoReady);
+		transiciones.add(tranRecorridoTrenAB);
+		
+		transiciones.add(tranPasoNivelCDTransitoWait);
+		transiciones.add(tranPasoNivelCDTransitoReady);
+		transiciones.add(tranRecorridoTrenCD);
+		
+		return transiciones;
+	}
+	
+	private static ArrayList<String> getTransicionesGeneradoras(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranPasoNivelABTransitoGenerador);
+		transiciones.add(tranPasoNivelCDTransitoGenerador);
+		transiciones.add(tranPasajerosAGenerador);
+		transiciones.add(tranPasajerosBGenerador);
+		transiciones.add(tranPasajerosCGenerador);
+		transiciones.add(tranPasajerosDGenerador);
+		
+		return transiciones;
 	}
 	
 	private static ArrayList<String> getTransiciones(){
@@ -175,8 +208,13 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	private static ArrayList<String> getRecorridoTren(){
 		ArrayList<String> transiciones = new ArrayList<>();
-
-		/* Estacion */
+		
+		transiciones.addAll(getRecorridoTrenEstacionA());
+		transiciones.addAll(getRecorridoTrenEstacionB());
+		transiciones.addAll(getRecorridoTrenEstacionC());
+		transiciones.addAll(getRecorridoTrenEstacionD());
+		
+		/*
 		transiciones.add(tranTrenArriboA);
 		transiciones.add(tranTrenArriboB);
 		transiciones.add(tranTrenArriboC);
@@ -197,7 +235,6 @@ public class RegExpTesting extends ConstantesComunes {
 		transiciones.add(tranEstacionVaciaC);
 		transiciones.add(tranEstacionVaciaD);
 		
-		/* Paso de Nivel Transito */
 		transiciones.add(tranPasoNivelABMaquinaWait);
 		transiciones.add(tranPasoNivelABMaquinaReady);
 		transiciones.add(tranPasoNivelABVagonWait);
@@ -208,9 +245,66 @@ public class RegExpTesting extends ConstantesComunes {
 		transiciones.add(tranPasoNivelCDVagonWait);
 		transiciones.add(tranPasoNivelCDVagonReady);
 		
-		/* Recorrido Tren */
 		transiciones.add(tranRecorridoTrenAB);
 		transiciones.add(tranRecorridoTrenCD);
+		*/
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getRecorridoTrenEstacionA(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranTrenArriboA);
+		transiciones.add(tranTrenEsperandoA);
+		transiciones.add(tranTrenLlenoA);
+		transiciones.add(tranEstacionVaciaA);
+		transiciones.add(tranPasoNivelABMaquinaWait);
+		transiciones.add(tranPasoNivelABMaquinaReady);
+		transiciones.add(tranPasoNivelABVagonWait);
+		transiciones.add(tranPasoNivelABVagonReady);
+		transiciones.add(tranRecorridoTrenAB);
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getRecorridoTrenEstacionB(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranTrenArriboB);
+		transiciones.add(tranTrenEsperandoB);
+		transiciones.add(tranTrenLlenoB);
+		transiciones.add(tranEstacionVaciaB);
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getRecorridoTrenEstacionC(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranTrenArriboC);
+		transiciones.add(tranTrenEsperandoC);
+		transiciones.add(tranTrenLlenoC);
+		transiciones.add(tranEstacionVaciaC);
+		transiciones.add(tranPasoNivelCDMaquinaWait);
+		transiciones.add(tranPasoNivelCDMaquinaReady);
+		transiciones.add(tranPasoNivelCDVagonWait);
+		transiciones.add(tranPasoNivelCDVagonReady);
+		transiciones.add(tranRecorridoTrenCD);
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getRecorridoTrenEstacionD(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranTrenArriboD);
+		transiciones.add(tranTrenEsperandoD);
+		transiciones.add(tranTrenLlenoD);
+		transiciones.add(tranEstacionVaciaD);
 		
 		return transiciones;
 	}
