@@ -1,6 +1,8 @@
 package main;
 
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +35,9 @@ public class Monitor extends ConstantesComunes {
 	private final ReentrantLock lock = new ReentrantLock(false);
 	
 	private PrintWriter printWriter;
+	private String printWtiterString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+	private ArrayList<String> printWriterArray = new ArrayList<>();
+	private int printWriterCount = 0;
 	
 	private final Condition fullTrenOrEmptyEstacion = lock.newCondition();
 	private final Condition tiempoDeEspera = lock.newCondition();
@@ -861,7 +866,7 @@ public class Monitor extends ConstantesComunes {
 	}
 	
 	private boolean dispararRed(String transicion) {
-		System.out.println(" "+transicion);
+		System.out.println(" "+transicion+" Nro. de disparo: "+printWriterCount);
 		Integer[] vectorDisparo = Collections.nCopies(transiciones.size(), 0).toArray(new Integer[0]);
 		vectorDisparo[transiciones.indexOf(transicion)] = 1;
 		
@@ -903,8 +908,30 @@ public class Monitor extends ConstantesComunes {
 		
 		
 		this.marcado = postDisparo;
-		this.printWriter.print(transicionDisparada+" ");
-		this.printWriter.flush();
+		
+		if(printWriterCount == 3000) {
+//			String fullPrintWriteString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+//			for(String transicion:printWriterArray) {
+//				String byteString = new String(transicion.getBytes(), StandardCharsets.UTF_8);
+//				System.out.print(byteString+" ");
+//				fullPrintWriteString += byteString+" ";
+//			}
+			
+			System.out.println(printWtiterString);
+			this.printWriter.print(printWtiterString);
+			this.printWriter.flush();
+			this.printWriter.close(); 
+			for (int i = 0; i < 100; i++) {
+				System.out.println("ARCHIVO CERRADO!!!");
+			}
+		} else if(printWriterCount < 3000) {
+			printWriterArray.add(transicionDisparada);
+			printWtiterString += new String(transicionDisparada.getBytes(), StandardCharsets.UTF_8) + new String((new String(" ")).getBytes(), StandardCharsets.UTF_8);
+		}
+		System.out.println(printWtiterString);
+		
+		printWriterCount += 1;
+		
 		imprimirMarcado();
 		return true;
 	}

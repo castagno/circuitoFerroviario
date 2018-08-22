@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -27,7 +29,7 @@ public class Main extends ConstantesComunes {
 			}
 			file.createNewFile();
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			printWriter = new PrintWriter(fileOutputStream);
+			printWriter = new PrintWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8), true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
