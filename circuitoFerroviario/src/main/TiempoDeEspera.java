@@ -5,22 +5,20 @@ import java.util.Random;
 public class TiempoDeEspera {
 	private static TiempoDeEspera timepoDeEspera;
 	
-	private Integer tiempoMaximo;
 	private Random random;
 	
-	private TiempoDeEspera(Integer tiempoMaximo, Long seed) {
-		this.tiempoMaximo = tiempoMaximo;
+	private TiempoDeEspera(Long seed) {
 		this.random = new Random(seed);
 	}
 	
-	public static synchronized TiempoDeEspera getInstance(Integer tiempoMaximo, Long seed) {
+	public static synchronized TiempoDeEspera getInstance(Long seed) {
 		if(timepoDeEspera == null) {
-			timepoDeEspera = new TiempoDeEspera(tiempoMaximo, seed);
+			timepoDeEspera = new TiempoDeEspera(seed);
 		}
 		return timepoDeEspera;
 	}
 	
-	public synchronized int getNextRandom() {
-		return random.nextInt(tiempoMaximo);
+	public synchronized int getNextRandom(Integer tiempoMaximoCustom) {
+		return random.nextInt(tiempoMaximoCustom);
 	}
 }

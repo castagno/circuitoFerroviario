@@ -1,7 +1,6 @@
 package main;
 
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -584,11 +583,11 @@ public class Monitor extends ConstantesComunes {
 						) ) {
 					if(dispararRed(bajada)) {
 						if(bajada.endsWith(estacionAnteriorTren)) {
-							int tiempoEsperadoAnterior = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+							int tiempoEsperadoAnterior = TiempoDeEspera.getInstance(97L).getNextRandom(5000);
 							ultimaSubidaEstacion.put(trenEstacion + estacionAnteriorTren, new Date(ultimaSubidaEstacion.get(trenEstacion + estacionAnteriorTren).getTime() + tiempoEsperadoAnterior));
 						}
 						if(bajada.endsWith(estacionOpuestaTren)) {
-							int tiempoEsperadoOpuesta = TiempoDeEspera.getInstance(5000, 97L).getNextRandom();
+							int tiempoEsperadoOpuesta = TiempoDeEspera.getInstance(97L).getNextRandom(5000);
 							ultimaSubidaEstacion.put(trenEstacion + estacionOpuestaTren, new Date(ultimaSubidaEstacion.get(trenEstacion + estacionOpuestaTren).getTime() + tiempoEsperadoOpuesta));
 						}
 						

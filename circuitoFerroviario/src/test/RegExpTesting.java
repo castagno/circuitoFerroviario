@@ -23,54 +23,6 @@ public class RegExpTesting extends ConstantesComunes {
 		try {
 			scanFile = new Scanner(new FileReader(testOutput));
 			String tempString = scanFile.nextLine();
-//			System.out.println(tempString);
-			
-			
-			/* Cuando el tren se encuentra en una estacion se pueden disparar las transiciones de espera, partida, subida y bajada de dicha estacion y las
-			 * transiciones de cruze de transito en pasos de nivel y todas las generadoras de pasajeros y transito. */
-			
-			
-//			ArrayList<String> transiciones = getTransiciones();
-//			ArrayList<String> recorridoTren = getRecorridoTren();
-//			ArrayList<String> complemento = new ArrayList<>();
-//			for(String transicion: transiciones) {
-//				if(!recorridoTren.contains(transicion)) {
-//					complemento.add(transicion);
-//				}
-//			}
-//			
-//			for(String transicion: complemento) {
-//				tempCopy = tempCopy.replaceAll(transicion+" ", "");
-//			}
-			
-//			System.out.println(tempCopy);
-			
-//			Pattern pattern = Pattern.compile(".*("+tranTrenArriboB+"(?="+tranTrenEsperandoB+")).*");
-			
-//			String complementoRecorrido = "";
-//			for(String transicion: complemento) {
-//				complementoRecorrido += transicion + "\\s|";
-//			}
-//			if(complementoRecorrido.endsWith("\\s|")) {
-//				complementoRecorrido = complementoRecorrido.substring(0, complementoRecorrido.length() - 1);
-//			}
-//			
-//			String patternCompile = tranTrenArriboB+"\\s("+complementoRecorrido+"){0,}(?="+tranTrenEsperandoB+"\\s("+complementoRecorrido+"){0,}(?="+tranEstacionVaciaB+"))";
-//			System.out.println(patternCompile);
-//			Pattern pattern = Pattern.compile(patternCompile);
-//			Matcher matcherTemp = pattern.matcher(tempString);
-//			
-//			while(matcherTemp.find()) {
-//				System.out.println(matcherTemp.start());
-//				System.out.println(matcherTemp.end());
-//				System.out.println(matcherTemp.group());
-//			}
-			
-//			while (tempCopy.contains("  ")) {
-//				tempCopy = tempCopy.replaceAll("\\s\\s", " ");
-//			}
-
-//			System.out.println(tempString);
 			
 			System.out.println("\nTest:\n");
 			
@@ -484,14 +436,13 @@ public class RegExpTesting extends ConstantesComunes {
 			
 			String transicionesProhibidas = "";
 			for(String transicion: transiciones) {
-				if(!transicionesValidas.contains(transicion) && /* ( ((recorridoTren.indexOf(trancisionRecorrido) + 1) < recorridoTren.size())? */ !recorridoTren.get((recorridoTren.indexOf(trancisionRecorrido) + 1) % recorridoTren.size()).equals(transicion) /* : true ) */ ) {
+				if(!transicionesValidas.contains(transicion) && !recorridoTren.get((recorridoTren.indexOf(trancisionRecorrido) + 1) % recorridoTren.size()).equals(transicion) ) {
 					transicionesProhibidas += transicion + "\\s|";
 				}
 			}
 			if(transicionesProhibidas.endsWith("\\s|")) {
 				transicionesProhibidas = transicionesProhibidas.substring(0, transicionesProhibidas.length() - 1);
 			}
-//			System.out.println(transicionesProhibidas);
 			
 			String tranValidasRegExp = "";
 			for(String transicion: transicionesValidas) {
@@ -501,7 +452,7 @@ public class RegExpTesting extends ConstantesComunes {
 				tranValidasRegExp = tranValidasRegExp.substring(0, tranValidasRegExp.length() - 1);
 			}
 			
-			prePattern = prePattern + trancisionRecorrido+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; //+tranTrenEsperandoB+"\\s("+validasTrenEstacionB+"){0,}(?!"+prohibidasTrenLlenoEstacionB+")(?="+tranEstacionVaciaB+"))";
+			prePattern = prePattern + trancisionRecorrido+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; 
 			postPattern = ")" + postPattern;
 		}
 		prePattern = ( (prePattern.endsWith("(?="))? prePattern.substring(0, prePattern.length() - (new String("(?=")).length()) : prePattern ) ;
@@ -614,7 +565,6 @@ public class RegExpTesting extends ConstantesComunes {
 		transicionesValidasPorTransicion.put(tranTrenLlenoA, tranRecorridoValidas);
 		transicionesValidasPorTransicion.put(tranEstacionVaciaA, tranRecorridoValidas);
 		
-		
 	}
 	
 	
@@ -634,118 +584,20 @@ public class RegExpTesting extends ConstantesComunes {
 		transiciones.addAll(getRecorridoTrenEstacionC());
 		transiciones.addAll(getRecorridoTrenEstacionD());
 		
-
-		/* Transiciones */
-		
-		/* Estacion */
-//		transiciones.add(tranTrenArriboA);
-//		transiciones.add(tranTrenArriboB);
-//		transiciones.add(tranTrenArriboC);
-//		transiciones.add(tranTrenArriboD);
-		
-//		transiciones.add(tranTrenEsperandoA);
-//		transiciones.add(tranTrenEsperandoB);
-//		transiciones.add(tranTrenEsperandoC);
-//		transiciones.add(tranTrenEsperandoD);
-		
-//		transiciones.add(tranTrenLlenoA);
-//		transiciones.add(tranTrenLlenoB);
-//		transiciones.add(tranTrenLlenoC);
-//		transiciones.add(tranTrenLlenoD);
-		
-//		transiciones.add(tranEstacionVaciaA);
-//		transiciones.add(tranEstacionVaciaB);
-//		transiciones.add(tranEstacionVaciaC);
-//		transiciones.add(tranEstacionVaciaD);
-		
-		/* Subida de pasajeros */
-//		transiciones.add(tranSubidaMaquinaEstacionA);
-//		transiciones.add(tranSubidaMaquinaEstacionB);
-//		transiciones.add(tranSubidaMaquinaEstacionC);
-//		transiciones.add(tranSubidaMaquinaEstacionD);
-
-//		transiciones.add(tranSubidaVagonEstacionA);
-//		transiciones.add(tranSubidaVagonEstacionB);
-//		transiciones.add(tranSubidaVagonEstacionC);
-//		transiciones.add(tranSubidaVagonEstacionD);
-		
-		/* Bajada de pasajeros */
-//		transiciones.add(tranBajadaMaquinaBEstacionA);
-//		transiciones.add(tranBajadaMaquinaCEstacionA);
-//		transiciones.add(tranBajadaMaquinaDEstacionA);
-//
-//		transiciones.add(tranBajadaVagonBEstacionA);
-//		transiciones.add(tranBajadaVagonCEstacionA);
-//		transiciones.add(tranBajadaVagonDEstacionA);
-
-		
-//		transiciones.add(tranBajadaMaquinaAEstacionB);
-//		transiciones.add(tranBajadaMaquinaCEstacionB);
-//		transiciones.add(tranBajadaMaquinaDEstacionB);
-//
-//		transiciones.add(tranBajadaVagonAEstacionB);
-//		transiciones.add(tranBajadaVagonCEstacionB);
-//		transiciones.add(tranBajadaVagonDEstacionB);
-
-		
-//		transiciones.add(tranBajadaMaquinaAEstacionC);
-//		transiciones.add(tranBajadaMaquinaBEstacionC);
-//		transiciones.add(tranBajadaMaquinaDEstacionC);
-//
-//		transiciones.add(tranBajadaVagonAEstacionC);
-//		transiciones.add(tranBajadaVagonBEstacionC);
-//		transiciones.add(tranBajadaVagonDEstacionC);
-
-		
-//		transiciones.add(tranBajadaMaquinaAEstacionD);
-//		transiciones.add(tranBajadaMaquinaBEstacionD);
-//		transiciones.add(tranBajadaMaquinaCEstacionD);
-//
-//		transiciones.add(tranBajadaVagonAEstacionD);
-//		transiciones.add(tranBajadaVagonBEstacionD);
-//		transiciones.add(tranBajadaVagonCEstacionD);
-
-		/* Paso de Nivel Transito */
-//		transiciones.add(tranPasoNivelABTransitoWait);
-//		transiciones.add(tranPasoNivelABTransitoReady);
-//		transiciones.add(tranPasoNivelABTransitoGenerador);
-//		transiciones.add(tranPasoNivelABMaquinaWait);
-//		transiciones.add(tranPasoNivelABMaquinaReady);
-//		transiciones.add(tranPasoNivelABVagonWait);
-//		transiciones.add(tranPasoNivelABVagonReady);
-		
-//		transiciones.add(tranPasoNivelCDTransitoWait);
-//		transiciones.add(tranPasoNivelCDTransitoReady);
-//		transiciones.add(tranPasoNivelCDTransitoGenerador);
-//		transiciones.add(tranPasoNivelCDMaquinaWait);
-//		transiciones.add(tranPasoNivelCDMaquinaReady);
-//		transiciones.add(tranPasoNivelCDVagonWait);
-//		transiciones.add(tranPasoNivelCDVagonReady);
-		
-		/* Recorrido Tren */
-//		transiciones.add(tranRecorridoTrenAB);
-//		transiciones.add(tranRecorridoTrenCD);
-		
-		/* Generador de Pasajeros para abordar tren */
-//		transiciones.add(tranPasajerosAGenerador);
-//		transiciones.add(tranPasajerosBGenerador);
-//		transiciones.add(tranPasajerosCGenerador);
-//		transiciones.add(tranPasajerosDGenerador);
-		
 		return transiciones;
 	}
 	
 	
-	private static ArrayList<String> getRecorridoTren(){
-		ArrayList<String> transiciones = new ArrayList<>();
-		
-		transiciones.addAll(getRecorridoTrenEstacionA());
-		transiciones.addAll(getRecorridoTrenEstacionB());
-		transiciones.addAll(getRecorridoTrenEstacionC());
-		transiciones.addAll(getRecorridoTrenEstacionD());
-		
-		return transiciones;
-	}
+//	private static ArrayList<String> getRecorridoTren(){
+//		ArrayList<String> transiciones = new ArrayList<>();
+//		
+//		transiciones.addAll(getRecorridoTrenEstacionA());
+//		transiciones.addAll(getRecorridoTrenEstacionB());
+//		transiciones.addAll(getRecorridoTrenEstacionC());
+//		transiciones.addAll(getRecorridoTrenEstacionD());
+//		
+//		return transiciones;
+//	}
 
 	
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionA(){
