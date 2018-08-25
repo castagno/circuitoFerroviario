@@ -16,7 +16,7 @@ public class Generador extends Thread  {
 			while(true) {
 				
 				if(Thread.currentThread().getName().startsWith(ConstantesComunes.generadorPasajeros)) {
-					sleep(TiempoDeEspera.getInstance(97L).getNextRandom(3600));
+					sleep(TiempoDeEspera.getInstance(97L).getNextRandom(3900));
 					monitorTren.generarPasajeros();
 				}	
 				if(Thread.currentThread().getName().startsWith(ConstantesComunes.generadorTransito)) {

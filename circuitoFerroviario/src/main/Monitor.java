@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,7 +20,7 @@ public class Monitor extends ConstantesComunes {
 	private Integer[] marcado;
 	private LinkedHashMap<String, Integer> marcadoInicial;
 	private ArrayList<String> plazas;
-	private LinkedHashMap<String, Integer> printOrder;	
+	private LinkedHashMap<String, Integer> printOrder;
 	
 	private ArrayList<String> transiciones;
 	private LinkedHashMap<String, Condition> colaCondicion;
@@ -33,6 +34,7 @@ public class Monitor extends ConstantesComunes {
 	private Date ultimoArrivoEstacion;
 	private final ReentrantLock lock = new ReentrantLock(false);
 	
+	private HashMap<String, String> accionPorTransicion;
 	private PrintWriter printWriter;
 	private String printWtiterString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
 	private ArrayList<String> printWriterArray = new ArrayList<>();
@@ -298,6 +300,10 @@ public class Monitor extends ConstantesComunes {
 		transicionesGeneradoras.add(tranPasajerosDGenerador);
 		transicionesGeneradoras.add(tranPasoNivelABTransitoGenerador);
 		transicionesGeneradoras.add(tranPasoNivelCDTransitoGenerador);
+		
+		
+		/* Accion por transicion */
+		accionPorTransicion = new HashMap<>();
 	}
 	
 	public Long continuarRecorridoTren() throws InterruptedException {
@@ -908,7 +914,7 @@ public class Monitor extends ConstantesComunes {
 		
 		this.marcado = postDisparo;
 		
-		if(printWriterCount == 3000) {
+		if(printWriterCount == 12000) {
 //			String fullPrintWriteString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
 //			for(String transicion:printWriterArray) {
 //				String byteString = new String(transicion.getBytes(), StandardCharsets.UTF_8);
@@ -923,7 +929,7 @@ public class Monitor extends ConstantesComunes {
 			for (int i = 0; i < 100; i++) {
 				System.out.println("ARCHIVO CERRADO!!!");
 			}
-		} else if(printWriterCount < 3000) {
+		} else if(printWriterCount < 12000) {
 			printWriterArray.add(transicionDisparada);
 			printWtiterString += new String(transicionDisparada.getBytes(), StandardCharsets.UTF_8) + new String((new String(" ")).getBytes(), StandardCharsets.UTF_8);
 		}
