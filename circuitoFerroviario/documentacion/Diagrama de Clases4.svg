@@ -1,0 +1,2120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="784.009765625"
+   height="641"
+   id="svg1560"
+   sodipodi:docname="Diagrama de Clases4.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata1564">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     id="namedview1562"
+     showgrid="false"
+     inkscape:zoom="1.3385335"
+     inkscape:cx="392.00488"
+     inkscape:cy="320.5"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1560" />
+  <defs
+     id="defs788" />
+  <g
+     id="g1558">
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g792">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="535"
+         y="247"
+         width="136"
+         height="120"
+         opacity="0.2"
+         id="rect790" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g796">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="528"
+         y="240"
+         width="136"
+         height="120"
+         id="rect794" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g800">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 240 L 664 240 L 664 360 L 528 360 L 528 240 Z Z"
+         stroke-miterlimit="10"
+         id="path798" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g804">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 265 L 664 265"
+         stroke-miterlimit="10"
+         id="path802" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g808">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 333 L 664 333"
+         stroke-miterlimit="10"
+         id="path806" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g816">
+      <g
+         id="g814">
+        <path
+           fill="none"
+           stroke="none"
+           id="path810" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="581.911376953125"
+           y="259.5"
+           id="text812">Main</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g824">
+      <g
+         id="g822">
+        <path
+           fill="none"
+           stroke="none"
+           id="path818" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="282.5"
+           id="text820">+marcadoInicial</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g832">
+      <g
+         id="g830">
+        <path
+           fill="none"
+           stroke="none"
+           id="path826" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="297.5"
+           id="text828">+matrizMas</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g840">
+      <g
+         id="g838">
+        <path
+           fill="none"
+           stroke="none"
+           id="path834" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="312.5"
+           id="text836">+matrizMenos</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g848">
+      <g
+         id="g846">
+        <path
+           fill="none"
+           stroke="none"
+           id="path842" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="327.5"
+           id="text844">+absolutePath</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g852">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="231"
+         y="239"
+         width="161.8134765625"
+         height="192"
+         opacity="0.2"
+         id="rect850" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g856">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="224"
+         y="232"
+         width="161.8134765625"
+         height="192"
+         id="rect854" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g860">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 232 L 385.8134765625 232 L 385.8134765625 424 L 224 424 L 224 232 Z Z"
+         stroke-miterlimit="10"
+         id="path858" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g864">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 257 L 385.8134765625 257"
+         stroke-miterlimit="10"
+         id="path862" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g868">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 355 L 385.8134765625 355"
+         stroke-miterlimit="10"
+         id="path866" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g876">
+      <g
+         id="g874">
+        <path
+           fill="none"
+           stroke="none"
+           id="path870" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="283.232666015625"
+           y="251.5"
+           id="text872">Monitor</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g884">
+      <g
+         id="g882">
+        <path
+           fill="none"
+           stroke="none"
+           id="path878" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="274.5"
+           id="text880">+matrizMas</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g892">
+      <g
+         id="g890">
+        <path
+           fill="none"
+           stroke="none"
+           id="path886" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="289.5"
+           id="text888">+matrizMenos</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g900">
+      <g
+         id="g898">
+        <path
+           fill="none"
+           stroke="none"
+           id="path894" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="304.5"
+           id="text896">+marcado</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g908">
+      <g
+         id="g906">
+        <path
+           fill="none"
+           stroke="none"
+           id="path902" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="319.5"
+           id="text904">+marcadoInicial</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g916">
+      <g
+         id="g914">
+        <path
+           fill="none"
+           stroke="none"
+           id="path910" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="334.5"
+           id="text912">+colaCondicion</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g924">
+      <g
+         id="g922">
+        <path
+           fill="none"
+           stroke="none"
+           id="path918" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="349.5"
+           id="text920">+politicas</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g932">
+      <g
+         id="g930">
+        <path
+           fill="none"
+           stroke="none"
+           id="path926" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="372.5"
+           id="text928">+continuarRecorridoTren()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g940">
+      <g
+         id="g938">
+        <path
+           fill="none"
+           stroke="none"
+           id="path934" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="387.5"
+           id="text936">+abordarTren()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g948">
+      <g
+         id="g946">
+        <path
+           fill="none"
+           stroke="none"
+           id="path942" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="402.5"
+           id="text944">+descenderTren()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g956">
+      <g
+         id="g954">
+        <path
+           fill="none"
+           stroke="none"
+           id="path950" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="417.5"
+           id="text952">+cruzarPasoNivel()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g960">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="847"
+         y="23"
+         width="136"
+         height="128"
+         opacity="0.2"
+         id="rect958" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g964">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="840"
+         y="16"
+         width="136"
+         height="128"
+         id="rect962" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g968">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 16 L 976 16 L 976 144 L 840 144 L 840 16 Z Z"
+         stroke-miterlimit="10"
+         id="path966" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g972">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 41 L 976 41"
+         stroke-miterlimit="10"
+         id="path970" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g976">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 79 L 976 79"
+         stroke-miterlimit="10"
+         id="path974" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g984">
+      <g
+         id="g982">
+        <path
+           fill="none"
+           stroke="none"
+           id="path978" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="894.635009765625"
+           y="35.5"
+           id="text980">Tren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g992">
+      <g
+         id="g990">
+        <path
+           fill="none"
+           stroke="none"
+           id="path986" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="58.5"
+           id="text988">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1000">
+      <g
+         id="g998">
+        <path
+           fill="none"
+           stroke="none"
+           id="path994" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="73.5"
+           id="text996">+sleepTimeStamp</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1008">
+      <g
+         id="g1006">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1002" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="96.5"
+           id="text1004">+run()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1016">
+      <g
+         id="g1014">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1010" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="111.5"
+           id="text1012">+getTimeStamp()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1024">
+      <g
+         id="g1022">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1018" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="126.5"
+           id="text1020">+setTimeStamp()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1028">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="231"
+         y="511"
+         width="164.009765625"
+         height="120"
+         opacity="0.2"
+         id="rect1026" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1032">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="224"
+         y="504"
+         width="164.009765625"
+         height="120"
+         id="rect1030" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1036">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 504 L 388.009765625 504 L 388.009765625 624 L 224 624 L 224 504 Z Z"
+         stroke-miterlimit="10"
+         id="path1034" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1040">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 529 L 388.009765625 529"
+         stroke-miterlimit="10"
+         id="path1038" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1044">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 567 L 388.009765625 567"
+         stroke-miterlimit="10"
+         id="path1042" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1052">
+      <g
+         id="g1050">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1046" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="261.9267578125"
+           y="523.5"
+           id="text1048">SubirPasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1060">
+      <g
+         id="g1058">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1054" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="546.5"
+           id="text1056">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1068">
+      <g
+         id="g1066">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1062" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="561.5"
+           id="text1064">+pasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1076">
+      <g
+         id="g1074">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1070" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="584.5"
+           id="text1072">+run()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1080">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="831"
+         y="511"
+         width="164.009765625"
+         height="120"
+         opacity="0.2"
+         id="rect1078" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1084">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="824"
+         y="504"
+         width="164.009765625"
+         height="120"
+         id="rect1082" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1088">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 824 504 L 988.009765625 504 L 988.009765625 624 L 824 624 L 824 504 Z Z"
+         stroke-miterlimit="10"
+         id="path1086" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1092">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 824 529 L 988.009765625 529"
+         stroke-miterlimit="10"
+         id="path1090" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1096">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 824 567 L 988.009765625 567"
+         stroke-miterlimit="10"
+         id="path1094" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1104">
+      <g
+         id="g1102">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1098" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="861.9267578125"
+           y="523.5"
+           id="text1100">BajarPasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1112">
+      <g
+         id="g1110">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1106" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="829"
+           y="546.5"
+           id="text1108">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1120">
+      <g
+         id="g1118">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1114" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="829"
+           y="561.5"
+           id="text1116">+pasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1128">
+      <g
+         id="g1126">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1122" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="829"
+           y="584.5"
+           id="text1124">+getPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1136">
+      <g
+         id="g1134">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1130" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="829"
+           y="599.5"
+           id="text1132">+setPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1144">
+      <g
+         id="g1142">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1138" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="829"
+           y="614.5"
+           id="text1140">+getPasajerosEsperando()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1148">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="231"
+         y="23"
+         width="162.56884765625"
+         height="130"
+         opacity="0.2"
+         id="rect1146" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1152">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="224"
+         y="16"
+         width="162.56884765625"
+         height="130"
+         id="rect1150" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1156">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 16 L 386.56884765625 16 L 386.56884765625 146 L 224 146 L 224 16 Z Z"
+         stroke-miterlimit="10"
+         id="path1154" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1160">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 41 L 386.56884765625 41"
+         stroke-miterlimit="10"
+         id="path1158" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1164">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 224 79 L 386.56884765625 79"
+         stroke-miterlimit="10"
+         id="path1162" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1172">
+      <g
+         id="g1170">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1166" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="276.021728515625"
+           y="35.5"
+           id="text1168">PasoNivel</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1180">
+      <g
+         id="g1178">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1174" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="58.5"
+           id="text1176">+sleepTimeStamp</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1188">
+      <g
+         id="g1186">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1182" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="73.5"
+           id="text1184">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1196">
+      <g
+         id="g1194">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1190" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="229"
+           y="96.5"
+           id="text1192">+run()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1200">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="847"
+         y="247"
+         width="136"
+         height="120"
+         opacity="0.2"
+         id="rect1198" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1204">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="840"
+         y="240"
+         width="136"
+         height="120"
+         id="rect1202" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1208">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 240 L 976 240 L 976 360 L 840 360 L 840 240 Z Z"
+         stroke-miterlimit="10"
+         id="path1206" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1212">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 265 L 976 265"
+         stroke-miterlimit="10"
+         id="path1210" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1216">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 840 275 L 976 275"
+         stroke-miterlimit="10"
+         id="path1214" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1224">
+      <g
+         id="g1222">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1218" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="887.405029296875"
+           y="259.5"
+           id="text1220">Thread</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1232">
+      <g
+         id="g1230">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1226" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="292.5"
+           id="text1228">+start()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1240">
+      <g
+         id="g1238">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1234" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="307.5"
+           id="text1236">+wait()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1248">
+      <g
+         id="g1246">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1242" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="322.5"
+           id="text1244">+notify()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1256">
+      <g
+         id="g1254">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1250" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="337.5"
+           id="text1252">+setName()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1264">
+      <g
+         id="g1262">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1258" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="845"
+           y="352.5"
+           id="text1260">+getName()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1268">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 388 111 L 839 275"
+         stroke-miterlimit="10"
+         id="path1266" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1272">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 817.0212230233896 275.96610693632584 L 839 275 L 822.7755169916246 260.1417985236793"
+         id="path1270" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1276">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 817.0212230233896 275.96610693632584 L 839 275 L 822.7755169916246 260.1417985236793 L 817.0212230233896 275.96610693632584"
+         stroke-miterlimit="10"
+         id="path1274" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1280">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 906 503 L 908 361"
+         stroke-miterlimit="10"
+         id="path1278" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1284">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 916.1319564391542 381.4419002167533 L 908 361 L 899.2955552788345 381.2047678060446"
+         id="path1282" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1288">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 916.1319564391542 381.4419002167533 L 908 361 L 899.2955552788345 381.2047678060446 L 916.1319564391542 381.4419002167533"
+         stroke-miterlimit="10"
+         id="path1286" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1292">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 389 528 L 839 330"
+         stroke-miterlimit="10"
+         id="path1290" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1296">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 823.7865725619556 345.89187294145523 L 839 330 L 817.0052311708113 330.4797334161273"
+         id="path1294" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1300">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 823.7865725619556 345.89187294145523 L 839 330 L 817.0052311708113 330.4797334161273 L 823.7865725619556 345.89187294145523"
+         stroke-miterlimit="10"
+         id="path1298" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1304">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 908 239 L 908 145"
+         stroke-miterlimit="10"
+         id="path1302" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1308">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 916.419035512032 165.3253497152483 L 908 145 L 899.580964487968 165.3253497152483"
+         id="path1306" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1312">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 916.419035512032 165.3253497152483 L 908 145 L 899.580964487968 165.3253497152483 L 916.419035512032 165.3253497152483"
+         stroke-miterlimit="10"
+         id="path1310" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1316">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 839 108 L 387 294"
+         stroke-miterlimit="10"
+         id="path1314" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1320">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 394.7961571545607 286.23984963925363 L 387 294 L 397.9999705342969 294.0254606480749 L 407.3447820061193 285.62803218332255"
+         id="path1318" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1324">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 394.7961571545607 286.23984963925363 L 387 294 L 397.9999705342969 294.0254606480749 L 407.3447820061193 285.62803218332255 L 394.7961571545607 286.23984963925363"
+         stroke-miterlimit="10"
+         id="path1322" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1328">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 305 503 L 305 425"
+         stroke-miterlimit="10"
+         id="path1326" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1332">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 309.209517756016 435.16267485762415 L 305 425 L 300.790482243984 435.16267485762415 L 305 447"
+         id="path1330" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1336">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 309.209517756016 435.16267485762415 L 305 425 L 300.790482243984 435.16267485762415 L 305 447 L 309.209517756016 435.16267485762415"
+         stroke-miterlimit="10"
+         id="path1334" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1340">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 823 531 L 387 360"
+         stroke-miterlimit="10"
+         id="path1338" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1344">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 397.9980284779553 359.7917463131564 L 387 360 L 394.92403811061916 367.6295229222708 L 407.48109728888636 368.03272393669624"
+         id="path1342" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1348">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 397.9980284779553 359.7917463131564 L 387 360 L 394.92403811061916 367.6295229222708 L 407.48109728888636 368.03272393669624 L 397.9980284779553 359.7917463131564"
+         stroke-miterlimit="10"
+         id="path1346" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1352">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 305 147 L 304 231"
+         stroke-miterlimit="10"
+         id="path1350" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1356">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 299.9117561580347 220.7879354541487 L 304 231 L 308.33019514648834 220.88815496591602 L 304.2618862048663 209.00155879123022"
+         id="path1354" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1360">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 299.9117561580347 220.7879354541487 L 304 231 L 308.33019514648834 220.88815496591602 L 304.2618862048663 209.00155879123022 L 299.9117561580347 220.7879354541487"
+         stroke-miterlimit="10"
+         id="path1358" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1364">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 373 503 L 529 361"
+         stroke-miterlimit="10"
+         id="path1362" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1368">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 388 143 L 527 248"
+         stroke-miterlimit="10"
+         id="path1366" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1372">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 834 503 L 665 359"
+         stroke-miterlimit="10"
+         id="path1370" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1376">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 839 129 L 665 251"
+         stroke-miterlimit="10"
+         id="path1374" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1380">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 387 320 L 527 307"
+         stroke-miterlimit="10"
+         id="path1378" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1384">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="535"
+         y="23"
+         width="164.009765625"
+         height="135"
+         opacity="0.2"
+         id="rect1382" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1388">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="528"
+         y="16"
+         width="164.009765625"
+         height="135"
+         id="rect1386" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1392">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 16 L 692.009765625 16 L 692.009765625 151 L 528 151 L 528 16 Z Z"
+         stroke-miterlimit="10"
+         id="path1390" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1396">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 41 L 692.009765625 41"
+         stroke-miterlimit="10"
+         id="path1394" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1400">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 79 L 692.009765625 79"
+         stroke-miterlimit="10"
+         id="path1398" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1408">
+      <g
+         id="g1406">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1402" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="557.255859375"
+           y="35.5"
+           id="text1404">GenerarPasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1416">
+      <g
+         id="g1414">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1410" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="58.5"
+           id="text1412">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1424">
+      <g
+         id="g1422">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1418" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="73.5"
+           id="text1420">+pasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1432">
+      <g
+         id="g1430">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1426" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="96.5"
+           id="text1428">+GenerarPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1440">
+      <g
+         id="g1438">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1434" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="111.5"
+           id="text1436">+getPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1448">
+      <g
+         id="g1446">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1442" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="126.5"
+           id="text1444">+setPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1456">
+      <g
+         id="g1454">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1450" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="141.5"
+           id="text1452">+getPasajerosEsperando()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1460">
+      <rect
+         fill="#C0C0C0"
+         stroke="none"
+         x="535"
+         y="511"
+         width="194.009765625"
+         height="133"
+         opacity="0.2"
+         id="rect1458" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1464">
+      <rect
+         fill="#ffffff"
+         stroke="none"
+         x="528"
+         y="504"
+         width="194.009765625"
+         height="133"
+         id="rect1462" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1468">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 504 L 722.009765625 504 L 722.009765625 637 L 528 637 L 528 504 Z Z"
+         stroke-miterlimit="10"
+         id="path1466" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1472">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 529 L 722.009765625 529"
+         stroke-miterlimit="10"
+         id="path1470" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1476">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 528 567 L 722.009765625 567"
+         stroke-miterlimit="10"
+         id="path1474" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1484">
+      <g
+         id="g1482">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1478" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="bold"
+           text-decoration="none"
+           x="572.976318359375"
+           y="523.5"
+           id="text1480">GenerarVehiculos</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1492">
+      <g
+         id="g1490">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1486" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="546.5"
+           id="text1488">+monitorTren</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1500">
+      <g
+         id="g1498">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1494" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="561.5"
+           id="text1496">+pasajeros</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1508">
+      <g
+         id="g1506">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1502" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="584.5"
+           id="text1504">+GenerarVehiculos()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1516">
+      <g
+         id="g1514">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1510" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="599.5"
+           id="text1512">+getPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1524">
+      <g
+         id="g1522">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1518" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="614.5"
+           id="text1520">+setPasajeros()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1532">
+      <g
+         id="g1530">
+        <path
+           fill="none"
+           stroke="none"
+           id="path1526" />
+        <text
+           fill="#000000"
+           stroke="none"
+           font-family="Arial"
+           font-size="13px"
+           font-style="normal"
+           font-weight="normal"
+           text-decoration="none"
+           x="533"
+           y="629.5"
+           id="text1528">+getPasajerosEsperando()</text>
+      </g>
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1536">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 695 503 L 844 361"
+         stroke-miterlimit="10"
+         id="path1534" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1540">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 835.0946146930538 381.1170105267862 L 844 361 L 823.4780670996876 368.927816221071"
+         id="path1538" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1544">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 835.0946146930538 381.1170105267862 L 844 361 L 823.4780670996876 368.927816221071 L 835.0946146930538 381.1170105267862"
+         stroke-miterlimit="10"
+         id="path1542" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1548">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 693 143 L 839 250"
+         stroke-miterlimit="10"
+         id="path1546" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1552">
+      <path
+         fill="#FFFFFF"
+         stroke="none"
+         d="M 817.6292722387682 244.77582590687166 L 839 250 L 827.5826624084915 231.1945645537912"
+         id="path1550" />
+    </g>
+    <g
+       transform="translate(-214,-6) scale(1,1)"
+       id="g1556">
+      <path
+         fill="none"
+         stroke="#000000"
+         d="M 817.6292722387682 244.77582590687166 L 839 250 L 827.5826624084915 231.1945645537912 L 817.6292722387682 244.77582590687166"
+         stroke-miterlimit="10"
+         id="path1554" />
+    </g>
+  </g>
+</svg>
