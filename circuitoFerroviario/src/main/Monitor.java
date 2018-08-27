@@ -304,6 +304,91 @@ public class Monitor extends ConstantesComunes {
 		
 		/* Accion por transicion */
 		accionPorTransicion = new HashMap<>();
+		accionPorTransicion.put(tranTrenArriboA, "Arribo del tren a la estación A");
+		accionPorTransicion.put(tranTrenArriboB, "Arribo del tren a la estación B");
+		accionPorTransicion.put(tranTrenArriboC, "Arribo del tren a la estación C");
+		accionPorTransicion.put(tranTrenArriboD, "Arribo del tren a la estación D");
+		
+		accionPorTransicion.put(tranTrenEsperandoA, "Transcurrió el tiempo mínimo de espera del tren en la estación A");
+		accionPorTransicion.put(tranTrenEsperandoA, "Transcurrió el tiempo mínimo de espera del tren en la estación B");
+		accionPorTransicion.put(tranTrenEsperandoA, "Transcurrió el tiempo mínimo de espera del tren en la estación C");
+		accionPorTransicion.put(tranTrenEsperandoA, "Transcurrió el tiempo mínimo de espera del tren en la estación D");
+		
+		accionPorTransicion.put(tranTrenLlenoA, "El tren no tiene lugares disponibles en la estación A");
+		accionPorTransicion.put(tranTrenLlenoB, "El tren no tiene lugares disponibles en la estación B");
+		accionPorTransicion.put(tranTrenLlenoC, "El tren no tiene lugares disponibles en la estación C");
+		accionPorTransicion.put(tranTrenLlenoD, "El tren no tiene lugares disponibles en la estación D");
+
+		accionPorTransicion.put(tranEstacionVaciaA, "No quedan pasajeros por subir en la estación A");
+		accionPorTransicion.put(tranEstacionVaciaB, "No quedan pasajeros por subir en la estación B");
+		accionPorTransicion.put(tranEstacionVaciaC, "No quedan pasajeros por subir en la estación C");
+		accionPorTransicion.put(tranEstacionVaciaD, "No quedan pasajeros por subir en la estación D");
+		
+		
+
+		accionPorTransicion.put(tranBajadaMaquinaAEstacionD, "Bajada obligatoria en la estación D de pasajeros de la Máquina subidos en la estación A");
+		accionPorTransicion.put(tranBajadaMaquinaBEstacionA, "Bajada obligatoria en la estación A de pasajeros de la Máquina subidos en la estación B");
+		accionPorTransicion.put(tranBajadaMaquinaCEstacionB, "Bajada obligatoria en la estación B de pasajeros de la Máquina subidos en la estación C");
+		accionPorTransicion.put(tranBajadaMaquinaDEstacionC, "Bajada obligatoria en la estación C de pasajeros de la Maquina subidos en la estación D");
+		accionPorTransicion.put(tranBajadaVagonAEstacionD, "Bajada obligatoria en la estación D de pasajeros del Vagón subidos en la estación A");
+		accionPorTransicion.put(tranBajadaVagonBEstacionA, "Bajada obligatoria en la estación A de pasajeros del Vagón subidos en la estación B");
+		accionPorTransicion.put(tranBajadaVagonCEstacionB, "Bajada obligatoria en la estación B de pasajeros del Vagón subidos en la estación C");
+		accionPorTransicion.put(tranBajadaVagonDEstacionC, "Bajada obligatoria en la estación C de pasajeros del Vagón subidos en la estación D");
+
+		accionPorTransicion.put(tranBajadaMaquinaAEstacionB, "Bajada en la estación B de los pasajeros de la Máquina subidos en la estación A");
+		accionPorTransicion.put(tranBajadaMaquinaAEstacionC, "Bajada en la estación C de los pasajeros de la Máquina subidos en la estación A");
+		accionPorTransicion.put(tranBajadaMaquinaBEstacionC, "Bajada en la estación C de los pasajeros de la Máquina subidos en la estación B");
+		accionPorTransicion.put(tranBajadaMaquinaBEstacionD, "Bajada en la estación D de los pasajeros de la Máquina subidos en la estación B");
+		accionPorTransicion.put(tranBajadaMaquinaCEstacionA, "Bajada en la estación A de los pasajeros de la Maquina subidos en la estación C");
+		accionPorTransicion.put(tranBajadaMaquinaCEstacionD, "Bajada en la estación D de los pasajeros de la Máquina subidos en la estación C");
+		accionPorTransicion.put(tranBajadaMaquinaDEstacionA, "Bajada en la estación A de los pasajeros de la Maquina subidos en la estación D");
+		accionPorTransicion.put(tranBajadaMaquinaDEstacionB, "Bajada en la estación B de los pasajeros de la Máquina subidos en la estación D");
+		accionPorTransicion.put(tranBajadaVagonAEstacionB, "Bajada en la estación B de los pasajeros del Vagón subidos en la estación A");
+		accionPorTransicion.put(tranBajadaVagonAEstacionC, "Bajada en la estación C de los pasajeros del Vagón subidos en la estación A");
+		accionPorTransicion.put(tranBajadaVagonBEstacionC, "Bajada en la estación C de los pasajeros del Vagón subidos en la estación B");
+		accionPorTransicion.put(tranBajadaVagonBEstacionD, "Bajada en la estación D de los pasajeros del Vagón subidos en la estación B");
+		accionPorTransicion.put(tranBajadaVagonCEstacionA, "Bajada en la estación A de los pasajeros del Vagón subidos en la estación C");
+		accionPorTransicion.put(tranBajadaVagonCEstacionD, "Bajada en la estación D de los pasajeros del Vagón subidos en la estación C");
+		accionPorTransicion.put(tranBajadaVagonDEstacionA, "Bajada en la estación A de los pasajeros del Vagón subidos en la estación D");
+		accionPorTransicion.put(tranBajadaVagonDEstacionB, "Bajada en la estación B de los pasajeros del Vagón subidos en la estación D");
+
+		accionPorTransicion.put(tranSubidaMaquinaEstacionA, "Subida de un pasajero a la Máquina en la estación A");
+		accionPorTransicion.put(tranSubidaMaquinaEstacionB, "Subida de un pasajero a la Máquina en la estación B");
+		accionPorTransicion.put(tranSubidaMaquinaEstacionC, "Subida de un pasajero a la Máquina en la estación C");
+		accionPorTransicion.put(tranSubidaMaquinaEstacionD, "Subida de un pasajero a la Máquina en la estación D");
+		accionPorTransicion.put(tranSubidaVagonEstacionA, "Subida de un pasajero al Vagón en la estación A");
+		accionPorTransicion.put(tranSubidaVagonEstacionB, "Subida de un pasajero al Vagón en la estación B");
+		accionPorTransicion.put(tranSubidaVagonEstacionC, "Subida de un pasajero al Vagón en la estación C");
+		accionPorTransicion.put(tranSubidaVagonEstacionD, "Subida de un pasajero al Vagón en la estación D");
+
+		accionPorTransicion.put(tranRecorridoTrenAB, "Recorrido de la estación A a la estación B");
+		accionPorTransicion.put(tranRecorridoTrenCD, "Recorrido de la estación C a la estación D");
+		
+		accionPorTransicion.put(tranPasajerosAGenerador, "Llega un Pasajero a la estación A");
+		accionPorTransicion.put(tranPasajerosBGenerador, "Llega un Pasajero a la estación B");
+		accionPorTransicion.put(tranPasajerosCGenerador, "Llega un Pasajero a la estación C");
+		accionPorTransicion.put(tranPasajerosDGenerador, "Llega un Pasajero a la estación D");
+		
+		
+		accionPorTransicion.put(tranPasoNivelABMaquinaReady, "La Máquina libera el Paso Nivel de A a B");
+		accionPorTransicion.put(tranPasoNivelCDMaquinaReady, "La Máquina libera el Paso Nivel de C a D");
+		accionPorTransicion.put(tranPasoNivelABMaquinaWait, "La Máquina ingresa al Paso Nivel de A a B");
+		accionPorTransicion.put(tranPasoNivelCDMaquinaWait, "La Máquina ingresa al Paso Nivel de C a D");
+		
+		accionPorTransicion.put(tranPasoNivelABVagonReady, "El Vagón libera el Paso Nivel de A a B");
+		accionPorTransicion.put(tranPasoNivelCDVagonReady, "El Vagón libera el Paso Nivel de C a D");
+		accionPorTransicion.put(tranPasoNivelABVagonWait, "El Vagón ingresa al Paso Nivel de A a B");
+		accionPorTransicion.put(tranPasoNivelCDVagonWait, "El Vagón ingresa al Paso Nivel de C a D");
+		
+		accionPorTransicion.put(tranPasoNivelABTransitoReady, "Un vehículo libera el Paso Nivel de A a B");
+		accionPorTransicion.put(tranPasoNivelCDTransitoReady, "Un vehículo libera el Paso Nivel de C a D");
+		accionPorTransicion.put(tranPasoNivelABTransitoWait, "Un vehículo ingresa al Paso Nivel entre A y B");
+		accionPorTransicion.put(tranPasoNivelCDTransitoWait, "Un vehículo ingresa al Paso Nivel entre C y D");
+		
+		accionPorTransicion.put(tranPasoNivelABTransitoGenerador, "Un vehículo llega al Paso de Nivel entre A y B");
+		accionPorTransicion.put(tranPasoNivelCDTransitoGenerador, "Un vehículo llega al Paso de Nivel entre C y D");
+		
+
 	}
 	
 	public Long continuarRecorridoTren() throws InterruptedException {
