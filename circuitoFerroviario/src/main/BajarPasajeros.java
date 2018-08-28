@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 public class BajarPasajeros extends Thread  {
 	
 	private Monitor monitorTren;
@@ -13,7 +15,9 @@ public class BajarPasajeros extends Thread  {
 	public void run() {
 		try {
 			while(true) {
-				Long bajadaSleep = monitorTren.descenderTren();
+				ArrayList<String> mensajeRespuesta = monitorTren.descenderTren();
+				Long bajadaSleep = Long.valueOf(mensajeRespuesta.get(0));
+				System.out.print(mensajeRespuesta.get(1));
 				sleep(bajadaSleep);
 			}
 		} catch (InterruptedException e) {

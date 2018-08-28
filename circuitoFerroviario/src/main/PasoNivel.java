@@ -13,11 +13,13 @@ public class PasoNivel extends Thread  {
 	public void run() {
 		try {
 			while(true) {
+				String mensaje = "";
 				if(Thread.currentThread().getName().endsWith(ConstantesComunes.maquinaTren) || Thread.currentThread().getName().endsWith(ConstantesComunes.vagonTren)) {
-					monitorTren.cruzarPasoNivel();
+					mensaje = monitorTren.cruzarPasoNivel();
 				} else {
-					monitorTren.liberarBarreraPasoNivel();
+					mensaje = monitorTren.liberarBarreraPasoNivel();
 				}
+				System.out.print(mensaje);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

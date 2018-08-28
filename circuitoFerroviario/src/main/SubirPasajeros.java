@@ -13,7 +13,9 @@ public class SubirPasajeros extends Thread  {
 	public void run() {
 		try {
 			while(true) {
-				monitorTren.abordarTren();
+				String mensaje = "";
+				mensaje = monitorTren.abordarTren();
+				System.out.print(mensaje);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

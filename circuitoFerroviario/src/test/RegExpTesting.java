@@ -426,12 +426,18 @@ public class RegExpTesting extends ConstantesComunes {
 		for(String transicion: recorridoOriginal) {
 			if(!transicionesExcluidasRecorrido.contains(transicion)) {
 				recorridoTren.add(transicion);
+			} else {
+				System.out.print(transicion+" ");
 			}
 		}
+		System.out.print(" <--- esto invertido. ");
+		System.out.println("");
 		
 		String prePattern = "";
 		String postPattern = "";
 		for(String trancisionRecorrido: recorridoTren) {
+			System.out.print(trancisionRecorrido+" ");
+			
 			ArrayList<String> transicionesValidas = transicionesValidasPorTransicion.get(trancisionRecorrido);
 			
 			String transicionesProhibidas = "";
@@ -455,6 +461,8 @@ public class RegExpTesting extends ConstantesComunes {
 			prePattern = prePattern + trancisionRecorrido+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; 
 			postPattern = ")" + postPattern;
 		}
+		System.out.println("");
+		
 		prePattern = ( (prePattern.endsWith("(?="))? prePattern.substring(0, prePattern.length() - (new String("(?=")).length()) : prePattern ) ;
 		postPattern = ( (postPattern.startsWith(")"))? postPattern.substring(String.valueOf(")").length()) : postPattern ) ;
 		String pattern = prePattern + postPattern;

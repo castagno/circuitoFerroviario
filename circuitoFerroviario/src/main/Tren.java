@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 public class Tren extends Thread {
 	
 	private Monitor monitorTren;
@@ -13,14 +15,19 @@ public class Tren extends Thread {
 	public void run() {
 		try {
 			while(true) {
+				String mensaje = new String();
 				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaAuxiliarArrivo)) {
-					monitorTren.arrivoTrenEstacion();
+					mensaje = monitorTren.arrivoTrenEstacion();
+					System.out.print(mensaje);
 				}
 				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaAuxiliarPartida)) {
-					monitorTren.partidaTren();
+					mensaje = monitorTren.partidaTren();
+					System.out.print(mensaje);
 				}
 				if(Thread.currentThread().getName().endsWith(ConstantesComunes.precedenciaPrincipal)) {
-					Long tiempoEsperaContinuarRecorrido = monitorTren.continuarRecorridoTren();
+					ArrayList<String> mensajeRespuesta = monitorTren.continuarRecorridoTren();
+					Long tiempoEsperaContinuarRecorrido = Long.valueOf(mensajeRespuesta.get(0));
+					System.out.print(mensajeRespuesta.get(1));
 					sleep(tiempoEsperaContinuarRecorrido);
 				}
 			}
