@@ -426,11 +426,8 @@ public class RegExpTesting extends ConstantesComunes {
 		for(String transicion: recorridoOriginal) {
 			if(!transicionesExcluidasRecorrido.contains(transicion)) {
 				recorridoTren.add(transicion);
-			} else {
-				System.out.print(transicion+" ");
 			}
 		}
-		System.out.print(" <--- esto invertido. ");
 		System.out.println("");
 		
 		String prePattern = "";

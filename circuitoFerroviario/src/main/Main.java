@@ -1,12 +1,7 @@
 package main;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -16,23 +11,12 @@ public class Main extends ConstantesComunes {
 	private static final String matrizInhibicion = "./src/main/MatrizInhibicion.html";
 	private static final String matrizIMas = "./src/main/MatrizIMas.html";
 	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";
-	private static final String testOutput = "./src/test/testOutput.txt";
+	private static final String regExpTestOutput = "./src/test/testOutput.txt";
+	private static final String invariantTestOutput = "./src/test/invariantTestOutput.txt";
+	private static final int limiteDisparosLogueados = 120;
 
 	public static void main(String[] args) {
 		
-		PrintWriter printWriter = null;
-		
-		try {
-			File file = new File(testOutput);
-			if(file.exists()) {
-				file.delete();
-			}
-			file.createNewFile();
-			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			printWriter = new PrintWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8), true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		System.out.println("\nMatriz de Incidencia Positiva");
 		Integer[][] matrizMas = getMatrix(matrizIMas);
@@ -45,8 +29,7 @@ public class Main extends ConstantesComunes {
 		
 		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
-		
-		Monitor monitor = new Monitor(matrizMas, matrizMenos, matrizInhibidora, marcadoInicial, transiciones, printWriter);
+		Monitor monitor = new Monitor(matrizMas, matrizMenos, matrizInhibidora, marcadoInicial, transiciones, regExpTestOutput, invariantTestOutput, limiteDisparosLogueados);
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA, precedenciaPrincipal);
 		subirPasajerosA.start();

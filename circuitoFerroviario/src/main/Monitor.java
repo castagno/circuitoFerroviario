@@ -1,5 +1,8 @@
 package main;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,10 +37,13 @@ public class Monitor extends ConstantesComunes {
 	private Date ultimoArrivoEstacion;
 	private final ReentrantLock lock = new ReentrantLock(false);
 	
+	private int limiteDisparosLogeados;
+	private String invariantOutput;
+	private String invariantPrintWtiterString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+	private String regExpOutput;
 	private HashMap<String, String> accionPorTransicion;
-	private PrintWriter printWriter;
-	private String printWtiterString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
-	private ArrayList<String> printWriterArray = new ArrayList<>();
+	private String regExpPrintWtiterString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+//	private ArrayList<String> printWriterArray = new ArrayList<>();
 	private int printWriterCount = 0;
 	
 	private final Condition fullTrenOrEmptyEstacion = lock.newCondition();
@@ -77,8 +83,11 @@ public class Monitor extends ConstantesComunes {
 	 * 
 	 */
 
-	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones, PrintWriter printWriter) {
-		this.printWriter = printWriter;
+	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones, 
+			String regExpOutput, String invariantOutput, int limiteDisparosLogeados) {
+		this.limiteDisparosLogeados = limiteDisparosLogeados;
+		this.regExpOutput = regExpOutput;
+		this.invariantOutput = invariantOutput;
 		this.marcadoInicial = marcado;
 		this.marcado = marcado.values().toArray(new Integer[marcado.values().size()]);
 		this.plazas = new ArrayList<>(this.marcadoInicial.keySet());
@@ -1087,25 +1096,72 @@ public class Monitor extends ConstantesComunes {
 		
 		this.marcado = postDisparo;
 		
-		if(printWriterCount == 12000) {
+		if(printWriterCount == limiteDisparosLogeados) {
 //			String fullPrintWriteString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
 //			for(String transicion:printWriterArray) {
 //				String byteString = new String(transicion.getBytes(), StandardCharsets.UTF_8);
 //				System.out.print(byteString+" ");
 //				fullPrintWriteString += byteString+" ";
 //			}
-			
-			System.out.println(printWtiterString);
-			this.printWriter.print(printWtiterString);
-			this.printWriter.flush();
-			this.printWriter.close(); 
-			for (int i = 0; i < 100; i++) {
-				System.out.println("ARCHIVO CERRADO!!!");
+
+			PrintWriter invariantePrintWriter = null;
+			try {
+				File file = new File(this.invariantOutput);
+				if(file.exists()) {
+					file.delete();
+				}
+				file.createNewFile();
+				FileOutputStream fileOutputStream = new FileOutputStream(file);
+				invariantePrintWriter = new PrintWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8), true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} else if(printWriterCount < 12000) {
-			printWriterArray.add(transicionDisparada);
-			printWtiterString += new String(transicionDisparada.getBytes(), StandardCharsets.UTF_8) + new String((new String(" ")).getBytes(), StandardCharsets.UTF_8);
+			String invariantHeader = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+			for (int i = 0; i < this.plazas.size(); i++) {
+				invariantHeader += new String(String.valueOf(this.plazas.get(i)).getBytes(), StandardCharsets.UTF_8) + new String((new String(",")).getBytes(), StandardCharsets.UTF_8);
+			}
+			invariantHeader = invariantHeader.substring(0, invariantHeader.length() - 1);
+			invariantHeader += new String((new String("\n")).getBytes(), StandardCharsets.UTF_8);
+
+			invariantPrintWtiterString = invariantHeader + invariantPrintWtiterString;
+			System.out.println(invariantPrintWtiterString);
+			invariantePrintWriter.print(invariantPrintWtiterString);
+			invariantePrintWriter.close(); 
+
+			
+			PrintWriter regExpPrintWriter = null;
+			try {
+				File file = new File(this.regExpOutput);
+				if(file.exists()) {
+					file.delete();
+				}
+				file.createNewFile();
+				FileOutputStream fileOutputStream = new FileOutputStream(file);
+				regExpPrintWriter = new PrintWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8), true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println(regExpPrintWtiterString);
+			regExpPrintWriter.print(regExpPrintWtiterString);
+			regExpPrintWriter.close(); 
+//			for (int i = 0; i < 100; i++) {
+//				System.out.println("ARCHIVO CERRADO!!!");
+//			}
+		} else if(printWriterCount < limiteDisparosLogeados) {
+//			printWriterArray.add(transicionDisparada);
+			String marcadoString = new String((new String("")).getBytes(), StandardCharsets.UTF_8);
+			for (int i = 0; i < this.marcado.length; i++) {
+				marcadoString += new String(String.valueOf(this.marcado[i]).getBytes(), StandardCharsets.UTF_8) + new String((new String(",")).getBytes(), StandardCharsets.UTF_8);
+			}
+			marcadoString = marcadoString.substring(0, marcadoString.length() - 1);
+			marcadoString += new String((new String("\n")).getBytes(), StandardCharsets.UTF_8);
+
+			System.out.println(marcadoString);
+			invariantPrintWtiterString += marcadoString;
+			regExpPrintWtiterString += new String(transicionDisparada.getBytes(), StandardCharsets.UTF_8) + new String((new String(" ")).getBytes(), StandardCharsets.UTF_8);
 		}
+		System.out.println(invariantPrintWtiterString);
 //		System.out.println(printWtiterString);
 		
 		printWriterCount += 1;
