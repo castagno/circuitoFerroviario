@@ -356,6 +356,17 @@
 											"kind": "string",
 											"checked": false,
 											"number": 0
+										},
+										{
+											"_type": "Tag",
+											"_id": "AAAAAAFlfcSucyUZ2zs=",
+											"_parent": {
+												"$ref": "AAAAAAFiopYHsjWS6eM="
+											},
+											"name": "Tag2",
+											"kind": "string",
+											"checked": false,
+											"number": 0
 										}
 									],
 									"visible": true,
@@ -436,7 +447,7 @@
 											"left": 0,
 											"top": 0,
 											"width": 1228,
-											"height": 785,
+											"height": 953,
 											"autoResize": false,
 											"nameLabel": {
 												"$ref": "AAAAAAFiopYHsjWUVYM="
@@ -616,7 +627,7 @@
 													"left": 141,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -632,7 +643,7 @@
 											"left": 88,
 											"top": 40,
 											"width": 105.97265625,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -818,7 +829,7 @@
 													"left": 325,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -834,7 +845,7 @@
 											"left": 264,
 											"top": 40,
 											"width": 121.130859375,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -1020,7 +1031,7 @@
 													"left": 484,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -1036,7 +1047,7 @@
 											"left": 448,
 											"top": 40,
 											"width": 72.736328125,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -1222,7 +1233,7 @@
 													"left": 620,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -1238,7 +1249,7 @@
 											"left": 584,
 											"top": 40,
 											"width": 72.736328125,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -1424,7 +1435,7 @@
 													"left": 780,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -1440,7 +1451,7 @@
 											"left": 744,
 											"top": 40,
 											"width": 72.736328125,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -1626,7 +1637,7 @@
 													"left": 934,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -1642,7 +1653,7 @@
 											"left": 872,
 											"top": 40,
 											"width": 124.7109375,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
@@ -1828,7 +1839,7 @@
 													"left": 1101,
 													"top": 80,
 													"width": 1,
-													"height": 705,
+													"height": 873,
 													"autoResize": false
 												}
 											],
@@ -1844,7 +1855,7 @@
 											"left": 1064,
 											"top": 40,
 											"width": 73.46630859375,
-											"height": 745,
+											"height": 913,
 											"autoResize": false,
 											"stereotypeDisplay": "label",
 											"showVisibility": true,
