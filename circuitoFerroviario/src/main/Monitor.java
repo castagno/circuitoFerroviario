@@ -1124,7 +1124,7 @@ public class Monitor extends ConstantesComunes {
 			invariantHeader += new String((new String("\n")).getBytes(), StandardCharsets.UTF_8);
 
 			invariantPrintWtiterString = invariantHeader + invariantPrintWtiterString;
-			System.out.println(invariantPrintWtiterString);
+//			System.out.println(invariantPrintWtiterString);
 			invariantePrintWriter.print(invariantPrintWtiterString);
 			invariantePrintWriter.close(); 
 
@@ -1142,7 +1142,7 @@ public class Monitor extends ConstantesComunes {
 				e.printStackTrace();
 			}
 			
-			System.out.println(regExpPrintWtiterString);
+//			System.out.println(regExpPrintWtiterString);
 			regExpPrintWriter.print(regExpPrintWtiterString);
 			regExpPrintWriter.close(); 
 //			for (int i = 0; i < 100; i++) {
@@ -1157,11 +1157,11 @@ public class Monitor extends ConstantesComunes {
 			marcadoString = marcadoString.substring(0, marcadoString.length() - 1);
 			marcadoString += new String((new String("\n")).getBytes(), StandardCharsets.UTF_8);
 
-			System.out.println(marcadoString);
+//			System.out.println(marcadoString);
 			invariantPrintWtiterString += marcadoString;
 			regExpPrintWtiterString += new String(transicionDisparada.getBytes(), StandardCharsets.UTF_8) + new String((new String(" ")).getBytes(), StandardCharsets.UTF_8);
 		}
-		System.out.println(invariantPrintWtiterString);
+//		System.out.println(invariantPrintWtiterString);
 //		System.out.println(printWtiterString);
 		
 		printWriterCount += 1;
