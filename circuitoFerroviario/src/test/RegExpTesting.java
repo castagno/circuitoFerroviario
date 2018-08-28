@@ -2,6 +2,7 @@ package test;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,15 +15,18 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	private static final ArrayList<String> recorridoOriginal = new ArrayList<>();
 	private static final LinkedHashMap<String, ArrayList<String>> transicionesValidasPorTransicion = new LinkedHashMap<>();
+	private static final LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> generadorasPorSubidasPorBajadas = new LinkedHashMap<>();
 	
 	public static void main(String[] args) {
 		getRecorridoOriginal();
 		getTransicionesValidasPorTransicion();
+		getGeneradorasPorSubidasPorBajadas();
 		
 		Scanner scanFile = null;
 		try {
 			scanFile = new Scanner(new FileReader(testOutput));
 			String tempString = scanFile.nextLine();
+			System.out.println(tempString);
 			
 			System.out.println("\nTest:\n");
 			
@@ -43,17 +47,79 @@ public class RegExpTesting extends ConstantesComunes {
 			recorrido0xE(tempString);
 			recorrido0xF(tempString);
 			
+			ArrayList<String> transicionesGeneradorasPasajeros = getTransicionesGeneradorasPasajeros();
+			for (String generadora : transicionesGeneradorasPasajeros) {
+				LinkedHashMap<String, ArrayList<String>> subidaPorBajada = generadorasPorSubidasPorBajadas.get(generadora);
+				ArrayList<String> listaSubidas = new ArrayList<>(Arrays.asList(subidaPorBajada.keySet().toArray(new String[subidaPorBajada.keySet().size()])));
+				for (String subida : listaSubidas) {
+					ArrayList<String> bajadas = subidaPorBajada.get(subida);
+					for (String bajada : bajadas) {
+						subidaBajadaPasajero(tempString, generadora, subida, bajada);
+					}
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			scanFile.close();
 		}
 	}
+
+
+	private static AssertionError subidaBajadaPasajero(String secuencia, String transicionGeneradora, String subida, String bajada) {
+		System.out.println(transicionGeneradora +" "+ subida +" "+ bajada);
+		ArrayList<String> transiciones = getTransiciones();
+		ArrayList<String> transicionesValidasBajada = new ArrayList<>();
+		
+		for(String transicion: transiciones) {
+			if(!transicion.equals(subida)) {
+				transicionesValidasBajada.add(transicion);
+			}
+		}
+		
+		String tranValidasBajada = "";
+		for(String transicion: transicionesValidasBajada) {
+			tranValidasBajada += transicion + "\\s|";
+		}
+		if(tranValidasBajada.endsWith("\\s|")) {
+			tranValidasBajada = tranValidasBajada.substring(0, tranValidasBajada.length() - 1);
+		}
+		
+		ArrayList<String> transicionesValidasSubida = new ArrayList<>();
+		
+		for(String transicion: transiciones) {
+			if(!transicion.equals(subida)) {
+				transicionesValidasSubida.add(transicion);
+			}
+		}
+		
+		String tranValidasSubida = "";
+		for(String transicion: transicionesValidasSubida) {
+			tranValidasSubida += transicion + "\\s|";
+		}
+		if(tranValidasSubida.endsWith("\\s|")) {
+			tranValidasSubida = tranValidasSubida.substring(0, tranValidasSubida.length() - 1);
+		}
+		
+//		prePattern = prePattern + transicionGeneradora+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; 
+//		postPattern = ")" + postPattern;
+		
+		String patternCompile = transicionGeneradora +"\\s("+ tranValidasSubida +"){0,}"+ subida +"\\s("+ tranValidasSubida +"){0,}"+ bajada +"\\s";
+		Pattern pattern = Pattern.compile(patternCompile);
+		Matcher matcherTemp = pattern.matcher(secuencia);
+		
+		while(matcherTemp.find()) {
+			System.out.println(matcherTemp.start());
+			System.out.println(matcherTemp.end());
+			System.out.println(matcherTemp.group());
+		}
+		
+		return null;
+	}
 	
 	
 	private static AssertionError recorrido0x0(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -75,8 +141,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x1(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -98,8 +162,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x2(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -121,8 +183,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x3(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -144,8 +204,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x4(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -167,8 +225,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x5(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -190,8 +246,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x6(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -213,8 +267,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x7(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranTrenLlenoA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -236,8 +288,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x8(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -259,8 +309,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0x9(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -282,8 +330,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xA(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -305,8 +351,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xB(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranTrenLlenoB);
@@ -328,8 +372,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xC(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -351,8 +393,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xD(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -374,8 +414,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xE(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -397,8 +435,6 @@ public class RegExpTesting extends ConstantesComunes {
 	
 	
 	private static AssertionError recorrido0xF(String secuencia) {
-		System.out.println(secuencia);
-		
 		ArrayList<String> transicionesExcluidas = new ArrayList<>();
 		transicionesExcluidas.add(tranEstacionVaciaA);
 		transicionesExcluidas.add(tranEstacionVaciaB);
@@ -573,6 +609,28 @@ public class RegExpTesting extends ConstantesComunes {
 	}
 	
 	
+	private static void getGeneradorasPorSubidasPorBajadas(){
+		ArrayList<String> transicionesGeneradoras = getTransicionesGeneradorasPasajeros();
+		ArrayList<String> transicionesSubidas = getTransicionesSubidaEstacionA();
+		ArrayList<String> estaciones = new ArrayList<>(Arrays.asList(estacion));
+		
+		for (String transicionGeneradora: transicionesGeneradoras) {
+			LinkedHashMap<String, ArrayList<String>> subidasPorBajadas = new LinkedHashMap<>();
+			for(String transicionSubida: transicionesSubidas) {
+				ArrayList<String> bajadas = new ArrayList<>();
+				for(String estacion: estaciones) {
+					if(!estacion.equalsIgnoreCase(transicionGeneradora.substring(1, transicionGeneradora.length() - 1))) {
+						bajadas.add("B"+ estacion + transicionSubida.substring(1, transicionSubida.length() - 1) + transicionGeneradora.substring(1, transicionGeneradora.length() - 1));
+					}
+				}
+				subidasPorBajadas.put(transicionSubida.substring(0, transicionSubida.length() - 1) + transicionGeneradora.substring(1, transicionGeneradora.length() - 1), bajadas);
+			}
+			generadorasPorSubidasPorBajadas.put(transicionGeneradora, subidasPorBajadas);
+		}
+		
+	}
+	
+	
 	private static ArrayList<String> getTransiciones(){
 		ArrayList<String> transiciones = new ArrayList<>();
 		
@@ -608,9 +666,26 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionA(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
+		transiciones.addAll(getTransicionesSubidaEstacionA());
+		transiciones.addAll(getTransicionesBajadaEstacionA());
+		
+		return transiciones;
+	}
+
+	
+	private static ArrayList<String> getTransicionesSubidaEstacionA(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranSubidaMaquinaEstacionA);
 		transiciones.add(tranSubidaVagonEstacionA);
 		
+		return transiciones;
+	}
+
+	
+	private static ArrayList<String> getTransicionesBajadaEstacionA(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranBajadaMaquinaBEstacionA);
 		transiciones.add(tranBajadaMaquinaCEstacionA);
 		transiciones.add(tranBajadaMaquinaDEstacionA);
@@ -626,8 +701,25 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionB(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
+		transiciones.addAll(getTransicionesSubidaEstacionB());
+		transiciones.addAll(getTransicionesBajadaEstacionB());
+
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesSubidaEstacionB(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranSubidaMaquinaEstacionB);
 		transiciones.add(tranSubidaVagonEstacionB);
+
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesBajadaEstacionB(){
+		ArrayList<String> transiciones = new ArrayList<>();
 
 		transiciones.add(tranBajadaMaquinaAEstacionB);
 		transiciones.add(tranBajadaMaquinaCEstacionB);
@@ -644,9 +736,26 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionC(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
+		transiciones.addAll(getTransicionesSubidaEstacionC());
+		transiciones.addAll(getTransicionesBajadaEstacionC());
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesSubidaEstacionC(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranSubidaMaquinaEstacionC);
 		transiciones.add(tranSubidaVagonEstacionC);
 		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesBajadaEstacionC(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranBajadaMaquinaAEstacionC);
 		transiciones.add(tranBajadaMaquinaBEstacionC);
 		transiciones.add(tranBajadaMaquinaDEstacionC);
@@ -662,8 +771,25 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionD(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
+		transiciones.addAll(getTransicionesSubidaEstacionD());
+		transiciones.addAll(getTransicionesBajadaEstacionD());
+
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesSubidaEstacionD(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranSubidaMaquinaEstacionD);
 		transiciones.add(tranSubidaVagonEstacionD);
+
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesBajadaEstacionD(){
+		ArrayList<String> transiciones = new ArrayList<>();
 
 		transiciones.add(tranBajadaMaquinaAEstacionD);
 		transiciones.add(tranBajadaMaquinaBEstacionD);
@@ -710,12 +836,30 @@ public class RegExpTesting extends ConstantesComunes {
 	private static ArrayList<String> getTransicionesGeneradoras(){
 		ArrayList<String> transiciones = new ArrayList<>();
 
-		transiciones.add(tranPasoNivelABTransitoGenerador);
-		transiciones.add(tranPasoNivelCDTransitoGenerador);
+		transiciones.addAll(getTransicionesGeneradorasPasajeros());
+		transiciones.addAll(getTransicionesGeneradorasTransito());
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesGeneradorasPasajeros(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
 		transiciones.add(tranPasajerosAGenerador);
 		transiciones.add(tranPasajerosBGenerador);
 		transiciones.add(tranPasajerosCGenerador);
 		transiciones.add(tranPasajerosDGenerador);
+		
+		return transiciones;
+	}
+	
+	
+	private static ArrayList<String> getTransicionesGeneradorasTransito(){
+		ArrayList<String> transiciones = new ArrayList<>();
+
+		transiciones.add(tranPasoNivelABTransitoGenerador);
+		transiciones.add(tranPasoNivelCDTransitoGenerador);
 		
 		return transiciones;
 	}
