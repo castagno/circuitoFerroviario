@@ -13,7 +13,7 @@ public class Main extends ConstantesComunes {
 	private static final String matrizIMenos = "./src/main/MatrizIMenos.html";
 	private static final String regExpTestOutput = "./src/test/testOutput.txt";
 	private static final String invariantTestOutput = "./src/test/invariantTestOutput.txt";
-	private static final int limiteDisparosLogueados = 2;
+	private static final int limiteDisparosLogueados = 24000;
 
 	public static void main(String[] args) {
 		
