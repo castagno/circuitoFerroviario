@@ -102,8 +102,6 @@ public class RegExpTesting extends ConstantesComunes {
 			tranValidasSubida = tranValidasSubida.substring(0, tranValidasSubida.length() - 1);
 		}
 		
-//		prePattern = prePattern + transicionGeneradora+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; 
-//		postPattern = ")" + postPattern;
 		
 		String patternCompile = transicionGeneradora +"\\s("+ tranValidasSubida +"){0,}"+ subida +"\\s("+ tranValidasSubida +"){0,}"+ bajada +"\\s";
 		Pattern pattern = Pattern.compile(patternCompile);
