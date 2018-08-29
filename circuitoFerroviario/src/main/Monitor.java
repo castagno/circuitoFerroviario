@@ -84,7 +84,7 @@ public class Monitor extends ConstantesComunes {
 	 */
 
 	public Monitor(Integer[][] matrizMas, Integer[][] matrizMenos, Integer[][] matrizInhibicion, LinkedHashMap<String, Integer> marcado, ArrayList<String> transiciones, 
-			String regExpOutput, String invariantOutput, int limiteDisparosLogeados) {
+			boolean prioridadBajadas, String regExpOutput, String invariantOutput, int limiteDisparosLogeados) {
 		this.limiteDisparosLogeados = limiteDisparosLogeados;
 		this.regExpOutput = regExpOutput;
 		this.invariantOutput = invariantOutput;
@@ -99,40 +99,77 @@ public class Monitor extends ConstantesComunes {
 		
 		this.colaCondicion = new LinkedHashMap<>();
 		
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonAEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonBEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonCEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonDEstacionC, bajadaEstacionC);
+		if(prioridadBajadas) {
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonAEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonBEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonCEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonDEstacionC, bajadaEstacionC);
 
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaMaquinaAEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaMaquinaBEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaMaquinaCEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaMaquinaDEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonAEstacionB, bajadaEstacionB);
-		this.colaCondicion.put(tranBajadaVagonAEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonBEstacionC, bajadaEstacionC);
-		this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonCEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
-		this.colaCondicion.put(tranBajadaVagonDEstacionA, bajadaEstacionA);
-		this.colaCondicion.put(tranBajadaVagonDEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonAEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonAEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonBEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonCEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonDEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonDEstacionB, bajadaEstacionB);
 
-		this.colaCondicion.put(tranSubidaMaquinaEstacionA, subidaEstacionA);
-		this.colaCondicion.put(tranSubidaMaquinaEstacionB, subidaEstacionB);
-		this.colaCondicion.put(tranSubidaMaquinaEstacionC, subidaEstacionC);
-		this.colaCondicion.put(tranSubidaMaquinaEstacionD, subidaEstacionD);
-		this.colaCondicion.put(tranSubidaVagonEstacionA, subidaEstacionA);
-		this.colaCondicion.put(tranSubidaVagonEstacionB, subidaEstacionB);
-		this.colaCondicion.put(tranSubidaVagonEstacionC, subidaEstacionC);
-		this.colaCondicion.put(tranSubidaVagonEstacionD, subidaEstacionD);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionA, subidaEstacionA);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionB, subidaEstacionB);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionC, subidaEstacionC);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionD, subidaEstacionD);
+			this.colaCondicion.put(tranSubidaVagonEstacionA, subidaEstacionA);
+			this.colaCondicion.put(tranSubidaVagonEstacionB, subidaEstacionB);
+			this.colaCondicion.put(tranSubidaVagonEstacionC, subidaEstacionC);
+			this.colaCondicion.put(tranSubidaVagonEstacionD, subidaEstacionD);
+		} else {
+			this.colaCondicion.put(tranSubidaMaquinaEstacionA, subidaEstacionA);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionB, subidaEstacionB);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionC, subidaEstacionC);
+			this.colaCondicion.put(tranSubidaMaquinaEstacionD, subidaEstacionD);
+			this.colaCondicion.put(tranSubidaVagonEstacionA, subidaEstacionA);
+			this.colaCondicion.put(tranSubidaVagonEstacionB, subidaEstacionB);
+			this.colaCondicion.put(tranSubidaVagonEstacionC, subidaEstacionC);
+			this.colaCondicion.put(tranSubidaVagonEstacionD, subidaEstacionD);
+
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonAEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonBEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonCEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonDEstacionC, bajadaEstacionC);
+
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaMaquinaAEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaMaquinaBEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaCEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaMaquinaDEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonAEstacionB, bajadaEstacionB);
+			this.colaCondicion.put(tranBajadaVagonAEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonBEstacionC, bajadaEstacionC);
+			this.colaCondicion.put(tranBajadaVagonBEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonCEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonCEstacionD, bajadaEstacionD);
+			this.colaCondicion.put(tranBajadaVagonDEstacionA, bajadaEstacionA);
+			this.colaCondicion.put(tranBajadaVagonDEstacionB, bajadaEstacionB);
+		}
 
 		this.colaCondicion.put(tranTrenLlenoA, fullTrenOrEmptyEstacion);
 		this.colaCondicion.put(tranTrenLlenoB, fullTrenOrEmptyEstacion);

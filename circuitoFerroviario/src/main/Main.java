@@ -14,6 +14,7 @@ public class Main extends ConstantesComunes {
 	private static final String regExpTestOutput = "./src/test/testOutput.txt";
 	private static final String invariantTestOutput = "./src/test/invariantTestOutput.txt";
 	private static final int limiteDisparosLogueados = 24000;
+	private static final boolean prioridadBajada = true;
 
 	public static void main(String[] args) {
 		
@@ -29,7 +30,7 @@ public class Main extends ConstantesComunes {
 		
 		LinkedHashMap<String, Integer> marcadoInicial = marcadoInicial(Main.marcadoInicial);
 		
-		Monitor monitor = new Monitor(matrizMas, matrizMenos, matrizInhibidora, marcadoInicial, transiciones, regExpTestOutput, invariantTestOutput, limiteDisparosLogueados);
+		Monitor monitor = new Monitor(matrizMas, matrizMenos, matrizInhibidora, marcadoInicial, transiciones, prioridadBajada, regExpTestOutput, invariantTestOutput, limiteDisparosLogueados);
 		
 		SubirPasajeros subirPasajerosA = new SubirPasajeros(monitor, estacionA, precedenciaPrincipal);
 		subirPasajerosA.start();
@@ -40,14 +41,16 @@ public class Main extends ConstantesComunes {
 		SubirPasajeros subirPasajerosD = new SubirPasajeros(monitor, estacionD, precedenciaPrincipal);
 		subirPasajerosD.start();
 		
-		SubirPasajeros subirPasajerosAuxA = new SubirPasajeros(monitor, estacionA, precedenciaAuxiliar);
-		subirPasajerosAuxA.start();
-		SubirPasajeros subirPasajerosAuxB = new SubirPasajeros(monitor, estacionB, precedenciaAuxiliar);
-		subirPasajerosAuxB.start();
-		SubirPasajeros subirPasajerosAuxC = new SubirPasajeros(monitor, estacionC, precedenciaAuxiliar);
-		subirPasajerosAuxC.start();
-		SubirPasajeros subirPasajerosAuxD = new SubirPasajeros(monitor, estacionD, precedenciaAuxiliar);
-		subirPasajerosAuxD.start();
+		if(!prioridadBajada) {
+			SubirPasajeros subirPasajerosAuxA = new SubirPasajeros(monitor, estacionA, precedenciaAuxiliar);
+			subirPasajerosAuxA.start();
+			SubirPasajeros subirPasajerosAuxB = new SubirPasajeros(monitor, estacionB, precedenciaAuxiliar);
+			subirPasajerosAuxB.start();
+			SubirPasajeros subirPasajerosAuxC = new SubirPasajeros(monitor, estacionC, precedenciaAuxiliar);
+			subirPasajerosAuxC.start();
+			SubirPasajeros subirPasajerosAuxD = new SubirPasajeros(monitor, estacionD, precedenciaAuxiliar);
+			subirPasajerosAuxD.start();
+		}
 		
 		BajarPasajeros bajarPasajerosA = new BajarPasajeros(monitor, estacionA, precedenciaPrincipal);
 		bajarPasajerosA.start();
@@ -58,14 +61,16 @@ public class Main extends ConstantesComunes {
 		BajarPasajeros bajarPasajerosD = new BajarPasajeros(monitor, estacionD, precedenciaPrincipal);
 		bajarPasajerosD.start();
 		
-		BajarPasajeros bajarPasajerosAuxA = new BajarPasajeros(monitor, estacionA, precedenciaAuxiliar);
-		bajarPasajerosAuxA.start();
-		BajarPasajeros bajarPasajerosAuxB = new BajarPasajeros(monitor, estacionB, precedenciaAuxiliar);
-		bajarPasajerosAuxB.start();
-		BajarPasajeros bajarPasajerosAuxC = new BajarPasajeros(monitor, estacionC, precedenciaAuxiliar);
-		bajarPasajerosAuxC.start();
-		BajarPasajeros bajarPasajerosAuxD = new BajarPasajeros(monitor, estacionD, precedenciaAuxiliar);
-		bajarPasajerosAuxD.start();
+		if(prioridadBajada) {
+			BajarPasajeros bajarPasajerosAuxA = new BajarPasajeros(monitor, estacionA, precedenciaAuxiliar);
+			bajarPasajerosAuxA.start();
+			BajarPasajeros bajarPasajerosAuxB = new BajarPasajeros(monitor, estacionB, precedenciaAuxiliar);
+			bajarPasajerosAuxB.start();
+			BajarPasajeros bajarPasajerosAuxC = new BajarPasajeros(monitor, estacionC, precedenciaAuxiliar);
+			bajarPasajerosAuxC.start();
+			BajarPasajeros bajarPasajerosAuxD = new BajarPasajeros(monitor, estacionD, precedenciaAuxiliar);
+			bajarPasajerosAuxD.start();
+		}
 		
 		Tren tren = new Tren(monitor, precedenciaPrincipal);
 		tren.start();
