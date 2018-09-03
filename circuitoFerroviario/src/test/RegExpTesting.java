@@ -25,27 +25,30 @@ public class RegExpTesting extends ConstantesComunes {
 		Scanner scanFile = null;
 		try {
 			scanFile = new Scanner(new FileReader(testOutput));
-			String tempString = scanFile.nextLine();
-			System.out.println(tempString);
+			String originalLog = scanFile.nextLine();
+			System.out.println(originalLog);
 			
 			System.out.println("\nTest:\n");
+
+			String recorridosRestantes = new String(originalLog);
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranTrenLlenoB, tranTrenLlenoC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranTrenLlenoB, tranTrenLlenoC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranTrenLlenoB, tranEstacionVaciaC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranTrenLlenoB, tranEstacionVaciaC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranEstacionVaciaB, tranTrenLlenoC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranEstacionVaciaB, tranTrenLlenoC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranEstacionVaciaB, tranEstacionVaciaC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranTrenLlenoA, tranEstacionVaciaB, tranEstacionVaciaC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranTrenLlenoB, tranTrenLlenoC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranTrenLlenoB, tranTrenLlenoC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranTrenLlenoB, tranEstacionVaciaC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranTrenLlenoB, tranEstacionVaciaC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranEstacionVaciaB, tranTrenLlenoC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranEstacionVaciaB, tranTrenLlenoC, tranEstacionVaciaD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranEstacionVaciaB, tranEstacionVaciaC, tranTrenLlenoD})));
+			recorridosRestantes = recorrido(recorridosRestantes, new ArrayList<>(Arrays.asList(new String[]{tranEstacionVaciaA, tranEstacionVaciaB, tranEstacionVaciaC, tranEstacionVaciaD})));
 			
-			recorrido0x0(tempString);
-			recorrido0x1(tempString);
-			recorrido0x2(tempString);
-			recorrido0x3(tempString);
-			recorrido0x4(tempString);
-			recorrido0x5(tempString);
-			recorrido0x6(tempString);
-			recorrido0x7(tempString);
-			recorrido0x8(tempString);
-			recorrido0x9(tempString);
-			recorrido0xA(tempString);
-			recorrido0xB(tempString);
-			recorrido0xC(tempString);
-			recorrido0xD(tempString);
-			recorrido0xE(tempString);
-			recorrido0xF(tempString);
+			System.out.println("\n"+recorridosRestantes);
 			
 			ArrayList<String> transicionesGeneradorasPasajeros = getTransicionesGeneradorasPasajeros();
 			for (String generadora : transicionesGeneradorasPasajeros) {
@@ -54,7 +57,7 @@ public class RegExpTesting extends ConstantesComunes {
 				for (String subida : listaSubidas) {
 					ArrayList<String> bajadas = subidaPorBajada.get(subida);
 					for (String bajada : bajadas) {
-						subidaBajadaPasajero(tempString, generadora, subida, bajada);
+						subidaBajadaPasajero(originalLog, generadora, subida, bajada);
 					}
 				}
 			}
@@ -67,7 +70,7 @@ public class RegExpTesting extends ConstantesComunes {
 	}
 
 
-	private static AssertionError subidaBajadaPasajero(String secuencia, String transicionGeneradora, String subida, String bajada) {
+	private static void subidaBajadaPasajero(String secuencia, String transicionGeneradora, String subida, String bajada) {
 		System.out.println(transicionGeneradora +" "+ subida +" "+ bajada);
 		ArrayList<String> transiciones = getTransiciones();
 		ArrayList<String> transicionesValidasBajada = new ArrayList<>();
@@ -112,344 +115,25 @@ public class RegExpTesting extends ConstantesComunes {
 			System.out.println(matcherTemp.end());
 			System.out.println(matcherTemp.group());
 		}
-		
-		return null;
 	}
 	
 	
-	private static AssertionError recorrido0x0(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranTrenLlenoD);
+	private static String recorrido(String secuencia, ArrayList<String> transicionesExcluidas) {
+		Matcher matcherTemp = Pattern.compile(getPatternRecorrido(transicionesExcluidas)).matcher(secuencia);
 		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
+		String recorridoRestante = "";
+		int lastEnd = 0;
 		while(matcherTemp.find()) {
+			recorridoRestante += secuencia.substring(lastEnd, matcherTemp.start());
 			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
+			lastEnd = matcherTemp.end();
+			System.out.println(lastEnd);
 			System.out.println(matcherTemp.group());
 		}
+		recorridoRestante += secuencia.substring(lastEnd, secuencia.length());
 		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x1(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x2(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x3(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x4(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x5(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x6(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x7(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranTrenLlenoA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x8(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0x9(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xA(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xB(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranTrenLlenoB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xC(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xD(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranTrenLlenoC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xE(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranTrenLlenoD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
-	}
-	
-	
-	private static AssertionError recorrido0xF(String secuencia) {
-		ArrayList<String> transicionesExcluidas = new ArrayList<>();
-		transicionesExcluidas.add(tranEstacionVaciaA);
-		transicionesExcluidas.add(tranEstacionVaciaB);
-		transicionesExcluidas.add(tranEstacionVaciaC);
-		transicionesExcluidas.add(tranEstacionVaciaD);
-		
-		String patternCompile = getPatternRecorrido(transicionesExcluidas);
-		Pattern pattern = Pattern.compile(patternCompile);
-		Matcher matcherTemp = pattern.matcher(secuencia);
-		
-		while(matcherTemp.find()) {
-			System.out.println(matcherTemp.start());
-			System.out.println(matcherTemp.end());
-			System.out.println(matcherTemp.group());
-		}
-		
-		return null;
+//		System.out.println("recorridoRestante.length() = "+recorridoRestante.length());
+		return recorridoRestante;
 	}
 	
 	
@@ -464,8 +148,7 @@ public class RegExpTesting extends ConstantesComunes {
 		}
 		System.out.println("");
 		
-		String prePattern = "";
-		String postPattern = "";
+		String pattern = "";
 		for(String trancisionRecorrido: recorridoTren) {
 			System.out.print(trancisionRecorrido+" ");
 			
@@ -489,16 +172,9 @@ public class RegExpTesting extends ConstantesComunes {
 				tranValidasRegExp = tranValidasRegExp.substring(0, tranValidasRegExp.length() - 1);
 			}
 			
-			prePattern = prePattern + trancisionRecorrido+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")(?="; 
-			postPattern = ")" + postPattern;
+			pattern = pattern + trancisionRecorrido+"\\s("+tranValidasRegExp+"){0,}(?!"+transicionesProhibidas+")"; 
 		}
-		System.out.println("");
-		
-		prePattern = ( (prePattern.endsWith("(?="))? prePattern.substring(0, prePattern.length() - (new String("(?=")).length()) : prePattern ) ;
-		postPattern = ( (postPattern.startsWith(")"))? postPattern.substring(String.valueOf(")").length()) : postPattern ) ;
-		String pattern = prePattern + postPattern;
-
-		System.out.println(pattern);
+		System.out.println("\n"+pattern);
 		
 		return pattern;
 	}
@@ -648,18 +324,6 @@ public class RegExpTesting extends ConstantesComunes {
 		return transiciones;
 	}
 	
-	
-//	private static ArrayList<String> getRecorridoTren(){
-//		ArrayList<String> transiciones = new ArrayList<>();
-//		
-//		transiciones.addAll(getRecorridoTrenEstacionA());
-//		transiciones.addAll(getRecorridoTrenEstacionB());
-//		transiciones.addAll(getRecorridoTrenEstacionC());
-//		transiciones.addAll(getRecorridoTrenEstacionD());
-//		
-//		return transiciones;
-//	}
-
 	
 	private static ArrayList<String> getTransicionesSubidaBajadaEstacionA(){
 		ArrayList<String> transiciones = new ArrayList<>();
